@@ -1,0 +1,8 @@
+[
+  {"question": "O que os clientes relatam sobre atrasos na entrega?", "expected_terms": ["atras", "prazo", "demor"], "score_max": 2},
+  {"question": "Quais relatos existem sobre produtos quebrados ou com defeito?", "expected_terms": ["quebrad", "defeito", "danific", "avari"], "score_max": 2},
+  {"question": "O que os clientes elogiam sobre a rapidez da entrega?", "expected_terms": ["antes", "rapid", "prazo", "entrega"], "score_min": 4},
+  {"question": "Quais reclamações mencionam produto diferente do comprado?", "expected_terms": ["diferente", "errad", "troc", "compr"], "score_max": 2},
+  {"question": "Qual a previsão do tempo amanhã?", "expected_refusal": true},
+  {"question": "Qual é a capital da França?", "expected_refusal": true}
+]

@@ -1,0 +1,483 @@
+{
+  "notice": "Proxy lexical em perguntas escolhidas; não mede entailment, recall, nem desempenho de geração por LLM.",
+  "manifest": {
+    "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "quantized": true,
+    "chunks": 42687,
+    "dimension": 384,
+    "stats": {
+      "rows_read": 99224,
+      "empty_text": 56537,
+      "documents": 42687,
+      "score_distribution": {
+        "5": 21776,
+        "4": 6274,
+        "2": 2165,
+        "1": 8829,
+        "3": 3643
+      },
+      "indexed_documents": 42687
+    },
+    "schema": 1
+  },
+  "cases": [
+    {
+      "question": "O que os clientes relatam sobre atrasos na entrega?",
+      "expected_refusal": false,
+      "insufficient": false,
+      "lexical_precision_proxy_at_k": 1.0,
+      "result": {
+        "answer": "Evidências recuperadas (modo extrativo, sem geração por LLM):\n\n[E1] Nota 1: “Muita demora na entrega.”\n\n[E2] Nota 1: “Gostaria de esclarecimentos acerca da entrega que está em atraso”\n\n[E3] Nota 2: “Compra Um demora pra entrega”\n\n[E4] Nota 1: “Muita demora na entrega.”\n\n[E5] Nota 1: “Muita demora na entrega”\n\n[E6] Nota 1: “Ultimamente estão atrasando muito as entregas”\n\nEsses relatos não permitem estimar a frequência do problema em toda a base.",
+        "evidence": [
+          {
+            "id": "5a29f0f069007acab92a",
+            "review_id": "bb2810db10122816078f39284c68f2d1",
+            "order_id": "855c2d10e8d3135c6cd5af5dd14d080e",
+            "text": "Muita demora na entrega.",
+            "score": 1,
+            "review_date": "2017-12-20",
+            "purchase_date": "2017-11-24",
+            "categories": [
+              "automotivo"
+            ],
+            "late_delivery": true,
+            "chunk": 0,
+            "similarity": 0.81389,
+            "citation": "E1"
+          },
+          {
+            "id": "946fa620c3345f214be6",
+            "review_id": "7c4c2d10a57d4aab58a570a5a8ac9f2c",
+            "order_id": "e269b2472c0546324acf4d09dd7acfab",
+            "text": "Gostaria de esclarecimentos acerca da entrega que está em atraso",
+            "score": 1,
+            "review_date": "2017-12-20",
+            "purchase_date": "2017-11-24",
+            "categories": [
+              "relogios_presentes"
+            ],
+            "late_delivery": true,
+            "chunk": 0,
+            "similarity": 0.8118,
+            "citation": "E2"
+          },
+          {
+            "id": "ac928b49d2062130f913",
+            "review_id": "18215615f60e6771c00faaaa1ade4cea",
+            "order_id": "743277e5089af7df0cbd543c93e5d852",
+            "text": "Compra Um demora pra entrega",
+            "score": 2,
+            "review_date": "2018-07-14",
+            "purchase_date": "2018-07-06",
+            "categories": [
+              "papelaria"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.78949,
+            "citation": "E3"
+          },
+          {
+            "id": "e8b8a03e9286626b9b26",
+            "review_id": "1bf2b9a92e76901b24965acd9cf95e66",
+            "order_id": "02852b112ad108b3d2b3d4ee198d84a8",
+            "text": "Muita demora na entrega.",
+            "score": 1,
+            "review_date": "2017-12-24",
+            "purchase_date": "2017-11-25",
+            "categories": [
+              "cama_mesa_banho"
+            ],
+            "late_delivery": true,
+            "chunk": 0,
+            "similarity": 0.81295,
+            "citation": "E4"
+          },
+          {
+            "id": "1e2472d2ace4bbf9a356",
+            "review_id": "3ffed17f5010b9c6d33706b790732482",
+            "order_id": "387d33b2be3d1d8dd063941d1b57d3fb",
+            "text": "Muita demora na entrega",
+            "score": 1,
+            "review_date": "2017-08-16",
+            "purchase_date": "2017-07-14",
+            "categories": [
+              "utilidades_domesticas"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.80265,
+            "citation": "E5"
+          },
+          {
+            "id": "2ed52145bd2a709638f2",
+            "review_id": "7528a396f7625967f05cb09946286608",
+            "order_id": "1777854e00599d581f88f45af1432949",
+            "text": "Ultimamente estão atrasando muito as entregas",
+            "score": 1,
+            "review_date": "2018-03-30",
+            "purchase_date": "2018-03-03",
+            "categories": [
+              "construcao_ferramentas_construcao"
+            ],
+            "late_delivery": true,
+            "chunk": 0,
+            "similarity": 0.77126,
+            "citation": "E6"
+          }
+        ],
+        "insufficient": false,
+        "mode": "extractive"
+      }
+    },
+    {
+      "question": "Quais relatos existem sobre produtos quebrados ou com defeito?",
+      "expected_refusal": false,
+      "insufficient": false,
+      "lexical_precision_proxy_at_k": 0.8333333333333334,
+      "result": {
+        "answer": "Evidências recuperadas (modo extrativo, sem geração por LLM):\n\n[E1] Nota 1: “Produto diferente do oferecido, e cheio de defeitos.”\n\n[E2] Nota 1: “Produto quebrado Produto quebrado”\n\n[E3] Nota 1: “Produto com defeito”\n\n[E4] Nota 1: “Produto que sinais de uso , manchado , marcado e quebrado”\n\n[E5] Nota 1: “Produto de péssima qualidade e acabamento.”\n\n[E6] Nota 2: “O produto está com problemas (defeito).”\n\nEsses relatos não permitem estimar a frequência do problema em toda a base.",
+        "evidence": [
+          {
+            "id": "3a4967dedf04903e6a61",
+            "review_id": "893659b7a097572978ae507c5aba896c",
+            "order_id": "ac9389991e196542581dc80f6be7e5fe",
+            "text": "Produto diferente do oferecido, e cheio de defeitos.",
+            "score": 1,
+            "review_date": "2018-01-13",
+            "purchase_date": "2018-01-01",
+            "categories": [],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.73458,
+            "citation": "E1"
+          },
+          {
+            "id": "6f996f3aab4af69566ea",
+            "review_id": "fa6092a7298e91123e5f5aca38277431",
+            "order_id": "59c6d70603e4c4447067afb1291d725d",
+            "text": "Produto quebrado Produto quebrado",
+            "score": 1,
+            "review_date": "2018-06-06",
+            "purchase_date": "2018-05-21",
+            "categories": [
+              "brinquedos"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.73433,
+            "citation": "E2"
+          },
+          {
+            "id": "b0200ad50845475d4065",
+            "review_id": "15f442053a8372bd40f650ddea2cff79",
+            "order_id": "f40ef9a47f9670b54b9e350f354795a2",
+            "text": "Produto com defeito",
+            "score": 1,
+            "review_date": "2018-05-01",
+            "purchase_date": "2018-04-21",
+            "categories": [
+              "papelaria"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.72756,
+            "citation": "E3"
+          },
+          {
+            "id": "93b5c63463757a44e82f",
+            "review_id": "18fe9f34aace3c9cfcd34712cead1208",
+            "order_id": "73cb4ac4aba9d15a0db382e16fc9c784",
+            "text": "Produto que sinais de uso , manchado , marcado e quebrado",
+            "score": 1,
+            "review_date": "2018-03-27",
+            "purchase_date": "2018-03-20",
+            "categories": [
+              "construcao_ferramentas_construcao"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.68573,
+            "citation": "E4"
+          },
+          {
+            "id": "544f08c2542f7c36bd8f",
+            "review_id": "074c39cb5e90578eaeb560e6f632ae1e",
+            "order_id": "2edf506c823b1a3bc6d134864bc4c10c",
+            "text": "Produto de péssima qualidade e acabamento.",
+            "score": 1,
+            "review_date": "2018-03-21",
+            "purchase_date": "2018-03-16",
+            "categories": [
+              "cama_mesa_banho"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.7193,
+            "citation": "E5"
+          },
+          {
+            "id": "6a717fe1f36f7b4e6f69",
+            "review_id": "a6ae1375e10c5bd2f0984336dbfaf998",
+            "order_id": "3e973e154fa0787c8f507fc0929c96a1",
+            "text": "O produto está com problemas (defeito).",
+            "score": 2,
+            "review_date": "2017-12-23",
+            "purchase_date": "2017-12-15",
+            "categories": [
+              "audio"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.69562,
+            "citation": "E6"
+          }
+        ],
+        "insufficient": false,
+        "mode": "extractive"
+      }
+    },
+    {
+      "question": "O que os clientes elogiam sobre a rapidez da entrega?",
+      "expected_refusal": false,
+      "insufficient": false,
+      "lexical_precision_proxy_at_k": 1.0,
+      "result": {
+        "answer": "Evidências recuperadas (modo extrativo, sem geração por LLM):\n\n[E1] Nota 5: “Muito bom a rapidez da entrega”\n\n[E2] Nota 5: “Super recomendo Desde o pedido até a entrega, surpreendeu pela qualidade do produto e pela rapidez na entrega.”\n\n[E3] Nota 5: “Parabens pelo rapidez na entrega.”\n\n[E4] Nota 5: “Rapidez e agilidade na entrega produto de qualidade.”\n\n[E5] Nota 5: “Muito eficiente Gostei muito da rapidez da entrega do produto, do atendimento eu indicaria sim.”\n\n[E6] Nota 5: “Recomen super rápida a entrega”\n\nEsses relatos não permitem estimar a frequência do problema em toda a base.",
+        "evidence": [
+          {
+            "id": "885732cf39712e2e1a70",
+            "review_id": "dcabe2a4ee873f7a0dd07d46977cfcf7",
+            "order_id": "82a4587415d59443dce9ac6d0ce8720f",
+            "text": "Muito bom a rapidez da entrega",
+            "score": 5,
+            "review_date": "2017-05-17",
+            "purchase_date": "2017-05-04",
+            "categories": [
+              "cool_stuff"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.82952,
+            "citation": "E1"
+          },
+          {
+            "id": "199e6e33e775ad2f34f3",
+            "review_id": "39014b02b8ff501f6867f083f7096a7d",
+            "order_id": "2221e081ca8adbc501639130055176ca",
+            "text": "Super recomendo Desde o pedido até a entrega, surpreendeu pela qualidade do produto e pela rapidez na entrega.",
+            "score": 5,
+            "review_date": "2018-05-29",
+            "purchase_date": "2018-05-23",
+            "categories": [
+              "esporte_lazer"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.78718,
+            "citation": "E2"
+          },
+          {
+            "id": "1276e396374d7fa04317",
+            "review_id": "25e5a291379ef17ad99115818c978f68",
+            "order_id": "2d28ab17a7a4eaa06618d69734143c37",
+            "text": "Parabens pelo rapidez na entrega.",
+            "score": 5,
+            "review_date": "2018-03-24",
+            "purchase_date": "2018-03-20",
+            "categories": [
+              "eletronicos"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.8077,
+            "citation": "E3"
+          },
+          {
+            "id": "a11d4b316ba2ec9d9957",
+            "review_id": "2797f6ffd55a53fd645aad8680e08fe9",
+            "order_id": "92ee8a7ca1333a436b9d734e896c6aaa",
+            "text": "Rapidez e agilidade na entrega produto de qualidade.",
+            "score": 5,
+            "review_date": "2017-08-26",
+            "purchase_date": "2017-08-19",
+            "categories": [
+              "beleza_saude"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.77624,
+            "citation": "E4"
+          },
+          {
+            "id": "e3f0ff0315e4e6a46231",
+            "review_id": "16603bb2f4f38c63a6b7fbc47bdec826",
+            "order_id": "2e85393d4ab82c2f5b44528d8a551606",
+            "text": "Muito eficiente Gostei muito da rapidez da entrega do produto, do atendimento eu indicaria sim.",
+            "score": 5,
+            "review_date": "2018-08-25",
+            "purchase_date": "2018-08-16",
+            "categories": [
+              "beleza_saude"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.76912,
+            "citation": "E5"
+          },
+          {
+            "id": "5a4ef7b016f2500e1522",
+            "review_id": "48238badca7cbae75ca051ac7be2e9e5",
+            "order_id": "28c949172daaa2b250fc70ed64a45517",
+            "text": "Recomen super rápida a entrega",
+            "score": 5,
+            "review_date": "2018-08-30",
+            "purchase_date": "2018-08-27",
+            "categories": [
+              "esporte_lazer"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.78241,
+            "citation": "E6"
+          }
+        ],
+        "insufficient": false,
+        "mode": "extractive"
+      }
+    },
+    {
+      "question": "Quais reclamações mencionam produto diferente do comprado?",
+      "expected_refusal": false,
+      "insufficient": false,
+      "lexical_precision_proxy_at_k": 0.6666666666666666,
+      "result": {
+        "answer": "Evidências recuperadas (modo extrativo, sem geração por LLM):\n\n[E1] Nota 1: “O produto chegou diferente do comprado”\n\n[E2] Nota 1: “reclamação produto incorreto”\n\n[E3] Nota 1: “Comprei um produto e recebi outro e inferior. Gostaria de receber uma resposta à reclamação que fiz anteriormente. Att. Suzana Costa”\n\n[E4] Nota 1: “Se houve alguma dificuldade para entrega do produto, no mínimo, o comprador deveria ser avisado e negociado uma nova situação de entrega.”\n\n[E5] Nota 1: “muitos desencontros nas entregas de produtos”\n\n[E6] Nota 1: “Produto errado Entrega do produto diferente do solicitado Aguardo orientação para a troca”\n\nEsses relatos não permitem estimar a frequência do problema em toda a base.",
+        "evidence": [
+          {
+            "id": "9022acf9022bee82fde2",
+            "review_id": "c94fe7161f7932281babee672d4b4248",
+            "order_id": "8440ebc9a2a4aaa712d4064c35e52995",
+            "text": "O produto chegou diferente do comprado",
+            "score": 1,
+            "review_date": "2017-12-12",
+            "purchase_date": "2017-12-05",
+            "categories": [
+              "telefonia"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.72941,
+            "citation": "E1"
+          },
+          {
+            "id": "7c0d77bcdd1ffcdd1b7b",
+            "review_id": "c073a54bbfbbd0282b00f3d50ccdd00f",
+            "order_id": "e74c5411558a7a26de918d23a07e1cef",
+            "text": "reclamação produto incorreto",
+            "score": 1,
+            "review_date": "2018-07-14",
+            "purchase_date": "2018-07-10",
+            "categories": [
+              "telefonia"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.72256,
+            "citation": "E2"
+          },
+          {
+            "id": "5909c220998efc6c1c58",
+            "review_id": "268fe3c6b00758e3a602f8cd3ed93c1f",
+            "order_id": "faeb0ac7f6e1480f3dd14e5cd802dc8a",
+            "text": "Comprei um produto e recebi outro e inferior. Gostaria de receber uma resposta à reclamação que fiz anteriormente. Att. Suzana Costa",
+            "score": 1,
+            "review_date": "2018-02-07",
+            "purchase_date": "2018-01-04",
+            "categories": [
+              "audio"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.71497,
+            "citation": "E3"
+          },
+          {
+            "id": "b9bf5858765ee6870097",
+            "review_id": "c20dc8f95c7e0a17a4192984287a48ef",
+            "order_id": "5cae141c3dd545d1d08687790cf11e33",
+            "text": "Se houve alguma dificuldade para entrega do produto, no mínimo, o comprador deveria ser avisado e negociado uma nova situação de entrega.",
+            "score": 1,
+            "review_date": "2017-07-02",
+            "purchase_date": "2017-06-16",
+            "categories": [
+              "automotivo"
+            ],
+            "late_delivery": true,
+            "chunk": 0,
+            "similarity": 0.6772,
+            "citation": "E4"
+          },
+          {
+            "id": "17a9e0e9831ae7882671",
+            "review_id": "949eca021ed60d00a2d2bda3cc686d4d",
+            "order_id": "d5d78aa1e1666a81b03bd8791c865fd3",
+            "text": "muitos desencontros nas entregas de produtos",
+            "score": 1,
+            "review_date": "2017-06-07",
+            "purchase_date": "2017-05-30",
+            "categories": [
+              "cama_mesa_banho"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.71271,
+            "citation": "E5"
+          },
+          {
+            "id": "30b5be6a534b278fa75b",
+            "review_id": "08528f70f579f0c830189efc523d2182",
+            "order_id": "53c71d3953507c6239ff73917ed358c9",
+            "text": "Produto errado Entrega do produto diferente do solicitado Aguardo orientação para a troca",
+            "score": 1,
+            "review_date": "2018-08-03",
+            "purchase_date": "2018-07-24",
+            "categories": [
+              "cool_stuff"
+            ],
+            "late_delivery": false,
+            "chunk": 0,
+            "similarity": 0.72543,
+            "citation": "E6"
+          }
+        ],
+        "insufficient": false,
+        "mode": "extractive"
+      }
+    },
+    {
+      "question": "Qual a previsão do tempo amanhã?",
+      "expected_refusal": true,
+      "insufficient": true,
+      "lexical_precision_proxy_at_k": null,
+      "result": {
+        "answer": "Não há evidências suficientes nas avaliações recuperadas para responder a essa pergunta. Reformule a pergunta ou ajuste os filtros.",
+        "evidence": [],
+        "insufficient": true,
+        "mode": "extractive"
+      }
+    },
+    {
+      "question": "Qual é a capital da França?",
+      "expected_refusal": true,
+      "insufficient": true,
+      "lexical_precision_proxy_at_k": null,
+      "result": {
+        "answer": "Não há evidências suficientes nas avaliações recuperadas para responder a essa pergunta. Reformule a pergunta ou ajuste os filtros.",
+        "evidence": [],
+        "insufficient": true,
+        "mode": "extractive"
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "question": "O que os clientes relatam sobre atrasos na entrega?",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "backend": "local",
+  "quantized_linear_layers": false,
+  "elapsed_seconds": 47.38,
+  "raw_generation": [
+    "[E1] Nota 1: Muita demora na entrega.\n[E2] Nota 1: Gostaria de esclarecimentos acerca da entrega que está em atraso.\n[E3] Nota 2: Compra Um demora pra entrega."
+  ],
+  "result": {
+    "answer": "[E1] Nota 1: Muita demora na entrega.\n[E2] Nota 1: Gostaria de esclarecimentos acerca da entrega que está em atraso.\n[E3] Nota 2: Compra Um demora pra entrega.",
+    "citations": [
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "insufficient": false,
+    "evidence": [
+      {
+        "id": "5a29f0f069007acab92a",
+        "review_id": "bb2810db10122816078f39284c68f2d1",
+        "order_id": "855c2d10e8d3135c6cd5af5dd14d080e",
+        "text": "Muita demora na entrega.",
+        "score": 1,
+        "review_date": "2017-12-20",
+        "purchase_date": "2017-11-24",
+        "categories": [
+          "automotivo"
+        ],
+        "late_delivery": true,
+        "chunk": 0,
+        "similarity": 0.81389,
+        "citation": "E1"
+      },
+      {
+        "id": "946fa620c3345f214be6",
+        "review_id": "7c4c2d10a57d4aab58a570a5a8ac9f2c",
+        "order_id": "e269b2472c0546324acf4d09dd7acfab",
+        "text": "Gostaria de esclarecimentos acerca da entrega que está em atraso",
+        "score": 1,
+        "review_date": "2017-12-20",
+        "purchase_date": "2017-11-24",
+        "categories": [
+          "relogios_presentes"
+        ],
+        "late_delivery": true,
+        "chunk": 0,
+        "similarity": 0.8118,
+        "citation": "E2"
+      },
+      {
+        "id": "ac928b49d2062130f913",
+        "review_id": "18215615f60e6771c00faaaa1ade4cea",
+        "order_id": "743277e5089af7df0cbd543c93e5d852",
+        "text": "Compra Um demora pra entrega",
+        "score": 2,
+        "review_date": "2018-07-14",
+        "purchase_date": "2018-07-06",
+        "categories": [
+          "papelaria"
+        ],
+        "late_delivery": false,
+        "chunk": 0,
+        "similarity": 0.78949,
+        "citation": "E3"
+      }
+    ],
+    "mode": "llm"
+  }
+}

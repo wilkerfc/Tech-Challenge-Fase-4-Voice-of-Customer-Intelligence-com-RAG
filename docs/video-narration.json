@@ -1,0 +1,130 @@
+[
+  {
+    "title": "Voz do Cliente com RAG",
+    "body": [
+      "Olist · experiências de compra",
+      "Busca semântica + respostas com evidências",
+      "Wilker · Tech Challenge Fase 4"
+    ],
+    "narration": "Este projeto apresenta uma solução de inteligência da voz do cliente com RAG, usando avaliações da Olist. O objetivo é permitir que gestores façam perguntas em linguagem natural e encontrem relatos que sustentam a resposta. Nesta apresentação veremos a arquitetura, os dados, os resultados reais e as limitações.",
+    "label": "TECH CHALLENGE · FASE 4"
+  },
+  {
+    "title": "Do comentário ao insight",
+    "body": [
+      "Problema: milhares de relatos não estruturados",
+      "Notas ajudam, mas não explicam toda a experiência",
+      "Perguntas sobre entrega, produto e satisfação"
+    ],
+    "narration": "Uma empresa de comércio eletrônico recebe elogios e reclamações que não podem ser compreendidos apenas pela nota. O comentário revela atrasos, produtos danificados e experiências positivas. A solução organiza esse conteúdo e recupera evidências relevantes, permitindo uma investigação rastreável. A base é histórica e não descreve a operação atual da empresa.",
+    "label": "TECH CHALLENGE · FASE 4"
+  },
+  {
+    "title": "Arquitetura",
+    "body": [
+      "CSV Olist → limpeza e metadados",
+      "Fragmentos → embeddings → índice vetorial",
+      "Pergunta + filtros → cosseno + MMR",
+      "Contexto → LLM → validação → resposta"
+    ],
+    "narration": "O fluxo começa com a preparação dos arquivos oficiais. Os textos são divididos em fragmentos e transformados em vetores por um modelo multilíngue. A pergunta é representada pelo mesmo modelo. Depois dos filtros, a busca calcula similaridade de cosseno e diversifica os resultados. As avaliações selecionadas formam o contexto enviado ao modelo de linguagem. Por fim, a resposta passa pela validação de referências.",
+    "label": "TECH CHALLENGE · FASE 4"
+  },
+  {
+    "title": "Base de conhecimento",
+    "body": [
+      "99.224 avaliações lidas",
+      "56.537 sem texto descartadas",
+      "42.687 documentos indexados",
+      "Título + comentário; notas de 1 a 5"
+    ],
+    "narration": "A ingestão leu 99224 avaliações do arquivo oficial. 56537 não tinham título nem comentário e foram descartadas. Nesta execução foram indexados 42687 documentos. Mantemos os acentos e as negações e removemos HTML e espaços redundantes. Os identificadores permitem voltar ao comentário original. Não confundimos quantidade de pedidos com quantidade de avaliações textuais.",
+    "label": "TECH CHALLENGE · FASE 4"
+  },
+  {
+    "title": "Escolhas técnicas",
+    "body": [
+      "Embeddings multilíngues locais · 384 dimensões",
+      "NumPy: busca vetorial exata, reproduzível",
+      "Metadados: nota, compra, categoria, atraso",
+      "MMR reduz repetição; um resultado por avaliação"
+    ],
+    "narration": "O modelo multilíngue produz vetores de 384 dimensões e permite buscas em português. Usamos NumPy para uma busca exata, suficiente para o tamanho deste protótipo e simples de reproduzir. As categorias são agregadas por pedido para evitar multiplicar avaliações. Atraso confirmado é calculado usando entrega real e prevista. Quando faltam datas, o atraso permanece desconhecido. O MMR reduz a redundância entre evidências.",
+    "label": "TECH CHALLENGE · FASE 4"
+  },
+  {
+    "title": "Demonstração · recuperação real",
+    "body": [
+      "O que os clientes relatam sobre atrasos na entrega?",
+      "Filtro: notas 1 a 2",
+      "[E1] Muita demora na entrega.",
+      "[E2] Gostaria de esclarecimentos acerca da entrega que está em atraso"
+    ],
+    "narration": "Esta é uma execução real da pergunta sobre atrasos na entrega, filtrando avaliações com notas um e dois. A recuperação retorna comentários semanticamente próximos. Na tela vemos trechos da própria base, associados a citações. Cada evidência possui o identificador da avaliação, o pedido, a nota e a similaridade. Esses campos também aparecem na interface e no arquivo de resultados.",
+    "label": "DEMONSTRAÇÃO · RESULTADOS EXECUTADOS"
+  },
+  {
+    "title": "Demonstração · geração por LLM",
+    "body": [
+      "Modelo: Qwen/Qwen2.5-0.5B-Instruct",
+      "[E1] Nota 1: Muita demora na entrega.\n[E2] Nota 1: Gostaria de esclarecimentos acerca da entrega que está em atraso.\n[E3] Nota 2: Compra Um demora pra entrega."
+    ],
+    "narration": "A mesma investigação foi executada com um modelo de linguagem local. O contexto contém apenas avaliações recuperadas. O sistema solicita uma resposta estruturada e citações. O resultado exibido foi salvo pela aplicação, não foi escrito manualmente como exemplo. O modelo pequeno permite reproduzir o fluxo sem chave, mas sua qualidade deve ser revista. Citações válidas por si só não provam que toda afirmação está correta.",
+    "label": "DEMONSTRAÇÃO · GERAÇÃO EXECUTADA"
+  },
+  {
+    "title": "Rastreabilidade",
+    "body": [
+      "[E1] Muita demora na entrega.",
+      "review_id: bb2810db10122816078f39284c68f2d1",
+      "order_id: 855c2d10e8d3135c6cd5af5dd14d080e",
+      "Nota: 1 · similaridade: 0.814"
+    ],
+    "narration": "A rastreabilidade liga a resposta a avaliações específicas. Este cartão mostra o texto utilizado, o identificador da avaliação e o pedido. É possível verificar se a conclusão é sustentada pelo comentário. A nota funciona como filtro, mas não comprova a causa da insatisfação. O sistema não transforma uma amostra de resultados em uma estimativa de frequência para toda a população.",
+    "label": "TECH CHALLENGE · FASE 4"
+  },
+  {
+    "title": "Demonstração · experiências positivas",
+    "body": [
+      "O que os clientes elogiam sobre a rapidez da entrega?",
+      "Filtro: notas 4 a 5",
+      "[E1] Muito bom a rapidez da entrega",
+      "[E2] Super recomendo Desde o pedido até a entrega, surpreendeu pela qualidade do produto e pela rapidez na entrega."
+    ],
+    "narration": "Também é possível investigar experiências positivas. Nesta consulta sobre rapidez da entrega, aplicamos notas quatro e cinco e recuperamos comentários de elogio. A mesma infraestrutura permite explorar categorias específicas e períodos da compra. O modo extrativo expõe diretamente as evidências; a opção com LLM faz uma síntese apoiada nesses textos.",
+    "label": "DEMONSTRAÇÃO · RESULTADOS EXECUTADOS"
+  },
+  {
+    "title": "Quando não há suporte",
+    "body": [
+      "Pergunta real: Qual a previsão do tempo amanhã?",
+      "Não há evidências suficientes nas avaliações recuperadas para responder a essa pergunta. Reformule a pergunta ou ajuste os filtros.",
+      "Sem resultados suficientes → sem geração"
+    ],
+    "narration": "O sistema reconhece exemplos fora do escopo, como a previsão do tempo. Também recusa quando os filtros não retornam avaliações suficientes ou quando a similaridade fica abaixo do limiar. A mensagem informa que não há evidências para responder. A barreira de escopo é uma heurística limitada, então perguntas ambíguas ainda precisam de avaliação e revisão.",
+    "label": "DEMONSTRAÇÃO · RECUSA EXECUTADA"
+  },
+  {
+    "title": "Validação e limites",
+    "body": [
+      "Testes de filtros, ingestão, recusa e citações",
+      "Busca semântica real com perguntas temáticas",
+      "Proxy lexical não substitui avaliação humana",
+      "Top-k não estima frequência na base inteira"
+    ],
+    "narration": "A validação inclui testes automatizados de ingestão, filtros, documentos únicos, recusa, citações e falhas de geração. A avaliação exploratória usa embeddings reais e verifica sinais lexicais dos temas recuperados. Essa métrica é apenas uma proxy, não uma medida completa de relevância ou fidelidade. Um próximo passo é anotar perguntas com avaliadores humanos e comparar estratégias de recuperação. Docker é fornecido como alternativa de execução, sem declaração de validação neste ambiente.",
+    "label": "TECH CHALLENGE · FASE 4"
+  },
+  {
+    "title": "Como reproduzir",
+    "body": [
+      "pip install -r requirements.txt",
+      "python scripts/download_data.py",
+      "python -m voc.cli ingest",
+      "streamlit run app.py",
+      "Código, evidências e decisões no projeto"
+    ],
+    "narration": "O projeto contém o código, as dependências, as instruções, os testes e os resultados da demonstração. Para reproduzir, instale as bibliotecas, baixe a base oficial, construa o índice e inicie a interface. Para geração, configure um servidor compatível ou o backend local. A entrega reúne uma solução rastreável e reproduzível, com limites explícitos para evitar apresentar conclusões sem apoio nas avaliações.",
+    "label": "TECH CHALLENGE · FASE 4"
+  }
+]
