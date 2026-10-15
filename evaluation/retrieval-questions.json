@@ -1,0 +1,18 @@
+[
+  {"id":"R01","question":"Por que compradores relatam que ficaram esperando a encomenda?","relevance_regex":"atras|demor|prazo|nao (cheg|receb)","filters":{"score_max":2}},
+  {"id":"R02","question":"O aparelho deixou de funcionar depois da compra?","relevance_regex":"defeit|quebrad|nao funciona|parou|estragad|danific|avari","filters":{"score_max":2}},
+  {"id":"R03","question":"O que agradou quem recebeu a compra cedo?","relevance_regex":"antes|rapid|adiant|prazo|veloz","filters":{"score_min":4}},
+  {"id":"R04","question":"Há relatos de mercadoria diferente da escolhida?","relevance_regex":"diferent|errad|trocad|outro produto|outra cor","filters":{"score_max":2}},
+  {"id":"R05","question":"O pacote chegou com peças ou unidades faltando?","relevance_regex":"falt|incomplet|parcial|so (veio|recebi)|apenas (um|uma)|nao veio","filters":{"score_max":2}},
+  {"id":"R06","question":"Quais problemas aparecem na embalagem da mercadoria?","relevance_regex":"embala|caixa|pacote|amass|avaria","filters":{"score_max":2}},
+  {"id":"R07","question":"As compras vieram sem documento fiscal?","relevance_regex":"nota fiscal|nota.*fiscal|nfe|fiscal","filters":{"score_max":2}},
+  {"id":"R08","question":"O vendedor responde quando o comprador precisa de ajuda?","relevance_regex":"atend|respost|responde|contato|telefone|email|e-mail|suporte","filters":{"score_max":2}},
+  {"id":"R09","question":"Quais experiências envolvem devolução e dinheiro de volta?","relevance_regex":"devol|reembols|estorn|dinheiro|cancel|ressarc","filters":{"score_max":2}},
+  {"id":"R10","question":"O preço compensou para compradores satisfeitos?","relevance_regex":"prec|barat|custo|beneficio|valor|compens","filters":{"score_min":4}},
+  {"id":"R11","question":"Há satisfação com o material e o acabamento?","relevance_regex":"qualidade|material|acabamento|resistente|excelente|bom|otim","filters":{"score_min":4}},
+  {"id":"R12","question":"Quais avaliações descrevem cheiro ou aroma?","relevance_regex":"cheiro|aroma|fragrancia|perfum","filters":{}},
+  {"id":"R13","question":"O que dizem os compradores de cartuchos?","relevance_regex":"cartuch|impressora|tinta","filters":{}},
+  {"id":"R14","question":"Quais relatos citam pagamento por boleto?","relevance_regex":"boleto|pagamento|paguei|pago","filters":{}},
+  {"id":"R15","question":"Os produtos vieram com instruções ou manual?","relevance_regex":"manual|instruc|montagem|montar","filters":{}},
+  {"id":"R16","question":"O que reclamam de móveis comprados em 2018?","relevance_regex":"defeit|qualidade|entreg|atras|quebrad|demor|mont|falt|errad","filters":{"score_max":2,"category":"moveis_decoracao","date_from":"2018-01-01","date_to":"2018-12-31"}}
+]

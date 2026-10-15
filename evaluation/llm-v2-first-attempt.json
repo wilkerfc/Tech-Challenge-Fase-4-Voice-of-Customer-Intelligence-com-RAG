@@ -1,0 +1,220 @@
+{
+  "question": "O que os clientes relatam sobre atrasos na entrega?",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "backend": "local",
+  "quantized_linear_layers": false,
+  "elapsed_seconds": 256.51,
+  "raw_generation": [
+    "TEMA | E1 | \"Gostaria de esclarecimentos acerca da entrega que está em atraso.\"\n\nTEMA | E2 | \"Aguardando a entrega\"\n\nTEMA | E3 | \"Atraso na entrega\""
+  ],
+  "result": {
+    "answer": "A geração falhou ou não apresentou achados verificáveis. As fontes recuperadas continuam disponíveis.",
+    "evidence": [
+      {
+        "id": "946fa620c3345f214be6",
+        "review_id": "7c4c2d10a57d4aab58a570a5a8ac9f2c",
+        "order_id": "e269b2472c0546324acf4d09dd7acfab",
+        "text": "Gostaria de esclarecimentos acerca da entrega que está em atraso",
+        "score": 1,
+        "review_date": "2017-12-20",
+        "purchase_date": "2017-11-24",
+        "categories": [
+          "relogios_presentes"
+        ],
+        "late_delivery": true,
+        "state": "RJ",
+        "uf": "RJ",
+        "delivery_status": "late",
+        "order_ids": [
+          "e269b2472c0546324acf4d09dd7acfab"
+        ],
+        "order_metadata": [
+          {
+            "order_id": "e269b2472c0546324acf4d09dd7acfab",
+            "purchase_date": "2017-11-24",
+            "categories": [
+              "relogios_presentes"
+            ],
+            "state": "RJ",
+            "delivery_status": "late",
+            "late_delivery": true,
+            "order_status": "delivered",
+            "delivered_date": "2017-12-21",
+            "estimated_delivery_date": "2017-12-19"
+          }
+        ],
+        "states": [
+          "RJ"
+        ],
+        "chunk": 0,
+        "similarity": 0.8118,
+        "citation": "E1",
+        "bm25_score": 8.0596,
+        "rrf_score": 0.0285312,
+        "dense_rank": 3,
+        "lexical_rank": 19,
+        "reranker_score": null,
+        "reranker": null,
+        "retrieval_score": 0.8702029,
+        "matching_orders": [
+          {
+            "order_id": "e269b2472c0546324acf4d09dd7acfab",
+            "purchase_date": "2017-11-24",
+            "categories": [
+              "relogios_presentes"
+            ],
+            "state": "RJ",
+            "delivery_status": "late",
+            "late_delivery": true,
+            "order_status": "delivered",
+            "delivered_date": "2017-12-21",
+            "estimated_delivery_date": "2017-12-19"
+          }
+        ],
+        "retrieval_method": "hybrid"
+      },
+      {
+        "id": "8f95f72bf4b6334ff24f",
+        "review_id": "364e74a2d89a35fa3fad2beaf96d8f17",
+        "order_id": "9254ea56fb8aecea0b411b6a605e0ebb",
+        "text": "Aguardando a entrega Entrega em atraso.",
+        "score": 1,
+        "review_date": "2018-08-08",
+        "purchase_date": "2018-07-19",
+        "categories": [
+          "moveis_escritorio"
+        ],
+        "late_delivery": true,
+        "state": "SP",
+        "uf": "SP",
+        "delivery_status": "late",
+        "order_ids": [
+          "9254ea56fb8aecea0b411b6a605e0ebb"
+        ],
+        "order_metadata": [
+          {
+            "order_id": "9254ea56fb8aecea0b411b6a605e0ebb",
+            "purchase_date": "2018-07-19",
+            "categories": [
+              "moveis_escritorio"
+            ],
+            "state": "SP",
+            "delivery_status": "late",
+            "late_delivery": true,
+            "order_status": "delivered",
+            "delivered_date": "2018-08-16",
+            "estimated_delivery_date": "2018-08-03"
+          }
+        ],
+        "states": [
+          "SP"
+        ],
+        "chunk": 0,
+        "similarity": 0.76666,
+        "citation": "E2",
+        "bm25_score": 9.40084,
+        "rrf_score": 0.0283702,
+        "dense_rank": 11,
+        "lexical_rank": 10,
+        "reranker_score": null,
+        "reranker": null,
+        "retrieval_score": 0.8652918,
+        "matching_orders": [
+          {
+            "order_id": "9254ea56fb8aecea0b411b6a605e0ebb",
+            "purchase_date": "2018-07-19",
+            "categories": [
+              "moveis_escritorio"
+            ],
+            "state": "SP",
+            "delivery_status": "late",
+            "late_delivery": true,
+            "order_status": "delivered",
+            "delivered_date": "2018-08-16",
+            "estimated_delivery_date": "2018-08-03"
+          }
+        ],
+        "retrieval_method": "hybrid"
+      },
+      {
+        "id": "613124f0c920fb4f5103",
+        "review_id": "bc99e8911baf06b4d1d126d9f23baeb3",
+        "order_id": "027a84a16c22c706669f35d578853f3e",
+        "text": "Atraso na entrega Quero saber porque tanto atraso na minha encomenda, porque deram previsão de entrega para o dia 23/4 até hoje nada",
+        "score": 1,
+        "review_date": "2018-04-25",
+        "purchase_date": "2018-03-31",
+        "categories": [
+          "cama_mesa_banho"
+        ],
+        "late_delivery": true,
+        "state": "RJ",
+        "uf": "RJ",
+        "delivery_status": "late",
+        "order_ids": [
+          "027a84a16c22c706669f35d578853f3e"
+        ],
+        "order_metadata": [
+          {
+            "order_id": "027a84a16c22c706669f35d578853f3e",
+            "purchase_date": "2018-03-31",
+            "categories": [
+              "cama_mesa_banho"
+            ],
+            "state": "RJ",
+            "delivery_status": "late",
+            "late_delivery": true,
+            "order_status": "delivered",
+            "delivered_date": "2018-05-02",
+            "estimated_delivery_date": "2018-04-23"
+          }
+        ],
+        "states": [
+          "RJ"
+        ],
+        "chunk": 0,
+        "similarity": 0.76103,
+        "citation": "E3",
+        "bm25_score": 7.03067,
+        "rrf_score": 0.0235996,
+        "dense_rank": 13,
+        "lexical_rank": 41,
+        "reranker_score": null,
+        "reranker": null,
+        "retrieval_score": 0.7197884,
+        "matching_orders": [
+          {
+            "order_id": "027a84a16c22c706669f35d578853f3e",
+            "purchase_date": "2018-03-31",
+            "categories": [
+              "cama_mesa_banho"
+            ],
+            "state": "RJ",
+            "delivery_status": "late",
+            "late_delivery": true,
+            "order_status": "delivered",
+            "delivered_date": "2018-05-02",
+            "estimated_delivery_date": "2018-04-23"
+          }
+        ],
+        "retrieval_method": "hybrid"
+      }
+    ],
+    "insufficient": true,
+    "mode": "llm",
+    "error": "ValueError",
+    "generation_policy": "validated_quotes_v2",
+    "status": "generation_failed",
+    "question": "O que os clientes relatam sobre atrasos na entrega?",
+    "resolved_query": {
+      "route": "rag",
+      "filters": {
+        "k": 3,
+        "score_max": 2
+      },
+      "notes": [],
+      "query": "O que os clientes relatam sobre atrasos na entrega?"
+    },
+    "elapsed_seconds": 256.407
+  }
+}

@@ -1,5 +1,8 @@
 {
   "initial_render": "passed",
   "real_search": "passed",
-  "out_of_scope": "passed"
+  "analytics_real_corpus": "passed",
+  "natural_language_filters": "passed",
+  "out_of_scope": "passed",
+  "method": "Streamlit AppTest, sem captura visual de navegador"
 }

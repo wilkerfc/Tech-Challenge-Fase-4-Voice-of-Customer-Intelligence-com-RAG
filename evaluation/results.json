@@ -16,9 +16,22 @@
         "1": 8829,
         "3": 3643
       },
-      "indexed_documents": 42687
+      "unique_textual_reviews": 42370,
+      "reviews_with_multiple_orders": 307,
+      "delivery_status_distribution_documents": {
+        "on_time": 36937,
+        "late": 3848,
+        "not_delivered": 824,
+        "unknown": 1078
+      },
+      "metadata_schema": 2
     },
-    "schema": 1
+    "schema": 2,
+    "integrity": {
+      "documents.json": "bd95db8f9dbdae4d945c1407750f9669eb34d424ab9541f7d8841289ae418531",
+      "vectors.npy": "91753d99e1eebbcb6ef27c103fad6c17c0c2f3f3eec89f47583565b3203f5cfc",
+      "corpus.json": "0ecad7a7901cee29c13e4e2b70e9424b6f5a5973ce73d678342bf2e212ee8f1f"
+    }
   },
   "cases": [
     {
@@ -27,24 +40,8 @@
       "insufficient": false,
       "lexical_precision_proxy_at_k": 1.0,
       "result": {
-        "answer": "Evidências recuperadas (modo extrativo, sem geração por LLM):\n\n[E1] Nota 1: “Muita demora na entrega.”\n\n[E2] Nota 1: “Gostaria de esclarecimentos acerca da entrega que está em atraso”\n\n[E3] Nota 2: “Compra Um demora pra entrega”\n\n[E4] Nota 1: “Muita demora na entrega.”\n\n[E5] Nota 1: “Muita demora na entrega”\n\n[E6] Nota 1: “Ultimamente estão atrasando muito as entregas”\n\nEsses relatos não permitem estimar a frequência do problema em toda a base.",
+        "answer": "Evidências recuperadas (modo extrativo):\n\n[E1] Nota 1: “Gostaria de esclarecimentos acerca da entrega que está em atraso”\n\n[E2] Nota 1: “Aguardando a entrega Entrega em atraso.”\n\n[E3] Nota 1: “Atraso na entrega Quero saber porque tanto atraso na minha encomenda, porque deram previsão de entrega para o dia 23/4 até hoje nada”\n\n[E4] Nota 2: “Atraso no entrega Acredito que tenha sido atraso dos correios , ainda não recebi o produto .”\n\n[E5] Nota 2: “mediana o produto foi entregue com atraso”\n\n[E6] Nota 1: “Não é a primeira vez de atraso na entrega, quando consegue falar a atendente ainda pede um prazo de dois dias, fora o atraso, infelizmente as mudanças de entrega dos parceiros não está sendo pratica”\n\nEsses relatos não permitem estimar frequência em toda a base.",
         "evidence": [
-          {
-            "id": "5a29f0f069007acab92a",
-            "review_id": "bb2810db10122816078f39284c68f2d1",
-            "order_id": "855c2d10e8d3135c6cd5af5dd14d080e",
-            "text": "Muita demora na entrega.",
-            "score": 1,
-            "review_date": "2017-12-20",
-            "purchase_date": "2017-11-24",
-            "categories": [
-              "automotivo"
-            ],
-            "late_delivery": true,
-            "chunk": 0,
-            "similarity": 0.81389,
-            "citation": "E1"
-          },
           {
             "id": "946fa620c3345f214be6",
             "review_id": "7c4c2d10a57d4aab58a570a5a8ac9f2c",
@@ -57,101 +54,397 @@
               "relogios_presentes"
             ],
             "late_delivery": true,
+            "state": "RJ",
+            "uf": "RJ",
+            "delivery_status": "late",
+            "order_ids": [
+              "e269b2472c0546324acf4d09dd7acfab"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "e269b2472c0546324acf4d09dd7acfab",
+                "purchase_date": "2017-11-24",
+                "categories": [
+                  "relogios_presentes"
+                ],
+                "state": "RJ",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2017-12-21",
+                "estimated_delivery_date": "2017-12-19"
+              }
+            ],
+            "states": [
+              "RJ"
+            ],
             "chunk": 0,
             "similarity": 0.8118,
-            "citation": "E2"
-          },
-          {
-            "id": "ac928b49d2062130f913",
-            "review_id": "18215615f60e6771c00faaaa1ade4cea",
-            "order_id": "743277e5089af7df0cbd543c93e5d852",
-            "text": "Compra Um demora pra entrega",
-            "score": 2,
-            "review_date": "2018-07-14",
-            "purchase_date": "2018-07-06",
-            "categories": [
-              "papelaria"
+            "citation": "E1",
+            "bm25_score": 8.0596,
+            "rrf_score": 0.0285312,
+            "dense_rank": 3,
+            "lexical_rank": 19,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.8702029,
+            "matching_orders": [
+              {
+                "order_id": "e269b2472c0546324acf4d09dd7acfab",
+                "purchase_date": "2017-11-24",
+                "categories": [
+                  "relogios_presentes"
+                ],
+                "state": "RJ",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2017-12-21",
+                "estimated_delivery_date": "2017-12-19"
+              }
             ],
-            "late_delivery": false,
-            "chunk": 0,
-            "similarity": 0.78949,
-            "citation": "E3"
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "e8b8a03e9286626b9b26",
-            "review_id": "1bf2b9a92e76901b24965acd9cf95e66",
-            "order_id": "02852b112ad108b3d2b3d4ee198d84a8",
-            "text": "Muita demora na entrega.",
+            "id": "8f95f72bf4b6334ff24f",
+            "review_id": "364e74a2d89a35fa3fad2beaf96d8f17",
+            "order_id": "9254ea56fb8aecea0b411b6a605e0ebb",
+            "text": "Aguardando a entrega Entrega em atraso.",
             "score": 1,
-            "review_date": "2017-12-24",
-            "purchase_date": "2017-11-25",
+            "review_date": "2018-08-08",
+            "purchase_date": "2018-07-19",
+            "categories": [
+              "moveis_escritorio"
+            ],
+            "late_delivery": true,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "late",
+            "order_ids": [
+              "9254ea56fb8aecea0b411b6a605e0ebb"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "9254ea56fb8aecea0b411b6a605e0ebb",
+                "purchase_date": "2018-07-19",
+                "categories": [
+                  "moveis_escritorio"
+                ],
+                "state": "SP",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2018-08-16",
+                "estimated_delivery_date": "2018-08-03"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
+            "chunk": 0,
+            "similarity": 0.76666,
+            "citation": "E2",
+            "bm25_score": 9.40084,
+            "rrf_score": 0.0283702,
+            "dense_rank": 11,
+            "lexical_rank": 10,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.8652918,
+            "matching_orders": [
+              {
+                "order_id": "9254ea56fb8aecea0b411b6a605e0ebb",
+                "purchase_date": "2018-07-19",
+                "categories": [
+                  "moveis_escritorio"
+                ],
+                "state": "SP",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2018-08-16",
+                "estimated_delivery_date": "2018-08-03"
+              }
+            ],
+            "retrieval_method": "hybrid"
+          },
+          {
+            "id": "613124f0c920fb4f5103",
+            "review_id": "bc99e8911baf06b4d1d126d9f23baeb3",
+            "order_id": "027a84a16c22c706669f35d578853f3e",
+            "text": "Atraso na entrega Quero saber porque tanto atraso na minha encomenda, porque deram previsão de entrega para o dia 23/4 até hoje nada",
+            "score": 1,
+            "review_date": "2018-04-25",
+            "purchase_date": "2018-03-31",
             "categories": [
               "cama_mesa_banho"
             ],
             "late_delivery": true,
+            "state": "RJ",
+            "uf": "RJ",
+            "delivery_status": "late",
+            "order_ids": [
+              "027a84a16c22c706669f35d578853f3e"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "027a84a16c22c706669f35d578853f3e",
+                "purchase_date": "2018-03-31",
+                "categories": [
+                  "cama_mesa_banho"
+                ],
+                "state": "RJ",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2018-05-02",
+                "estimated_delivery_date": "2018-04-23"
+              }
+            ],
+            "states": [
+              "RJ"
+            ],
             "chunk": 0,
-            "similarity": 0.81295,
-            "citation": "E4"
+            "similarity": 0.76103,
+            "citation": "E3",
+            "bm25_score": 7.03067,
+            "rrf_score": 0.0235996,
+            "dense_rank": 13,
+            "lexical_rank": 41,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.7197884,
+            "matching_orders": [
+              {
+                "order_id": "027a84a16c22c706669f35d578853f3e",
+                "purchase_date": "2018-03-31",
+                "categories": [
+                  "cama_mesa_banho"
+                ],
+                "state": "RJ",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2018-05-02",
+                "estimated_delivery_date": "2018-04-23"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "1e2472d2ace4bbf9a356",
-            "review_id": "3ffed17f5010b9c6d33706b790732482",
-            "order_id": "387d33b2be3d1d8dd063941d1b57d3fb",
-            "text": "Muita demora na entrega",
+            "id": "2b4022cf4181152ca1b1",
+            "review_id": "ac6bdc8a49173f8db773a6a97fc6d087",
+            "order_id": "5630f20edc34695d0b5daf86dc590767",
+            "text": "Atraso no entrega Acredito que tenha sido atraso dos correios , ainda não recebi o produto .",
+            "score": 2,
+            "review_date": "2018-05-05",
+            "purchase_date": "2018-04-05",
+            "categories": [
+              "esporte_lazer"
+            ],
+            "late_delivery": null,
+            "state": "PB",
+            "uf": "PB",
+            "delivery_status": "unknown",
+            "order_ids": [
+              "5630f20edc34695d0b5daf86dc590767"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "5630f20edc34695d0b5daf86dc590767",
+                "purchase_date": "2018-04-05",
+                "categories": [
+                  "esporte_lazer"
+                ],
+                "state": "PB",
+                "delivery_status": "unknown",
+                "late_delivery": null,
+                "order_status": "shipped",
+                "delivered_date": "",
+                "estimated_delivery_date": "2018-05-02"
+              }
+            ],
+            "states": [
+              "PB"
+            ],
+            "chunk": 0,
+            "similarity": 0.69664,
+            "citation": "E4",
+            "bm25_score": 7.77105,
+            "rrf_score": 0.0219372,
+            "dense_rank": 37,
+            "lexical_rank": 26,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.6690842,
+            "matching_orders": [
+              {
+                "order_id": "5630f20edc34695d0b5daf86dc590767",
+                "purchase_date": "2018-04-05",
+                "categories": [
+                  "esporte_lazer"
+                ],
+                "state": "PB",
+                "delivery_status": "unknown",
+                "late_delivery": null,
+                "order_status": "shipped",
+                "delivered_date": "",
+                "estimated_delivery_date": "2018-05-02"
+              }
+            ],
+            "retrieval_method": "hybrid"
+          },
+          {
+            "id": "3d0f3282de48f1963841",
+            "review_id": "3b00b01fa7885c0fa503aa53af1b6954",
+            "order_id": "27c0ea3b1286c30e92f05f413398d055",
+            "text": "mediana o produto foi entregue com atraso",
+            "score": 2,
+            "review_date": "2018-05-10",
+            "purchase_date": "2018-04-09",
+            "categories": [
+              "cine_foto"
+            ],
+            "late_delivery": true,
+            "state": "BA",
+            "uf": "BA",
+            "delivery_status": "late",
+            "order_ids": [
+              "27c0ea3b1286c30e92f05f413398d055"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "27c0ea3b1286c30e92f05f413398d055",
+                "purchase_date": "2018-04-09",
+                "categories": [
+                  "cine_foto"
+                ],
+                "state": "BA",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2018-05-09",
+                "estimated_delivery_date": "2018-05-04"
+              }
+            ],
+            "states": [
+              "BA"
+            ],
+            "chunk": 0,
+            "similarity": 0.73611,
+            "citation": "E5",
+            "bm25_score": 6.27105,
+            "rrf_score": 0.0206689,
+            "dense_rank": 23,
+            "lexical_rank": 56,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.6304009,
+            "matching_orders": [
+              {
+                "order_id": "27c0ea3b1286c30e92f05f413398d055",
+                "purchase_date": "2018-04-09",
+                "categories": [
+                  "cine_foto"
+                ],
+                "state": "BA",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2018-05-09",
+                "estimated_delivery_date": "2018-05-04"
+              }
+            ],
+            "retrieval_method": "hybrid"
+          },
+          {
+            "id": "9070c3421215e8e13122",
+            "review_id": "6a24fdb69a1596a14f8ebe8386855576",
+            "order_id": "18d686f1bb1270182c646fe337459d79",
+            "text": "Não é a primeira vez de atraso na entrega, quando consegue falar a atendente ainda pede um prazo de dois dias, fora o atraso, infelizmente as mudanças de entrega dos parceiros não está sendo pratica",
             "score": 1,
-            "review_date": "2017-08-16",
-            "purchase_date": "2017-07-14",
+            "review_date": "2018-03-09",
+            "purchase_date": "2018-02-15",
             "categories": [
               "utilidades_domesticas"
             ],
-            "late_delivery": false,
-            "chunk": 0,
-            "similarity": 0.80265,
-            "citation": "E5"
-          },
-          {
-            "id": "2ed52145bd2a709638f2",
-            "review_id": "7528a396f7625967f05cb09946286608",
-            "order_id": "1777854e00599d581f88f45af1432949",
-            "text": "Ultimamente estão atrasando muito as entregas",
-            "score": 1,
-            "review_date": "2018-03-30",
-            "purchase_date": "2018-03-03",
-            "categories": [
-              "construcao_ferramentas_construcao"
-            ],
             "late_delivery": true,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "late",
+            "order_ids": [
+              "18d686f1bb1270182c646fe337459d79"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "18d686f1bb1270182c646fe337459d79",
+                "purchase_date": "2018-02-15",
+                "categories": [
+                  "utilidades_domesticas"
+                ],
+                "state": "SP",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2018-03-11",
+                "estimated_delivery_date": "2018-03-07"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
-            "similarity": 0.77126,
-            "citation": "E6"
+            "similarity": 0.73862,
+            "citation": "E6",
+            "bm25_score": 5.97377,
+            "rrf_score": 0.0201951,
+            "dense_rank": 22,
+            "lexical_rank": 65,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.6159512,
+            "matching_orders": [
+              {
+                "order_id": "18d686f1bb1270182c646fe337459d79",
+                "purchase_date": "2018-02-15",
+                "categories": [
+                  "utilidades_domesticas"
+                ],
+                "state": "SP",
+                "delivery_status": "late",
+                "late_delivery": true,
+                "order_status": "delivered",
+                "delivered_date": "2018-03-11",
+                "estimated_delivery_date": "2018-03-07"
+              }
+            ],
+            "retrieval_method": "hybrid"
           }
         ],
         "insufficient": false,
-        "mode": "extractive"
+        "mode": "extractive",
+        "status": "ok",
+        "question": "O que os clientes relatam sobre atrasos na entrega?",
+        "resolved_query": {
+          "route": "rag",
+          "filters": {
+            "score_min": 1,
+            "score_max": 2
+          },
+          "notes": [],
+          "query": "O que os clientes relatam sobre atrasos na entrega?"
+        },
+        "elapsed_seconds": 0.172
       }
     },
     {
       "question": "Quais relatos existem sobre produtos quebrados ou com defeito?",
       "expected_refusal": false,
       "insufficient": false,
-      "lexical_precision_proxy_at_k": 0.8333333333333334,
+      "lexical_precision_proxy_at_k": 1.0,
       "result": {
-        "answer": "Evidências recuperadas (modo extrativo, sem geração por LLM):\n\n[E1] Nota 1: “Produto diferente do oferecido, e cheio de defeitos.”\n\n[E2] Nota 1: “Produto quebrado Produto quebrado”\n\n[E3] Nota 1: “Produto com defeito”\n\n[E4] Nota 1: “Produto que sinais de uso , manchado , marcado e quebrado”\n\n[E5] Nota 1: “Produto de péssima qualidade e acabamento.”\n\n[E6] Nota 2: “O produto está com problemas (defeito).”\n\nEsses relatos não permitem estimar a frequência do problema em toda a base.",
+        "answer": "Evidências recuperadas (modo extrativo):\n\n[E1] Nota 1: “Produto quebrado Produto quebrado”\n\n[E2] Nota 2: “Produto com defeito produto com defeito”\n\n[E3] Nota 1: “Produto avariado, quebrado”\n\n[E4] Nota 1: “Produto com defeito”\n\n[E5] Nota 1: “Produto quebrado”\n\n[E6] Nota 1: “O produto está quebrado”\n\nEsses relatos não permitem estimar frequência em toda a base.",
         "evidence": [
-          {
-            "id": "3a4967dedf04903e6a61",
-            "review_id": "893659b7a097572978ae507c5aba896c",
-            "order_id": "ac9389991e196542581dc80f6be7e5fe",
-            "text": "Produto diferente do oferecido, e cheio de defeitos.",
-            "score": 1,
-            "review_date": "2018-01-13",
-            "purchase_date": "2018-01-01",
-            "categories": [],
-            "late_delivery": false,
-            "chunk": 0,
-            "similarity": 0.73458,
-            "citation": "E1"
-          },
           {
             "id": "6f996f3aab4af69566ea",
             "review_id": "fa6092a7298e91123e5f5aca38277431",
@@ -164,77 +457,387 @@
               "brinquedos"
             ],
             "late_delivery": false,
+            "state": "MG",
+            "uf": "MG",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "59c6d70603e4c4447067afb1291d725d"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "59c6d70603e4c4447067afb1291d725d",
+                "purchase_date": "2018-05-21",
+                "categories": [
+                  "brinquedos"
+                ],
+                "state": "MG",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-06-06",
+                "estimated_delivery_date": "2018-06-11"
+              }
+            ],
+            "states": [
+              "MG"
+            ],
             "chunk": 0,
             "similarity": 0.73433,
-            "citation": "E2"
+            "citation": "E1",
+            "bm25_score": 10.18884,
+            "rrf_score": 0.0322581,
+            "dense_rank": 2,
+            "lexical_rank": 2,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.983871,
+            "matching_orders": [
+              {
+                "order_id": "59c6d70603e4c4447067afb1291d725d",
+                "purchase_date": "2018-05-21",
+                "categories": [
+                  "brinquedos"
+                ],
+                "state": "MG",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-06-06",
+                "estimated_delivery_date": "2018-06-11"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "b0200ad50845475d4065",
-            "review_id": "15f442053a8372bd40f650ddea2cff79",
-            "order_id": "f40ef9a47f9670b54b9e350f354795a2",
+            "id": "c05ab6ef90334ab94a96",
+            "review_id": "eeafacf5860957c8c7f64dd182586816",
+            "order_id": "725caf02795e0b544f8632bc82a3390b",
+            "text": "Produto com defeito produto com defeito",
+            "score": 2,
+            "review_date": "2018-05-04",
+            "purchase_date": "2018-04-24",
+            "categories": [
+              "beleza_saude"
+            ],
+            "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "725caf02795e0b544f8632bc82a3390b"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "725caf02795e0b544f8632bc82a3390b",
+                "purchase_date": "2018-04-24",
+                "categories": [
+                  "beleza_saude"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-05-03",
+                "estimated_delivery_date": "2018-05-16"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
+            "chunk": 0,
+            "similarity": 0.71009,
+            "citation": "E2",
+            "bm25_score": 9.08757,
+            "rrf_score": 0.0294181,
+            "dense_rank": 9,
+            "lexical_rank": 7,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.8972529,
+            "matching_orders": [
+              {
+                "order_id": "725caf02795e0b544f8632bc82a3390b",
+                "purchase_date": "2018-04-24",
+                "categories": [
+                  "beleza_saude"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-05-03",
+                "estimated_delivery_date": "2018-05-16"
+              }
+            ],
+            "retrieval_method": "hybrid"
+          },
+          {
+            "id": "05296ead0bf18fb6a73b",
+            "review_id": "4e424f744c8185c17c7d275a562ac344",
+            "order_id": "3b9671a31679fa4544b9b7a1e55ffe4f",
+            "text": "Produto avariado, quebrado",
+            "score": 1,
+            "review_date": "2018-01-31",
+            "purchase_date": "2018-01-13",
+            "categories": [
+              "eletronicos"
+            ],
+            "late_delivery": false,
+            "state": "MG",
+            "uf": "MG",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "3b9671a31679fa4544b9b7a1e55ffe4f"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "3b9671a31679fa4544b9b7a1e55ffe4f",
+                "purchase_date": "2018-01-13",
+                "categories": [
+                  "eletronicos"
+                ],
+                "state": "MG",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-01-30",
+                "estimated_delivery_date": "2018-02-06"
+              }
+            ],
+            "states": [
+              "MG"
+            ],
+            "chunk": 0,
+            "similarity": 0.72556,
+            "citation": "E3",
+            "bm25_score": 8.32878,
+            "rrf_score": 0.0290832,
+            "dense_rank": 5,
+            "lexical_rank": 13,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.887039,
+            "matching_orders": [
+              {
+                "order_id": "3b9671a31679fa4544b9b7a1e55ffe4f",
+                "purchase_date": "2018-01-13",
+                "categories": [
+                  "eletronicos"
+                ],
+                "state": "MG",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-01-30",
+                "estimated_delivery_date": "2018-02-06"
+              }
+            ],
+            "retrieval_method": "hybrid"
+          },
+          {
+            "id": "570fb00fa9bc22f93a1c",
+            "review_id": "0eccad996b48c39d41b60ead288924a0",
+            "order_id": "d5c37bf9b766c837b99457b183fbe2e5",
             "text": "Produto com defeito",
             "score": 1,
-            "review_date": "2018-05-01",
-            "purchase_date": "2018-04-21",
+            "review_date": "2018-03-14",
+            "purchase_date": "2018-02-22",
             "categories": [
-              "papelaria"
+              "telefonia"
             ],
             "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "d5c37bf9b766c837b99457b183fbe2e5"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "d5c37bf9b766c837b99457b183fbe2e5",
+                "purchase_date": "2018-02-22",
+                "categories": [
+                  "telefonia"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-03-13",
+                "estimated_delivery_date": "2018-03-20"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
-            "similarity": 0.72756,
-            "citation": "E3"
+            "similarity": 0.72944,
+            "citation": "E4",
+            "bm25_score": 8.05853,
+            "rrf_score": 0.028373,
+            "dense_rank": 3,
+            "lexical_rank": 20,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.865377,
+            "matching_orders": [
+              {
+                "order_id": "d5c37bf9b766c837b99457b183fbe2e5",
+                "purchase_date": "2018-02-22",
+                "categories": [
+                  "telefonia"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-03-13",
+                "estimated_delivery_date": "2018-03-20"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "93b5c63463757a44e82f",
-            "review_id": "18fe9f34aace3c9cfcd34712cead1208",
-            "order_id": "73cb4ac4aba9d15a0db382e16fc9c784",
-            "text": "Produto que sinais de uso , manchado , marcado e quebrado",
+            "id": "2fc66a52d89e35860f89",
+            "review_id": "00eb718f8b71a61b99580b4201d7aac5",
+            "order_id": "f3ab2cdf3ea55d54d480a91a967bb501",
+            "text": "Produto quebrado",
             "score": 1,
-            "review_date": "2018-03-27",
-            "purchase_date": "2018-03-20",
+            "review_date": "2018-08-15",
+            "purchase_date": "2018-08-12",
             "categories": [
-              "construcao_ferramentas_construcao"
+              "relogios_presentes"
             ],
             "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "f3ab2cdf3ea55d54d480a91a967bb501"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "f3ab2cdf3ea55d54d480a91a967bb501",
+                "purchase_date": "2018-08-12",
+                "categories": [
+                  "relogios_presentes"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-08-14",
+                "estimated_delivery_date": "2018-08-20"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
-            "similarity": 0.68573,
-            "citation": "E4"
+            "similarity": 0.69037,
+            "citation": "E5",
+            "bm25_score": 9.0351,
+            "rrf_score": 0.0276929,
+            "dense_rank": 17,
+            "lexical_rank": 8,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.8446333,
+            "matching_orders": [
+              {
+                "order_id": "f3ab2cdf3ea55d54d480a91a967bb501",
+                "purchase_date": "2018-08-12",
+                "categories": [
+                  "relogios_presentes"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-08-14",
+                "estimated_delivery_date": "2018-08-20"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "544f08c2542f7c36bd8f",
-            "review_id": "074c39cb5e90578eaeb560e6f632ae1e",
-            "order_id": "2edf506c823b1a3bc6d134864bc4c10c",
-            "text": "Produto de péssima qualidade e acabamento.",
+            "id": "0115e622ecf9d5b79f0a",
+            "review_id": "cb3ac9ac65081886c88485829c53c90b",
+            "order_id": "ab0a259100a72a01f979cc26705316a4",
+            "text": "O produto está quebrado",
             "score": 1,
-            "review_date": "2018-03-21",
-            "purchase_date": "2018-03-16",
+            "review_date": "2018-04-18",
+            "purchase_date": "2018-04-09",
             "categories": [
-              "cama_mesa_banho"
+              "utilidades_domesticas"
             ],
             "late_delivery": false,
-            "chunk": 0,
-            "similarity": 0.7193,
-            "citation": "E5"
-          },
-          {
-            "id": "6a717fe1f36f7b4e6f69",
-            "review_id": "a6ae1375e10c5bd2f0984336dbfaf998",
-            "order_id": "3e973e154fa0787c8f507fc0929c96a1",
-            "text": "O produto está com problemas (defeito).",
-            "score": 2,
-            "review_date": "2017-12-23",
-            "purchase_date": "2017-12-15",
-            "categories": [
-              "audio"
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "ab0a259100a72a01f979cc26705316a4"
             ],
-            "late_delivery": false,
+            "order_metadata": [
+              {
+                "order_id": "ab0a259100a72a01f979cc26705316a4",
+                "purchase_date": "2018-04-09",
+                "categories": [
+                  "utilidades_domesticas"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-04-17",
+                "estimated_delivery_date": "2018-04-25"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
-            "similarity": 0.69562,
-            "citation": "E6"
+            "similarity": 0.69545,
+            "citation": "E6",
+            "bm25_score": 9.0351,
+            "rrf_score": 0.0276506,
+            "dense_rank": 16,
+            "lexical_rank": 9,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.8433448,
+            "matching_orders": [
+              {
+                "order_id": "ab0a259100a72a01f979cc26705316a4",
+                "purchase_date": "2018-04-09",
+                "categories": [
+                  "utilidades_domesticas"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-04-17",
+                "estimated_delivery_date": "2018-04-25"
+              }
+            ],
+            "retrieval_method": "hybrid"
           }
         ],
         "insufficient": false,
-        "mode": "extractive"
+        "mode": "extractive",
+        "status": "ok",
+        "question": "Quais relatos existem sobre produtos quebrados ou com defeito?",
+        "resolved_query": {
+          "route": "rag",
+          "filters": {
+            "score_min": 1,
+            "score_max": 2
+          },
+          "notes": [],
+          "query": "Quais relatos existem sobre produtos quebrados ou com defeito?"
+        },
+        "elapsed_seconds": 0.188
       }
     },
     {
@@ -243,7 +846,7 @@
       "insufficient": false,
       "lexical_precision_proxy_at_k": 1.0,
       "result": {
-        "answer": "Evidências recuperadas (modo extrativo, sem geração por LLM):\n\n[E1] Nota 5: “Muito bom a rapidez da entrega”\n\n[E2] Nota 5: “Super recomendo Desde o pedido até a entrega, surpreendeu pela qualidade do produto e pela rapidez na entrega.”\n\n[E3] Nota 5: “Parabens pelo rapidez na entrega.”\n\n[E4] Nota 5: “Rapidez e agilidade na entrega produto de qualidade.”\n\n[E5] Nota 5: “Muito eficiente Gostei muito da rapidez da entrega do produto, do atendimento eu indicaria sim.”\n\n[E6] Nota 5: “Recomen super rápida a entrega”\n\nEsses relatos não permitem estimar a frequência do problema em toda a base.",
+        "answer": "Evidências recuperadas (modo extrativo):\n\n[E1] Nota 5: “Muito bom a rapidez da entrega”\n\n[E2] Nota 4: “rapidez na entrega”\n\n[E3] Nota 5: “Parabens pelo rapidez na entrega.”\n\n[E4] Nota 5: “rapidez na entrega...ótimo”\n\n[E5] Nota 5: “Rapidez e agilidade na entrega produto de qualidade.”\n\n[E6] Nota 5: “Excelente atendimento e rapidez na execução da entrega.”\n\nEsses relatos não permitem estimar frequência em toda a base.",
         "evidence": [
           {
             "id": "885732cf39712e2e1a70",
@@ -257,25 +860,119 @@
               "cool_stuff"
             ],
             "late_delivery": false,
+            "state": "PI",
+            "uf": "PI",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "82a4587415d59443dce9ac6d0ce8720f"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "82a4587415d59443dce9ac6d0ce8720f",
+                "purchase_date": "2017-05-04",
+                "categories": [
+                  "cool_stuff"
+                ],
+                "state": "PI",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-05-16",
+                "estimated_delivery_date": "2017-06-08"
+              }
+            ],
+            "states": [
+              "PI"
+            ],
             "chunk": 0,
             "similarity": 0.82952,
-            "citation": "E1"
+            "citation": "E1",
+            "bm25_score": 9.80151,
+            "rrf_score": 0.0310993,
+            "dense_rank": 1,
+            "lexical_rank": 8,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.9485294,
+            "matching_orders": [
+              {
+                "order_id": "82a4587415d59443dce9ac6d0ce8720f",
+                "purchase_date": "2017-05-04",
+                "categories": [
+                  "cool_stuff"
+                ],
+                "state": "PI",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-05-16",
+                "estimated_delivery_date": "2017-06-08"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "199e6e33e775ad2f34f3",
-            "review_id": "39014b02b8ff501f6867f083f7096a7d",
-            "order_id": "2221e081ca8adbc501639130055176ca",
-            "text": "Super recomendo Desde o pedido até a entrega, surpreendeu pela qualidade do produto e pela rapidez na entrega.",
-            "score": 5,
-            "review_date": "2018-05-29",
-            "purchase_date": "2018-05-23",
+            "id": "7c856df0c74940244da2",
+            "review_id": "55cb26ac603f6c5dd0b9347d0d117efa",
+            "order_id": "b8f158c49d2b09fe06025a4c5dc346f7",
+            "text": "rapidez na entrega",
+            "score": 4,
+            "review_date": "2017-08-05",
+            "purchase_date": "2017-08-02",
             "categories": [
-              "esporte_lazer"
+              "utilidades_domesticas"
             ],
             "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "b8f158c49d2b09fe06025a4c5dc346f7"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "b8f158c49d2b09fe06025a4c5dc346f7",
+                "purchase_date": "2017-08-02",
+                "categories": [
+                  "utilidades_domesticas"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-08-04",
+                "estimated_delivery_date": "2017-08-17"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
-            "similarity": 0.78718,
-            "citation": "E2"
+            "similarity": 0.77603,
+            "citation": "E2",
+            "bm25_score": 10.63272,
+            "rrf_score": 0.0303309,
+            "dense_rank": 8,
+            "lexical_rank": 4,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.9250919,
+            "matching_orders": [
+              {
+                "order_id": "b8f158c49d2b09fe06025a4c5dc346f7",
+                "purchase_date": "2017-08-02",
+                "categories": [
+                  "utilidades_domesticas"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-08-04",
+                "estimated_delivery_date": "2017-08-17"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
             "id": "1276e396374d7fa04317",
@@ -289,9 +986,119 @@
               "eletronicos"
             ],
             "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "2d28ab17a7a4eaa06618d69734143c37"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "2d28ab17a7a4eaa06618d69734143c37",
+                "purchase_date": "2018-03-20",
+                "categories": [
+                  "eletronicos"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-03-23",
+                "estimated_delivery_date": "2018-04-02"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
             "similarity": 0.8077,
-            "citation": "E3"
+            "citation": "E3",
+            "bm25_score": 9.80151,
+            "rrf_score": 0.0302135,
+            "dense_rank": 2,
+            "lexical_rank": 11,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.9215129,
+            "matching_orders": [
+              {
+                "order_id": "2d28ab17a7a4eaa06618d69734143c37",
+                "purchase_date": "2018-03-20",
+                "categories": [
+                  "eletronicos"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-03-23",
+                "estimated_delivery_date": "2018-04-02"
+              }
+            ],
+            "retrieval_method": "hybrid"
+          },
+          {
+            "id": "2c4c15abc41f8b0f4396",
+            "review_id": "d5d0b99a43170ffc72b90294ee9a05b8",
+            "order_id": "e6f4dcae8f74d19df7183854d1276023",
+            "text": "rapidez na entrega...ótimo",
+            "score": 5,
+            "review_date": "2017-06-22",
+            "purchase_date": "2017-06-19",
+            "categories": [
+              "perfumaria"
+            ],
+            "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "e6f4dcae8f74d19df7183854d1276023"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "e6f4dcae8f74d19df7183854d1276023",
+                "purchase_date": "2017-06-19",
+                "categories": [
+                  "perfumaria"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-06-21",
+                "estimated_delivery_date": "2017-06-30"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
+            "chunk": 0,
+            "similarity": 0.77292,
+            "citation": "E4",
+            "bm25_score": 9.80151,
+            "rrf_score": 0.0287785,
+            "dense_rank": 10,
+            "lexical_rank": 9,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.8777433,
+            "matching_orders": [
+              {
+                "order_id": "e6f4dcae8f74d19df7183854d1276023",
+                "purchase_date": "2017-06-19",
+                "categories": [
+                  "perfumaria"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-06-21",
+                "estimated_delivery_date": "2017-06-30"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
             "id": "a11d4b316ba2ec9d9957",
@@ -305,54 +1112,144 @@
               "beleza_saude"
             ],
             "late_delivery": false,
+            "state": "RJ",
+            "uf": "RJ",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "92ee8a7ca1333a436b9d734e896c6aaa"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "92ee8a7ca1333a436b9d734e896c6aaa",
+                "purchase_date": "2017-08-19",
+                "categories": [
+                  "beleza_saude"
+                ],
+                "state": "RJ",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-08-25",
+                "estimated_delivery_date": "2017-09-18"
+              }
+            ],
+            "states": [
+              "RJ"
+            ],
             "chunk": 0,
             "similarity": 0.77624,
-            "citation": "E4"
+            "citation": "E5",
+            "bm25_score": 8.47625,
+            "rrf_score": 0.0247293,
+            "dense_rank": 7,
+            "lexical_rank": 42,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.7542435,
+            "matching_orders": [
+              {
+                "order_id": "92ee8a7ca1333a436b9d734e896c6aaa",
+                "purchase_date": "2017-08-19",
+                "categories": [
+                  "beleza_saude"
+                ],
+                "state": "RJ",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-08-25",
+                "estimated_delivery_date": "2017-09-18"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "e3f0ff0315e4e6a46231",
-            "review_id": "16603bb2f4f38c63a6b7fbc47bdec826",
-            "order_id": "2e85393d4ab82c2f5b44528d8a551606",
-            "text": "Muito eficiente Gostei muito da rapidez da entrega do produto, do atendimento eu indicaria sim.",
+            "id": "8645b68e09c454339015",
+            "review_id": "a96e2b052fa811cad8e561b5ecea0c93",
+            "order_id": "b647b0e8ecce1771ba6f6a0cc30d3f99",
+            "text": "Excelente atendimento e rapidez na execução da entrega.",
             "score": 5,
-            "review_date": "2018-08-25",
-            "purchase_date": "2018-08-16",
+            "review_date": "2018-06-29",
+            "purchase_date": "2018-06-25",
             "categories": [
-              "beleza_saude"
+              "instrumentos_musicais"
             ],
             "late_delivery": false,
-            "chunk": 0,
-            "similarity": 0.76912,
-            "citation": "E5"
-          },
-          {
-            "id": "5a4ef7b016f2500e1522",
-            "review_id": "48238badca7cbae75ca051ac7be2e9e5",
-            "order_id": "28c949172daaa2b250fc70ed64a45517",
-            "text": "Recomen super rápida a entrega",
-            "score": 5,
-            "review_date": "2018-08-30",
-            "purchase_date": "2018-08-27",
-            "categories": [
-              "esporte_lazer"
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "b647b0e8ecce1771ba6f6a0cc30d3f99"
             ],
-            "late_delivery": false,
+            "order_metadata": [
+              {
+                "order_id": "b647b0e8ecce1771ba6f6a0cc30d3f99",
+                "purchase_date": "2018-06-25",
+                "categories": [
+                  "instrumentos_musicais"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-06-28",
+                "estimated_delivery_date": "2018-07-17"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
-            "similarity": 0.78241,
-            "citation": "E6"
+            "similarity": 0.76083,
+            "citation": "E6",
+            "bm25_score": 8.47625,
+            "rrf_score": 0.0245682,
+            "dense_rank": 13,
+            "lexical_rank": 32,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.74933,
+            "matching_orders": [
+              {
+                "order_id": "b647b0e8ecce1771ba6f6a0cc30d3f99",
+                "purchase_date": "2018-06-25",
+                "categories": [
+                  "instrumentos_musicais"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-06-28",
+                "estimated_delivery_date": "2018-07-17"
+              }
+            ],
+            "retrieval_method": "hybrid"
           }
         ],
         "insufficient": false,
-        "mode": "extractive"
+        "mode": "extractive",
+        "status": "ok",
+        "question": "O que os clientes elogiam sobre a rapidez da entrega?",
+        "resolved_query": {
+          "route": "rag",
+          "filters": {
+            "score_min": 4,
+            "score_max": 5
+          },
+          "notes": [],
+          "query": "O que os clientes elogiam sobre a rapidez da entrega?"
+        },
+        "elapsed_seconds": 0.281
       }
     },
     {
       "question": "Quais reclamações mencionam produto diferente do comprado?",
       "expected_refusal": false,
       "insufficient": false,
-      "lexical_precision_proxy_at_k": 0.6666666666666666,
+      "lexical_precision_proxy_at_k": 0.8333333333333334,
       "result": {
-        "answer": "Evidências recuperadas (modo extrativo, sem geração por LLM):\n\n[E1] Nota 1: “O produto chegou diferente do comprado”\n\n[E2] Nota 1: “reclamação produto incorreto”\n\n[E3] Nota 1: “Comprei um produto e recebi outro e inferior. Gostaria de receber uma resposta à reclamação que fiz anteriormente. Att. Suzana Costa”\n\n[E4] Nota 1: “Se houve alguma dificuldade para entrega do produto, no mínimo, o comprador deveria ser avisado e negociado uma nova situação de entrega.”\n\n[E5] Nota 1: “muitos desencontros nas entregas de produtos”\n\n[E6] Nota 1: “Produto errado Entrega do produto diferente do solicitado Aguardo orientação para a troca”\n\nEsses relatos não permitem estimar a frequência do problema em toda a base.",
+        "answer": "Evidências recuperadas (modo extrativo):\n\n[E1] Nota 1: “O produto chegou diferente do comprado”\n\n[E2] Nota 1: “O produto enviado é diferente do produto comprado, solicito a troca do produto.”\n\n[E3] Nota 1: “reclamação produto incorreto”\n\n[E4] Nota 1: “Recebi o produto diferente do que foi anunciado e comprado.”\n\n[E5] Nota 1: “Produto Diferente O produto que recebi é diferente do produto anunciado.”\n\n[E6] Nota 2: “produto entregue totalmente diferente do comprado”\n\nEsses relatos não permitem estimar frequência em toda a base.",
         "evidence": [
           {
             "id": "9022acf9022bee82fde2",
@@ -366,9 +1263,119 @@
               "telefonia"
             ],
             "late_delivery": false,
+            "state": "MG",
+            "uf": "MG",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "8440ebc9a2a4aaa712d4064c35e52995"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "8440ebc9a2a4aaa712d4064c35e52995",
+                "purchase_date": "2017-12-05",
+                "categories": [
+                  "telefonia"
+                ],
+                "state": "MG",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-12-11",
+                "estimated_delivery_date": "2018-01-03"
+              }
+            ],
+            "states": [
+              "MG"
+            ],
             "chunk": 0,
             "similarity": 0.72941,
-            "citation": "E1"
+            "citation": "E1",
+            "bm25_score": 12.85141,
+            "rrf_score": 0.0327869,
+            "dense_rank": 1,
+            "lexical_rank": 1,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 1.0,
+            "matching_orders": [
+              {
+                "order_id": "8440ebc9a2a4aaa712d4064c35e52995",
+                "purchase_date": "2017-12-05",
+                "categories": [
+                  "telefonia"
+                ],
+                "state": "MG",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-12-11",
+                "estimated_delivery_date": "2018-01-03"
+              }
+            ],
+            "retrieval_method": "hybrid"
+          },
+          {
+            "id": "9fc3047248dcb003229b",
+            "review_id": "0e0b79d9fc0ee15927ba7dc8d4f3918c",
+            "order_id": "42ee4f991900767ba353278c7c4f4df3",
+            "text": "O produto enviado é diferente do produto comprado, solicito a troca do produto.",
+            "score": 1,
+            "review_date": "2017-11-04",
+            "purchase_date": "2017-10-31",
+            "categories": [
+              "pet_shop"
+            ],
+            "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "42ee4f991900767ba353278c7c4f4df3"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "42ee4f991900767ba353278c7c4f4df3",
+                "purchase_date": "2017-10-31",
+                "categories": [
+                  "pet_shop"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-11-03",
+                "estimated_delivery_date": "2017-11-08"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
+            "chunk": 0,
+            "similarity": 0.71118,
+            "citation": "E2",
+            "bm25_score": 10.52079,
+            "rrf_score": 0.0298574,
+            "dense_rank": 8,
+            "lexical_rank": 6,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.9106506,
+            "matching_orders": [
+              {
+                "order_id": "42ee4f991900767ba353278c7c4f4df3",
+                "purchase_date": "2017-10-31",
+                "categories": [
+                  "pet_shop"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-11-03",
+                "estimated_delivery_date": "2017-11-08"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
             "id": "7c0d77bcdd1ffcdd1b7b",
@@ -382,77 +1389,261 @@
               "telefonia"
             ],
             "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "e74c5411558a7a26de918d23a07e1cef"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "e74c5411558a7a26de918d23a07e1cef",
+                "purchase_date": "2018-07-10",
+                "categories": [
+                  "telefonia"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-07-13",
+                "estimated_delivery_date": "2018-07-26"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
             "similarity": 0.72256,
-            "citation": "E2"
+            "citation": "E3",
+            "bm25_score": 8.61368,
+            "rrf_score": 0.0297095,
+            "dense_rank": 4,
+            "lexical_rank": 11,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.90614,
+            "matching_orders": [
+              {
+                "order_id": "e74c5411558a7a26de918d23a07e1cef",
+                "purchase_date": "2018-07-10",
+                "categories": [
+                  "telefonia"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-07-13",
+                "estimated_delivery_date": "2018-07-26"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "5909c220998efc6c1c58",
-            "review_id": "268fe3c6b00758e3a602f8cd3ed93c1f",
-            "order_id": "faeb0ac7f6e1480f3dd14e5cd802dc8a",
-            "text": "Comprei um produto e recebi outro e inferior. Gostaria de receber uma resposta à reclamação que fiz anteriormente. Att. Suzana Costa",
+            "id": "3859e55a57e2cdb86c83",
+            "review_id": "6137736e63c63b146f3012dd3419e657",
+            "order_id": "8283cff259b1a37c914671e1385a2f72",
+            "text": "Recebi o produto diferente do que foi anunciado e comprado.",
             "score": 1,
-            "review_date": "2018-02-07",
-            "purchase_date": "2018-01-04",
+            "review_date": "2017-12-12",
+            "purchase_date": "2017-11-29",
             "categories": [
-              "audio"
+              "beleza_saude"
             ],
             "late_delivery": false,
-            "chunk": 0,
-            "similarity": 0.71497,
-            "citation": "E3"
-          },
-          {
-            "id": "b9bf5858765ee6870097",
-            "review_id": "c20dc8f95c7e0a17a4192984287a48ef",
-            "order_id": "5cae141c3dd545d1d08687790cf11e33",
-            "text": "Se houve alguma dificuldade para entrega do produto, no mínimo, o comprador deveria ser avisado e negociado uma nova situação de entrega.",
-            "score": 1,
-            "review_date": "2017-07-02",
-            "purchase_date": "2017-06-16",
-            "categories": [
-              "automotivo"
+            "state": "RS",
+            "uf": "RS",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "8283cff259b1a37c914671e1385a2f72"
             ],
-            "late_delivery": true,
+            "order_metadata": [
+              {
+                "order_id": "8283cff259b1a37c914671e1385a2f72",
+                "purchase_date": "2017-11-29",
+                "categories": [
+                  "beleza_saude"
+                ],
+                "state": "RS",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-12-11",
+                "estimated_delivery_date": "2017-12-29"
+              }
+            ],
+            "states": [
+              "RS"
+            ],
             "chunk": 0,
-            "similarity": 0.6772,
-            "citation": "E4"
+            "similarity": 0.66473,
+            "citation": "E4",
+            "bm25_score": 11.98259,
+            "rrf_score": 0.0280681,
+            "dense_rank": 22,
+            "lexical_rank": 3,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.8560782,
+            "matching_orders": [
+              {
+                "order_id": "8283cff259b1a37c914671e1385a2f72",
+                "purchase_date": "2017-11-29",
+                "categories": [
+                  "beleza_saude"
+                ],
+                "state": "RS",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2017-12-11",
+                "estimated_delivery_date": "2017-12-29"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "17a9e0e9831ae7882671",
-            "review_id": "949eca021ed60d00a2d2bda3cc686d4d",
-            "order_id": "d5d78aa1e1666a81b03bd8791c865fd3",
-            "text": "muitos desencontros nas entregas de produtos",
+            "id": "ef9d5965279517dc86c6",
+            "review_id": "4e7db7d9bdafdd99952285cc366d108a",
+            "order_id": "b360e877916b9d6b03877df56551e4dc",
+            "text": "Produto Diferente O produto que recebi é diferente do produto anunciado.",
             "score": 1,
-            "review_date": "2017-06-07",
-            "purchase_date": "2017-05-30",
+            "review_date": "2018-07-12",
+            "purchase_date": "2018-07-03",
             "categories": [
-              "cama_mesa_banho"
+              "telefonia"
             ],
             "late_delivery": false,
+            "state": "BA",
+            "uf": "BA",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "b360e877916b9d6b03877df56551e4dc"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "b360e877916b9d6b03877df56551e4dc",
+                "purchase_date": "2018-07-03",
+                "categories": [
+                  "telefonia"
+                ],
+                "state": "BA",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-07-11",
+                "estimated_delivery_date": "2018-08-03"
+              }
+            ],
+            "states": [
+              "BA"
+            ],
             "chunk": 0,
-            "similarity": 0.71271,
-            "citation": "E5"
+            "similarity": 0.69949,
+            "citation": "E5",
+            "bm25_score": 7.92612,
+            "rrf_score": 0.0272222,
+            "dense_rank": 12,
+            "lexical_rank": 15,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.8302778,
+            "matching_orders": [
+              {
+                "order_id": "b360e877916b9d6b03877df56551e4dc",
+                "purchase_date": "2018-07-03",
+                "categories": [
+                  "telefonia"
+                ],
+                "state": "BA",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-07-11",
+                "estimated_delivery_date": "2018-08-03"
+              }
+            ],
+            "retrieval_method": "hybrid"
           },
           {
-            "id": "30b5be6a534b278fa75b",
-            "review_id": "08528f70f579f0c830189efc523d2182",
-            "order_id": "53c71d3953507c6239ff73917ed358c9",
-            "text": "Produto errado Entrega do produto diferente do solicitado Aguardo orientação para a troca",
-            "score": 1,
-            "review_date": "2018-08-03",
-            "purchase_date": "2018-07-24",
+            "id": "553435c2c7925773b2da",
+            "review_id": "ed19d7f5da6c2c6d4d79f4ec2425f63f",
+            "order_id": "02f751c4c2fc8ca376b65c8847b65f4d",
+            "text": "produto entregue totalmente diferente do comprado",
+            "score": 2,
+            "review_date": "2018-06-21",
+            "purchase_date": "2018-06-16",
             "categories": [
-              "cool_stuff"
+              "construcao_ferramentas_seguranca"
             ],
             "late_delivery": false,
+            "state": "SP",
+            "uf": "SP",
+            "delivery_status": "on_time",
+            "order_ids": [
+              "02f751c4c2fc8ca376b65c8847b65f4d"
+            ],
+            "order_metadata": [
+              {
+                "order_id": "02f751c4c2fc8ca376b65c8847b65f4d",
+                "purchase_date": "2018-06-16",
+                "categories": [
+                  "construcao_ferramentas_seguranca"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-06-20",
+                "estimated_delivery_date": "2018-07-05"
+              }
+            ],
+            "states": [
+              "SP"
+            ],
             "chunk": 0,
-            "similarity": 0.72543,
-            "citation": "E6"
+            "similarity": 0.63755,
+            "citation": "E6",
+            "bm25_score": 11.98259,
+            "rrf_score": 0.02603,
+            "dense_rank": 41,
+            "lexical_rank": 2,
+            "reranker_score": null,
+            "reranker": null,
+            "retrieval_score": 0.7939157,
+            "matching_orders": [
+              {
+                "order_id": "02f751c4c2fc8ca376b65c8847b65f4d",
+                "purchase_date": "2018-06-16",
+                "categories": [
+                  "construcao_ferramentas_seguranca"
+                ],
+                "state": "SP",
+                "delivery_status": "on_time",
+                "late_delivery": false,
+                "order_status": "delivered",
+                "delivered_date": "2018-06-20",
+                "estimated_delivery_date": "2018-07-05"
+              }
+            ],
+            "retrieval_method": "hybrid"
           }
         ],
         "insufficient": false,
-        "mode": "extractive"
+        "mode": "extractive",
+        "status": "ok",
+        "question": "Quais reclamações mencionam produto diferente do comprado?",
+        "resolved_query": {
+          "route": "rag",
+          "filters": {
+            "score_min": 1,
+            "score_max": 2
+          },
+          "notes": [],
+          "query": "Quais reclamações mencionam produto diferente do comprado?"
+        },
+        "elapsed_seconds": 0.172
       }
     },
     {
@@ -461,10 +1652,14 @@
       "insufficient": true,
       "lexical_precision_proxy_at_k": null,
       "result": {
-        "answer": "Não há evidências suficientes nas avaliações recuperadas para responder a essa pergunta. Reformule a pergunta ou ajuste os filtros.",
+        "answer": "Essa pergunta está fora do escopo das avaliações de compras da Olist.",
         "evidence": [],
         "insufficient": true,
-        "mode": "extractive"
+        "mode": "extractive",
+        "status": "out_of_scope",
+        "question": "Qual a previsão do tempo amanhã?",
+        "resolved_query": null,
+        "elapsed_seconds": 0.0
       }
     },
     {
@@ -473,10 +1668,14 @@
       "insufficient": true,
       "lexical_precision_proxy_at_k": null,
       "result": {
-        "answer": "Não há evidências suficientes nas avaliações recuperadas para responder a essa pergunta. Reformule a pergunta ou ajuste os filtros.",
+        "answer": "Essa pergunta está fora do escopo das avaliações de compras da Olist.",
         "evidence": [],
         "insufficient": true,
-        "mode": "extractive"
+        "mode": "extractive",
+        "status": "out_of_scope",
+        "question": "Qual é a capital da França?",
+        "resolved_query": null,
+        "elapsed_seconds": 0.0
       }
     }
   ]

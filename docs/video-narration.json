@@ -1,130 +1,136 @@
 [
   {
-    "title": "Voz do Cliente com RAG",
+    "title": "Escutar. Investigar. Conferir.",
     "body": [
-      "Olist · experiências de compra",
-      "Busca semântica + respostas com evidências",
+      "Voz do Cliente · Olist",
+      "RAG com recuperação híbrida e fontes verificáveis",
       "Wilker · Tech Challenge Fase 4"
     ],
-    "narration": "Este projeto apresenta uma solução de inteligência da voz do cliente com RAG, usando avaliações da Olist. O objetivo é permitir que gestores façam perguntas em linguagem natural e encontrem relatos que sustentam a resposta. Nesta apresentação veremos a arquitetura, os dados, os resultados reais e as limitações.",
+    "narration": "Este projeto transforma avaliações de compra em uma ferramenta de investigação da voz do cliente. O problema de negócio é encontrar reclamações e elogios em milhares de comentários sem perder a ligação com o relato original. Vamos percorrer a arquitetura e demonstrar resultados realmente executados. A apresentação utiliza narração sintética identificada e saídas exportadas da aplicação.",
     "label": "TECH CHALLENGE · FASE 4"
   },
   {
-    "title": "Do comentário ao insight",
+    "title": "Da base oficial ao conhecimento",
     "body": [
-      "Problema: milhares de relatos não estruturados",
-      "Notas ajudam, mas não explicam toda a experiência",
-      "Perguntas sobre entrega, produto e satisfação"
+      "99.224 linhas de avaliações lidas",
+      "56.537 sem título nem comentário",
+      "42.687 documentos · 42.370 avaliações únicas",
+      "Texto, nota e vínculos de pedido preservados"
     ],
-    "narration": "Uma empresa de comércio eletrônico recebe elogios e reclamações que não podem ser compreendidos apenas pela nota. O comentário revela atrasos, produtos danificados e experiências positivas. A solução organiza esse conteúdo e recupera evidências relevantes, permitindo uma investigação rastreável. A base é histórica e não descreve a operação atual da empresa.",
+    "narration": "Usamos os arquivos oficiais da Olist. Das noventa e nove mil duzentas e vinte e quatro linhas, cinquenta e seis mil quinhentas e trinta e sete não têm texto. A preparação preserva quarenta e dois mil seiscentos e oitenta e sete documentos, correspondentes a quarenta e dois mil trezentos e setenta identificadores de avaliação. A limpeza remove HTML e espaços e mascara padrões de email e telefone, preservando acentos e negações. O notebook registra essas contagens e os hashes dos arquivos.",
     "label": "TECH CHALLENGE · FASE 4"
   },
   {
-    "title": "Arquitetura",
+    "title": "Arquitetura com duas rotas",
     "body": [
-      "CSV Olist → limpeza e metadados",
-      "Fragmentos → embeddings → índice vetorial",
-      "Pergunta + filtros → cosseno + MMR",
-      "Contexto → LLM → validação → resposta"
+      "CSV → limpeza → corpus completo + metadados",
+      "Relatos → MiniLM + BM25 → RRF → contexto → LLM",
+      "Achados → conferência do trecho e da fonte → resposta",
+      "Frequência → corpus filtrado → contagens → resposta"
     ],
-    "narration": "O fluxo começa com a preparação dos arquivos oficiais. Os textos são divididos em fragmentos e transformados em vetores por um modelo multilíngue. A pergunta é representada pelo mesmo modelo. Depois dos filtros, a busca calcula similaridade de cosseno e diversifica os resultados. As avaliações selecionadas formam o contexto enviado ao modelo de linguagem. Por fim, a resposta passa pela validação de referências.",
+    "narration": "A pergunta é normalizada e seus filtros são identificados. Investigações qualitativas seguem o RAG: recuperação, seleção, contexto, geração e validação. Perguntas de frequência seguem uma camada analítica que percorre o corpus completo. Essa separação evita estimar prevalência a partir dos poucos resultados mais parecidos. As duas rotas exportam resposta, filtros e avaliações de origem.",
     "label": "TECH CHALLENGE · FASE 4"
   },
   {
-    "title": "Base de conhecimento",
+    "title": "Recuperação e integridade",
     "body": [
-      "99.224 avaliações lidas",
-      "56.537 sem texto descartadas",
-      "42.687 documentos indexados",
-      "Título + comentário; notas de 1 a 5"
+      "MiniLM multilíngue · 384 dimensões · cosseno exato",
+      "BM25 + fusão RRF; textos repetidos removidos",
+      "Nota, compra, categoria, UF e situação da entrega",
+      "Corpus, documentos e vetores com SHA-256"
     ],
-    "narration": "A ingestão leu 99224 avaliações do arquivo oficial. 56537 não tinham título nem comentário e foram descartadas. Nesta execução foram indexados 42687 documentos. Mantemos os acentos e as negações e removemos HTML e espaços redundantes. Os identificadores permitem voltar ao comentário original. Não confundimos quantidade de pedidos com quantidade de avaliações textuais.",
+    "narration": "O encoder multilíngue representa perguntas e documentos no mesmo espaço de trezentas e oitenta e quatro dimensões. A busca exata em NumPy é suficiente para este corpus. BM25 acrescenta sinais lexicais e a fusão RRF combina os rankings. O padrão usa busca híbrida sem MMR, escolhido no desenvolvimento. O índice valida hashes e rejeita inconsistências. Metadados podem ser atualizados sem reindexar apenas se textos, identificadores e ordem continuarem idênticos.",
     "label": "TECH CHALLENGE · FASE 4"
   },
   {
-    "title": "Escolhas técnicas",
+    "title": "Demonstração · investigar atrasos",
     "body": [
-      "Embeddings multilíngues locais · 384 dimensões",
-      "NumPy: busca vetorial exata, reproduzível",
-      "Metadados: nota, compra, categoria, atraso",
-      "MMR reduz repetição; um resultado por avaliação"
+      "O que relatam sobre demora na entrega?",
+      "[E1] demora na entrega demora na entrega",
+      "[E2] demora na entrega",
+      "Resultado real · avaliações e scores exportados"
     ],
-    "narration": "O modelo multilíngue produz vetores de 384 dimensões e permite buscas em português. Usamos NumPy para uma busca exata, suficiente para o tamanho deste protótipo e simples de reproduzir. As categorias são agregadas por pedido para evitar multiplicar avaliações. Atraso confirmado é calculado usando entrega real e prevista. Quando faltam datas, o atraso permanece desconhecido. O MMR reduz a redundância entre evidências.",
-    "label": "TECH CHALLENGE · FASE 4"
+    "narration": "Nesta investigação real, perguntamos o que os clientes relatam sobre demora na entrega. Os comentários exibidos foram recuperados pelo sistema. Cada um recebe um marcador de evidência, a nota e o identificador de origem. O modo extrativo permite inspecionar a busca antes de ativar a geração. Não se conclui que esses sejam os problemas mais frequentes apenas por estarem no topo.",
+    "label": "DEMONSTRAÇÃO · RECUPERAÇÃO EXECUTADA"
   },
   {
-    "title": "Demonstração · recuperação real",
+    "title": "Demonstração · geração com LLM",
     "body": [
       "O que os clientes relatam sobre atrasos na entrega?",
-      "Filtro: notas 1 a 2",
-      "[E1] Muita demora na entrega.",
-      "[E2] Gostaria de esclarecimentos acerca da entrega que está em atraso"
+      "Modelo local: Qwen2.5 0,5B · greedy",
+      "Sobre demora e prazo de entrega, o comentário registra: “Gostaria de esclarecimentos acerca da entrega que está em atraso” [E1].",
+      "Saída bruta e achados validados em llm-demo.json"
     ],
-    "narration": "Esta é uma execução real da pergunta sobre atrasos na entrega, filtrando avaliações com notas um e dois. A recuperação retorna comentários semanticamente próximos. Na tela vemos trechos da própria base, associados a citações. Cada evidência possui o identificador da avaliação, o pedido, a nota e a similaridade. Esses campos também aparecem na interface e no arquivo de resultados.",
-    "label": "DEMONSTRAÇÃO · RESULTADOS EXECUTADOS"
+    "narration": "A mesma pergunta foi executada com o Qwen local. O modelo recebe as fontes e gera um achado com tema, citação e trecho. O sistema confere a fonte e publica somente texto comprovado literalmente, com uma descrição neutra. O exemplo pequeno ficou próximo de uma síntese extrativa, limitação registrada no relatório. Uma tentativa anterior falhou no formato e foi bloqueada, com o registro preservado. Essa execução comprova o fluxo gerativo, sem presumir qualidade geral do modelo.",
+    "label": "DEMONSTRAÇÃO · LLM REAL"
   },
   {
-    "title": "Demonstração · geração por LLM",
+    "title": "Rastreabilidade até o pedido",
     "body": [
-      "Modelo: Qwen/Qwen2.5-0.5B-Instruct",
-      "[E1] Nota 1: Muita demora na entrega.\n[E2] Nota 1: Gostaria de esclarecimentos acerca da entrega que está em atraso.\n[E3] Nota 2: Compra Um demora pra entrega."
+      "[E1] Gostaria de esclarecimentos acerca da entrega que está em atraso",
+      "review_id: 7c4c2d10a57d4aab58a570a5a8ac9f2c",
+      "order_id: e269b2472c0546324acf4d09dd7acfab",
+      "O texto relata uma experiência; metadados descrevem o pedido"
     ],
-    "narration": "A mesma investigação foi executada com um modelo de linguagem local. O contexto contém apenas avaliações recuperadas. O sistema solicita uma resposta estruturada e citações. O resultado exibido foi salvo pela aplicação, não foi escrito manualmente como exemplo. O modelo pequeno permite reproduzir o fluxo sem chave, mas sua qualidade deve ser revista. Citações válidas por si só não provam que toda afirmação está correta.",
-    "label": "DEMONSTRAÇÃO · GERAÇÃO EXECUTADA"
+    "narration": "O marcador da resposta leva ao texto, ao identificador da avaliação e aos pedidos associados. Uma avaliação pode estar ligada a mais de um pedido. Por isso todos os filtros precisam coincidir no mesmo pedido, e o resultado mostra quais satisfazem o recorte. A nota não comprova a causa do problema. Uma reclamação textual de atraso também não é igual a atraso calculado pelas datas de entrega.",
+    "label": "DEMONSTRAÇÃO · FONTES"
   },
   {
-    "title": "Rastreabilidade",
+    "title": "Demonstração · frequência com base",
     "body": [
-      "[E1] Muita demora na entrega.",
-      "review_id: bb2810db10122816078f39284c68f2d1",
-      "order_id: 855c2d10e8d3135c6cd5af5dd14d080e",
-      "Nota: 1 · similaridade: 0.814"
+      "Pergunta: temas frequentes · notas 1–2 · SP",
+      "Base: 3.967 avaliações textuais únicas",
+      "Pedido não recebido: 959 (24,17%)",
+      "Troca, devolução ou reembolso: 610 (15,38%)",
+      "Produto diferente ou errado: 226 (5,70%)",
+      "Temas lexicais podem se sobrepor; percentuais não se somam"
     ],
-    "narration": "A rastreabilidade liga a resposta a avaliações específicas. Este cartão mostra o texto utilizado, o identificador da avaliação e o pedido. É possível verificar se a conclusão é sustentada pelo comentário. A nota funciona como filtro, mas não comprova a causa da insatisfação. O sistema não transforma uma amostra de resultados em uma estimativa de frequência para toda a população.",
-    "label": "TECH CHALLENGE · FASE 4"
+    "narration": "Agora perguntamos pelos temas frequentes nas avaliações de notas um e dois em São Paulo. O sistema identifica os filtros e conta todas as avaliações textuais únicas do recorte. Os números mostrados são calculados, sem estimativa livre do modelo de linguagem. As regras de tema são transparentes e podem falhar ou se sobrepor. O denominador exclui avaliações sem texto e não representa todos os clientes. Grupos menores que trinta não publicam percentuais.",
+    "label": "DEMONSTRAÇÃO · ANÁLISE EXECUTADA"
   },
   {
     "title": "Demonstração · experiências positivas",
     "body": [
-      "O que os clientes elogiam sobre a rapidez da entrega?",
-      "Filtro: notas 4 a 5",
+      "O que elogiam sobre rapidez da entrega?",
+      "Recorte desta execução: notas 4–5",
       "[E1] Muito bom a rapidez da entrega",
-      "[E2] Super recomendo Desde o pedido até a entrega, surpreendeu pela qualidade do produto e pela rapidez na entrega."
+      "[E2] Parabens pelo rapidez na entrega."
     ],
-    "narration": "Também é possível investigar experiências positivas. Nesta consulta sobre rapidez da entrega, aplicamos notas quatro e cinco e recuperamos comentários de elogio. A mesma infraestrutura permite explorar categorias específicas e períodos da compra. O modo extrativo expõe diretamente as evidências; a opção com LLM faz uma síntese apoiada nesses textos.",
-    "label": "DEMONSTRAÇÃO · RESULTADOS EXECUTADOS"
+    "narration": "A ferramenta também investiga elogios. Na pergunta sobre rapidez, esta execução filtra notas quatro e cinco. As evidências positivas vêm do mesmo corpus e preservam suas fontes. A interface permite refinar categoria, período e estado. Filtros da pergunta e dos controles são combinados por interseção; se entrarem em conflito, a aplicação pede correção em vez de ampliar o recorte.",
+    "label": "DEMONSTRAÇÃO · ELOGIOS"
   },
   {
-    "title": "Quando não há suporte",
+    "title": "Demonstração · quando se abster",
     "body": [
-      "Pergunta real: Qual a previsão do tempo amanhã?",
-      "Não há evidências suficientes nas avaliações recuperadas para responder a essa pergunta. Reformule a pergunta ou ajuste os filtros.",
-      "Sem resultados suficientes → sem geração"
+      "Entrega em 2099 → nenhuma evidência no recorte",
+      "Previsão do tempo → fora do escopo",
+      "Grupo pequeno → evidência insuficiente para percentuais",
+      "Fonte ou trecho inválido → geração bloqueada"
     ],
-    "narration": "O sistema reconhece exemplos fora do escopo, como a previsão do tempo. Também recusa quando os filtros não retornam avaliações suficientes ou quando a similaridade fica abaixo do limiar. A mensagem informa que não há evidências para responder. A barreira de escopo é uma heurística limitada, então perguntas ambíguas ainda precisam de avaliação e revisão.",
-    "label": "DEMONSTRAÇÃO · RECUSA EXECUTADA"
+    "narration": "Sem avaliações relevantes, a solução se abstém. O período de dois mil e noventa e nove não tem suporte na base histórica. Previsão do tempo fica fora do escopo. Grupos analíticos pequenos não sustentam os percentuais adotados pelo protótipo. Falhas de modelo ou de contrato aparecem como falha de geração, mantendo as fontes disponíveis. A barreira de escopo é uma heurística limitada, não um detector universal.",
+    "label": "DEMONSTRAÇÃO · RECUSAS EXECUTADAS"
   },
   {
-    "title": "Validação e limites",
+    "title": "Comparação e limites medidos",
     "body": [
-      "Testes de filtros, ingestão, recusa e citações",
-      "Busca semântica real com perguntas temáticas",
-      "Proxy lexical não substitui avaliação humana",
-      "Top-k não estima frequência na base inteira"
+      "Desenvolvimento · 16 perguntas: 58,33% → 67,71%",
+      "Reservadas · 8 perguntas: 77,08% → 81,25%",
+      "Precisão silver@6 · legado denso → híbrido",
+      "MRR reservado caiu: 0,9375 → 0,9167",
+      "Regex automáticas; sem auditoria humana independente"
     ],
-    "narration": "A validação inclui testes automatizados de ingestão, filtros, documentos únicos, recusa, citações e falhas de geração. A avaliação exploratória usa embeddings reais e verifica sinais lexicais dos temas recuperados. Essa métrica é apenas uma proxy, não uma medida completa de relevância ou fidelidade. Um próximo passo é anotar perguntas com avaliadores humanos e comparar estratégias de recuperação. Docker é fornecido como alternativa de execução, sem declaração de validação neste ambiente.",
+    "narration": "Comparamos estratégias nas mesmas perguntas, filtros e vetores. A precisão lexical no desenvolvimento passou de cinquenta e oito vírgula trinta e três para sessenta e sete vírgula setenta e um por cento. Em oito perguntas reservadas, o híbrido alcançou oitenta e um vírgula vinte e cinco por cento, contra setenta e sete vírgula zero oito do legado. Algumas consultas pioraram e o MRR caiu. A relevância vem de regras lexicais, não de juízes humanos, portanto esses números não são precisão geral nem provam superioridade em outro conjunto.",
     "label": "TECH CHALLENGE · FASE 4"
   },
   {
-    "title": "Como reproduzir",
+    "title": "Reprodução e decisões",
     "body": [
-      "pip install -r requirements.txt",
-      "python scripts/download_data.py",
-      "python -m voc.cli ingest",
-      "streamlit run app.py",
-      "Código, evidências e decisões no projeto"
+      "Instalar → baixar CSVs → construir índice → abrir Streamlit",
+      "Testes de filtros, contagens, integridade e geração",
+      "Notebook, benchmark e cenários reais versionados",
+      "Código, documentação e vídeo no repositório"
     ],
-    "narration": "O projeto contém o código, as dependências, as instruções, os testes e os resultados da demonstração. Para reproduzir, instale as bibliotecas, baixe a base oficial, construa o índice e inicie a interface. Para geração, configure um servidor compatível ou o backend local. A entrega reúne uma solução rastreável e reproduzível, com limites explícitos para evitar apresentar conclusões sem apoio nas avaliações.",
+    "narration": "A entrega reúne código, versões fixadas, notebook executado, testes e evidências reais. Para reproduzir, instale o ambiente, baixe os arquivos oficiais, construa o índice e abra o Streamlit. Configure o LLM para a etapa gerativa. As decisões priorizam fontes verificáveis e contagens com denominador claro. Avaliação humana independente, conjuntos maiores e revisão de dados pessoais continuam necessários para uso operacional. Os materiais estão preparados para a revisão e a apresentação acadêmica.",
     "label": "TECH CHALLENGE · FASE 4"
   }
 ]

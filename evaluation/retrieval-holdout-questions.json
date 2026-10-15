@@ -1,0 +1,10 @@
+[
+ {"id":"H01","question":"O que dizem os compradores que esperaram muito para receber?","relevance_regex":"atras|demor|prazo|nao (receb|cheg)","filters":{"score_max":2}},
+ {"id":"H02","question":"Há reclamações de equipamentos que pararam de funcionar?","relevance_regex":"defeit|nao funciona|parou|quebrad|danific|avari|estragad","filters":{"score_max":2}},
+ {"id":"H03","question":"Os consumidores gostaram de receber antes da data combinada?","relevance_regex":"antes|rapid|adiant|prazo|veloz","filters":{"score_min":4}},
+ {"id":"H04","question":"Como foram as experiências com a cor ou o tamanho errado?","relevance_regex":"cor|tamanho|errad|diferent|trocad","filters":{"score_max":2}},
+ {"id":"H05","question":"Quais relatos descrevem caixas amassadas ou produtos mal protegidos?","relevance_regex":"caixa|amass|embala|avari|danific|quebrad","filters":{"score_max":2}},
+ {"id":"H06","question":"Clientes conseguiram contato e retorno da loja?","relevance_regex":"atend|contato|respost|responde|telefone|email|e-mail|retorno","filters":{"score_max":2}},
+ {"id":"H07","question":"O que contam sobre solicitar o estorno depois de devolver a compra?","relevance_regex":"estorn|devol|reembols|dinheiro|cancel|ressarc","filters":{"score_max":2}},
+ {"id":"H08","question":"O que dizem sobre montar o móvel sem instruções?","relevance_regex":"mont|manual|instruc|peca","filters":{"category":"moveis_decoracao"}}
+]

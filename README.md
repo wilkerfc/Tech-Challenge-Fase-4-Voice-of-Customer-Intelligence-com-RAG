@@ -1,175 +1,177 @@
-# Voice of Customer Intelligence com RAG
+# Olist · Voice of Customer Intelligence com RAG
 
-Projeto do Tech Challenge - Fase 4 (IAST): exploração das avaliações do **Brazilian E-Commerce Public Dataset by Olist** com recuperação semântica, filtros de contexto e respostas rastreáveis.
+[![Testes](https://github.com/wilkerfc/Tech-Challenge-Fase-4-Voice-of-Customer-Intelligence-com-RAG/actions/workflows/tests.yml/badge.svg)](https://github.com/wilkerfc/Tech-Challenge-Fase-4-Voice-of-Customer-Intelligence-com-RAG/actions/workflows/tests.yml)
 
-## O que a solução entrega
+**Das avaliações de compra a respostas com fontes verificáveis.** Projeto do Tech Challenge — Fase 4 (IAST), usando a base pública **Brazilian E-Commerce Public Dataset by Olist**.
 
-- Preparação da base oficial, preservando comentário, título, identificadores e metadados.
-- Embeddings locais multilíngues com `paraphrase-multilingual-MiniLM-L12-v2`.
-- Busca por similaridade de cosseno, filtros antes do ranking e diversidade por MMR.
-- Interface Streamlit com notas, categorias, período da compra e atraso confirmado.
-- **Modo LLM:** pipeline RAG completo, geração via endpoint compatível com chat completions e referências `[E1]` etc.
-- **Modo extrativo:** recupera e exibe trechos reais sem geração. Útil para validar a busca sem serviço de LLM; sozinho não cumpre a etapa de geração exigida pelo desafio.
-- Recusa diante de baixa similaridade, menos de duas avaliações, filtros sem resultados e alguns temas claramente fora do escopo.
-- Testes automatizados, avaliação exploratória reproduzível e roteiro de apresentação.
+A solução permite investigar reclamações e elogios em português, aplicar filtros de contexto e conferir os comentários de origem. Perguntas sobre frequência usam uma camada analítica que conta avaliações únicas no corpus completo; respostas qualitativas usam recuperação semântica e lexical, contexto e LLM.
 
-## Execução rápida (Python 3.12)
+**[Vídeo da apresentação](docs/apresentacao.mp4)** · [Arquitetura e decisões](docs/arquitetura.md) · [Avaliação](docs/avaliacao.md) · [Requisitos do enunciado](docs/criterios-aceite.md) · [Notebook executado](notebooks/01_exploracao_e_decisoes.ipynb)
 
-```bash
+## Entregas e comportamento
+
+| Necessidade | Implementação |
+|---|---|
+| Encontrar relatos relevantes | Embeddings multilíngues MiniLM + BM25 com fusão RRF; filtros antes do ranking; textos repetidos removidos |
+| Responder com fontes | LLM seleciona achados com tema, citação e trecho; aplicação confere a cópia literal e renderiza a resposta |
+| Investigar padrões | Temas lexicais contados sobre todos os `review_id` textuais elegíveis; denominador, cobertura e sobreposição explícitos |
+| Explorar contexto | Nota, compra, categoria, UF e situação da entrega, pela interface ou por linguagem natural |
+| Não fabricar resposta | Estados distintos de fora do escopo, nenhuma evidência, evidência insuficiente e falha de geração |
+| Reproduzir e auditar | Hashes dos dados/índice, versões fixadas, testes, notebook, comparação pareada e resultados reais exportados |
+
+## Executar no Windows — Python 3.12
+
+Na pasta do projeto, execute **uma linha de cada vez**. Estes comandos funcionam no CMD e no PowerShell e dispensam ativação do ambiente:
+
+```text
 python -m venv .venv
+.venv\Scripts\python.exe -m pip install --no-cache-dir -r requirements-lock.txt
+.venv\Scripts\python.exe scripts/download_data.py
+.venv\Scripts\python.exe -m voc.cli ingest --raw data/raw --quantize
+.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Ative com `.venv\Scripts\Activate.ps1` no PowerShell ou `source .venv/bin/activate` no Linux/macOS.
+Abra `http://localhost:8501`. Download dos dados/modelos requer internet; a primeira indexação em CPU demora. Para Linux/macOS, crie o ambiente, ative com `source .venv/bin/activate` e execute os mesmos comandos com `python` no lugar de `.venv\Scripts\python.exe`. O lock registra o ambiente CPU validado; `requirements.txt` fixa as dependências principais. Docker é uma alternativa descrita abaixo, sem execução validada nesta entrega.
 
-```bash
-python -m pip install -r requirements.txt
-python scripts/download_data.py
-python -m voc.cli ingest --raw data/raw
-streamlit run app.py
-```
+O comando acima reproduz a quantização dinâmica int8 do **encoder** usada nos resultados. Omita `--quantize` para embeddings float32, mas reavalie a recuperação nessa configuração. O manifesto registra essa escolha e a consulta usa a mesma variante. `VOC_CPU_THREADS` controla as threads (padrão 1).
 
-Para reproduzir as versões transitivas do ambiente Windows/CPU usado na validação, há `requirements-lock.txt`, que inclui o índice oficial de wheels CPU do PyTorch. O caminho padrão acima usa as dependências principais fixadas; o lock é uma referência mais estrita do ambiente testado.
+Para um smoke test menor, acrescente `--limit 3000` à ingestão. Essa seleção segue a ordem do CSV, não representa uma amostra aleatória; omita o limite e reconstrua para analisar toda a base. Dados, índices e pesos não são versionados.
 
-Abra `http://localhost:8501`. A primeira indexação baixa o modelo do Hugging Face, requer internet e pode demorar em CPU. Os índices ficam em `data/index`; são locais e não são versionados. Cerca de 100 mil pedidos não significa 100 mil comentários válidos: a ingestão informa a quantidade efetiva.
+Se o download anônimo falhar, obtenha os CSVs na [página oficial da Olist no Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce/data). Reviews é obrigatório; orders, items, products e customers enriquecem os metadados. Da tabela de clientes usa-se somente a UF, sem nomes, IDs de clientes ou endereço no índice.
 
-Para um teste rápido: `python -m voc.cli ingest --raw data/raw --limit 3000`. A amostra usa as primeiras avaliações válidas na ordem do CSV, **não é aleatória nem representativa**. Reindexe sem `--limit` para explorar toda a base.
+## Geração real com LLM
 
-Para acelerar em CPU, use `python -m voc.cli ingest --raw data/raw --quantize`: quantização dinâmica int8 das camadas lineares. Essa escolha é registrada no manifesto e reaplicada à consulta. Ela pode alterar ligeiramente os vetores e deve ser avaliada nos resultados. `VOC_CPU_THREADS` controla paralelismo (padrão 1, adequado a ambientes com CPU limitada). O relatório informa se a execução usou quantização.
+A aplicação oferece **Explorar evidências** (extrativo, sem LLM) e **Síntese verificada com LLM**. O modo extrativo é útil para inspecionar a recuperação; sozinho não demonstra a etapa gerativa exigida no desafio.
 
-Se o download anônimo do Kaggle ficar indisponível, baixe os CSVs diretamente da [página oficial](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce/data) e coloque-os em `data/raw`. O arquivo de reviews é obrigatório; orders, order_items e products enriquecem os filtros. Nunca publique credenciais Kaggle.
-
-## Ativar a geração por LLM
-
-Uma opção local é instalar Ollama e disponibilizar um modelo capaz de responder em português e JSON:
-
-```bash
-ollama pull qwen2.5:7b
-ollama serve
-```
-
-Se o serviço já estiver ativo, não é necessário iniciar outra instância. Configure no PowerShell:
-
-```powershell
-$env:LLM_BASE_URL='http://localhost:11434/v1'
-$env:LLM_MODEL='qwen2.5:7b'
-$env:LLM_API_KEY='ollama'
-streamlit run app.py
-```
-
-No Linux/macOS use `export LLM_BASE_URL=...`. Selecione **Síntese com LLM** na interface. Também é possível usar outro servidor compatível, respeitando seu modelo, autenticação e suporte a `response_format=json_object`. `.env.example` é apenas referência: a aplicação lê variáveis do processo e **não carrega `.env` automaticamente**.
-
-```bash
-python -m voc.cli ask "O que os clientes relatam sobre atrasos na entrega?" --max-score 2 --mode llm
-```
-
-Sem um servidor LLM configurado, use `--mode extractive`. Falhas de geração aparecem explicitamente e mantêm as evidências disponíveis. A aplicação não apresenta uma resposta extrativa como se fosse uma síntese gerada.
-
-Também há um backend Transformers local para reproduzir sem Ollama nem chave. Ele baixa os pesos do Hugging Face e roda em CPU, com maior latência. Exemplo PowerShell:
+Para executar em CPU sem chave nem serviço externo, configure no **PowerShell**:
 
 ```powershell
 $env:LLM_BASE_URL='local'
 $env:LLM_MODEL='Qwen/Qwen2.5-0.5B-Instruct'
-python -m voc.cli ask "O que os clientes relatam sobre atrasos na entrega?" --max-score 2 --mode llm
+.venv\Scripts\python.exe scripts/demo_llm.py
+.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-O backend local usa geração greedy, até 180 tokens e saída textual com citações. A aplicação extrai os marcadores e valida suas referências antes de construir o resultado estruturado. Já o endpoint remoto usa JSON. Modelos maiores podem melhorar a qualidade, com maior custo de memória e latência. No experimento inicial, o modelo 0,5B falhou ao escrever JSON, e o 1,5B com quantização apresentou repetição; essas saídas foram preservadas e bloqueadas. Por isso a geração local usa texto e **não aplica quantização por padrão**. `LLM_QUANTIZE=1` é experimental. Para pesos já baixados, `LLM_MODEL_PATH` pode apontar a uma pasta local compatível.
+No **CMD**, configure cada variável em uma linha:
+
+```bat
+set "LLM_BASE_URL=local"
+set "LLM_MODEL=Qwen/Qwen2.5-0.5B-Instruct"
+.venv\Scripts\python.exe scripts/demo_llm.py
+```
+
+O modelo pequeno é uma opção de reprodução com maior limitação de qualidade. O backend usa geração greedy, até 180 tokens e exemplos do contrato no prompt. Pesos já baixados podem ser apontados por `LLM_MODEL_PATH`. A quantização do **LLM** fica desabilitada por padrão; a opção experimental `LLM_QUANTIZE=1` não é recomendada pelos experimentos registrados.
+
+Também há endpoint compatível com chat completions, por exemplo Ollama. Disponibilize o modelo no serviço e configure `LLM_BASE_URL=http://localhost:11434/v1`, `LLM_MODEL=qwen2.5:7b` e `LLM_API_KEY=ollama`. O endpoint precisa aceitar JSON em `response_format`. Esse caminho possui testes de contrato com mock; não foi validado com serviço real neste ambiente. `.env.example` documenta variáveis, mas o processo Python não carrega `.env` automaticamente.
+
+**Contrato de geração:** o LLM organiza até três achados `{theme, citation, quote}` (até dois no prompt local). O verificador rejeita fontes inexistentes, trechos inventados ou atribuídos à fonte errada, temas sem sinal no trecho, campos livres e recusas contraditórias. A resposta é renderizada com descrições neutras e as citações literais. Isso privilegia rastreabilidade e restringe a expressividade; não é uma síntese livre nem um verificador universal de entailment. Os comentários continuam sendo alegações dos consumidores, não fatos operacionais comprovados. Veja entrada, saída bruta e resultado em [evaluation/llm-demo.json](evaluation/llm-demo.json).
+
+## Exemplos para investigar
+
+| Pergunta | Caminho |
+|---|---|
+| O que os clientes relatam sobre atrasos na entrega? | RAG; filtre notas 1–2 se desejar |
+| Quais relatos mencionam produtos quebrados ou com defeito? | RAG com fontes do comentário |
+| O que elogiam sobre a rapidez da entrega? | RAG; notas 4–5 são um filtro opcional |
+| Quais os temas mais frequentes nas avaliações com notas 1 e 2 em SP? | Análise de todas as avaliações textuais elegíveis |
+| Quantas avaliações mencionam atraso em 2018? | Contagem lexical, período da compra e denominador explícitos |
+| O que relatam sobre entrega em 2099? | Sem evidências no recorte histórico |
+| Qual a previsão do tempo amanhã? | Fora do escopo |
+
+Filtros manuais e inferidos são combinados por **interseção**; conflitos geram uma mensagem, sem ampliar o recorte silenciosamente. A interpretação é exibida na interface e no JSON. O extrator é baseado em regras, com vocabulário limitado; períodos relativos exigem datas explícitas. Menção textual a atraso e atraso confirmado pelas datas são conceitos distintos.
+
+Pelo terminal:
+
+```text
+python -m voc.cli ask "O que relatam sobre atraso?" --max-score 2 --mode llm --output resultado.json
+python -m voc.cli ask "Quais os temas mais frequentes nas avaliações com notas 1 e 2 em SP?"
+python -m voc.cli ask "O que dizem sobre embalagem?" --state SP --date-from 2018-01-01 --algorithm hybrid
+```
 
 ## Arquitetura
 
 ```mermaid
 flowchart TD
-    A[CSVs oficiais Olist] --> B[Limpeza e joins por pedido]
-    B --> C[Fragmentos e metadados]
-    C --> D[Embeddings multilíngues normalizados]
-    D --> E[Índice NumPy + JSON]
-    Q[Pergunta e filtros] --> N[Normalização e barreira de escopo]
-    N --> R[Cosseno e seleção MMR]
-    E --> R
-    R --> G{Evidências suficientes?}
-    G -->|Não| F[Recusa e evidências disponíveis]
-    G -->|Sim| X[Contexto com identificadores]
-    X --> L[LLM ou modo extrativo]
-    L --> V[Validação de referências]
-    V --> U[Resposta e avaliações de origem]
+    A[CSVs oficiais Olist] --> B[Limpeza e vínculos de pedidos]
+    B --> C[Corpus completo e metadados]
+    C --> D[Chunks e embeddings MiniLM]
+    D --> E[NumPy e JSON com hashes]
+    Q[Pergunta e filtros] --> P[Normalização e resolução do recorte]
+    P --> R{Tipo de pergunta}
+    R -->|Relatos| H[Busca densa e BM25 com RRF]
+    E --> H
+    H --> G[Seleção e política de evidência]
+    G --> X[Contexto identificado e limitado]
+    X --> L[LLM gera achados com fontes]
+    L --> V[Validação de tema e trecho literal]
+    R -->|Frequência| N[Contagem por review_id no corpus]
+    C --> N
+    N --> F[Validação dos fatos numéricos]
+    V --> U[Resposta e fontes exportáveis]
+    F --> U
+    G -->|Sem suporte| S[Abstenção explícita]
 ```
 
-O índice usa busca vetorial exata em memória: para dezenas de milhares de comentários e 384 dimensões, é simples de reproduzir e não exige um banco externo. O arquivo `vectors.npy` armazena os vetores e `documents.json` liga cada linha ao fragmento. Escalas maiores justificam FAISS, pgvector ou outro índice ANN; aqui privilegia-se auditabilidade. Detalhes e limites em [docs/arquitetura.md](docs/arquitetura.md).
+MiniLM gera vetores normalizados de 384 dimensões. Para 42 mil documentos, a busca exata em memória evita um serviço adicional; o índice não é aproximado. BM25 captura termos específicos, RRF combina rankings e a deduplicação evita repetir o mesmo texto. MMR e cross-encoder são opções explícitas; o padrão usa **híbrido sem MMR**, selecionado no conjunto de desenvolvimento. O reranker tem teste de integração controlado, sem benchmark real com seus pesos. O limiar de cosseno `0.30` e o mínimo de duas avaliações únicas são heurísticas, não probabilidades calibradas.
 
-## Dados e decisões
+## Preparação e unidade de contagem
 
-Título e mensagem são combinados, HTML e espaços redundantes são removidos. Avaliações sem ambos os textos e notas inválidas são descartadas. Mantêm-se acentos, negações e erros linguísticos relevantes. Um identificador derivado de `review_id + order_id + texto` preserva reviews com ID repetido em pedidos diferentes e elimina duplicatas exatas. Categorias são conjuntos por pedido, evitando multiplicar reviews em joins com itens. Atraso compara as datas de entrega efetiva e estimada; entrega desconhecida permanece `null`.
+Execução sobre os CSVs oficiais: **99.224 linhas lidas, 56.537 sem texto, 42.687 documentos textuais e 42.370 `review_id` textuais únicos**. Título e mensagem são combinados, HTML e espaços redundantes são removidos, acentos/negações são preservados e padrões de email/telefone são mascarados. Isso não garante anonimização completa. Notas inválidas e duplicatas exatas são rejeitadas, sem inventar comentários ausentes.
 
-Fragmentos de até 90 palavras, com sobreposição de 20, reduzem o risco de truncamento; o limite do tokenizer do modelo continua sendo uma restrição. MMR reduz redundância e a seleção impede duas evidências do mesmo documento. Notas são filtros de satisfação, não um classificador do sentimento do texto. O limiar padrão `0.30` e o mínimo de duas evidências são heurísticas ajustáveis, não uma garantia de resposta correta.
+Um ID derivado de `review_id + order_id + texto` preserva vínculos reais e variantes. Itens viram conjuntos de categorias por pedido, evitando multiplicação nos joins. Há **307 avaliações ligadas a mais de um pedido**. Filtros de UF, categoria, data e entrega precisam coincidir no mesmo pedido associado; `matching_orders` registra quais satisfazem o recorte. O texto não identifica necessariamente a qual pedido se refere.
 
-## Exemplos
+Analytics reúne as variantes e conta cada `review_id` uma vez. Temas usam regras lexicais versionadas, com sobreposição e cobertura explícitas; não são um classificador de causas validado por humanos. Avaliações sem texto ficam fora do denominador. Percentuais não são publicados em grupos menores que 30 avaliações; esse mínimo é uma política do protótipo, não uma garantia estatística. Números e texto da resposta analítica são renderizados dos mesmos fatos, sem prosa numérica livre do LLM.
 
-| Pergunta | Exploração |
-|---|---|
-| O que os clientes relatam sobre atrasos na entrega? | Notas 1-2; opcionalmente atraso confirmado |
-| Quais relatos existem sobre produtos quebrados ou com defeito? | Notas 1-2; evidências do texto |
-| O que os clientes elogiam sobre a rapidez da entrega? | Notas 4-5 |
-| Quais reclamações mencionam produto diferente do comprado? | Notas 1-2 |
-| Qual a previsão do tempo amanhã? | Recusa por tema fora do escopo |
+O índice schema 2 guarda SHA-256 de documentos, corpus e vetores e recusa alterações acidentais. Textos/IDs/ordem alterados exigem reindexação. Para atualizar somente metadados de um índice compatível: `python scripts/refresh_metadata.py --data data/raw --dry-run`, depois repita sem `--dry-run`. As revisões padrão dos pesos são fixadas: MiniLM `e8f8c211226b894fcb81acc59f3b34ba3efd5f42` e Qwen 0,5B `7ae557604adf67be50417f59c2c2f167def9a775`.
 
-As respostas reais do modo extrativo estão em [evaluation/results.json](evaluation/results.json), quando geradas pela avaliação. Uma síntese LLM depende do modelo configurado e precisa ser validada pelo conteúdo citado. O top-k não permite concluir quais problemas são mais frequentes em toda a base. Para essa pergunta, seria necessário classificar ou codificar todos os comentários, com validação amostral e denominadores explícitos.
+## Avaliação reproduzível
 
-Exemplo realmente executado no backend local, para a pergunta sobre atrasos:
+| Conjunto e unidade | Legado denso + MMR | Híbrido RRF padrão |
+|---|---:|---:|
+| 16 perguntas de desenvolvimento · precisão silver@6 | 58,33% | 67,71% |
+| 8 perguntas reservadas · precisão silver@6 | 77,08% | 81,25% |
+| 8 perguntas reservadas · MRR silver | 0,9375 | 0,9167 |
 
-> [E1] Nota 1: Muita demora na entrega.
-> [E2] Nota 1: Gostaria de esclarecimentos acerca da entrega que está em atraso.
-> [E3] Nota 2: Compra Um demora pra entrega.
+A precisão usa relevância automática por regex nos textos e divide pelo `k` solicitado. As mesmas perguntas, filtros, vetores e corpus são usados em cada comparação. O padrão foi congelado antes das oito perguntas reservadas. Há ganhos e perdas por consulta; a queda de MRR também é publicada. O conjunto é pequeno, relacionado aos temas de desenvolvimento e não possui anotação humana independente. Regex podem favorecer BM25; os números **não medem precisão geral, fidelidade do LLM nem superioridade sobre outro repositório**. Tabelas por pergunta, fontes e limites estão nos [resultados de desenvolvimento](evaluation/retrieval-benchmark.md) e [validação reservada](evaluation/retrieval-holdout.md).
 
-Essa saída foi produzida pelo Qwen 0,5B e ficou majoritariamente extrativa. A referência E1 corresponde ao review `bb2810db10122816078f39284c68f2d1`; todos os IDs, os textos e a saída bruta estão em [evaluation/llm-demo.json](evaluation/llm-demo.json). Não se presume capacidade analítica avançada desse modelo pequeno.
-
-## Validação
-
-```bash
+```text
 python -m pytest -q
-python scripts/evaluate.py --index data/index
+python scripts/run_notebook.py --raw data/raw
+python scripts/evaluate_retrieval.py --help
+python scripts/evaluate_scenarios.py
+python scripts/demo_llm.py
+python scripts/check_ui.py
 ```
 
-Os testes usam um encoder controlado para verificar filtros, deduplicação, recusa, rastreabilidade, falhas de API e contrato de geração sem baixar modelos. O segundo comando executa busca semântica real; sua precisão lexical é um **proxy exploratório**, não uma métrica humana de relevância ou fidelidade. Consulte [docs/avaliacao.md](docs/avaliacao.md) e os resultados versionados.
+Os 89 testes automatizados cobrem filtros, identidade e ausentes, contagens/denominadores, corrupção de índice, citações, trechos, recusa e falhas de API. Usam encoders e reranker controlados; a recuperação real é avaliada separadamente. Os [cenários reais](evaluation/scenarios.json) verificam rotas e estados sem LLM. [O relatório de validação](evaluation/validation.md) distingue os caminhos executados, mocks e limitações. Não existe auditoria humana nova de relevância ou fidelidade.
 
-## Docker
+## Docker e organização
 
-```bash
+```text
 docker compose build
 docker compose run --rm voc python scripts/download_data.py
-docker compose run --rm voc python -m voc.cli ingest
+docker compose run --rm voc python -m voc.cli ingest --quantize
 docker compose up
 ```
 
-O volume `./data` persiste o índice. Para Ollama no host, o compose aponta para `host.docker.internal:11434`. Variáveis podem ser ajustadas via ambiente ou pelo `.env` lido pelo Docker Compose. Docker é uma alternativa de reprodução; o resultado de validação descreve quais caminhos foram efetivamente testados.
-
-## Organização
+O volume `./data` persiste dados/índice. Compose aponta para Ollama em `host.docker.internal:11434`; ajuste conforme o ambiente. Docker não foi executado nesta validação.
 
 ```text
-app.py                 interface
-voc/data.py            preparação e metadados
-voc/retrieval.py       embeddings, persistência e busca
-voc/pipeline.py        contexto, geração e guardrails
-voc/cli.py             ingestão e perguntas pelo terminal
-scripts/               download e avaliação
-tests/                 testes independentes de modelos externos
-evaluation/            perguntas e resultados reproduzíveis
-docs/                  arquitetura, avaliação, apresentação e checklist
+app.py          interface Streamlit
+voc/            dados, consulta, busca, análise, geração e CLI
+scripts/        download, notebook, avaliações e verificação da interface
+tests/          testes sem download de modelos
+notebooks/      exploração executada, com contagens e decisões
+evaluation/     perguntas, resultados, proveniência e limitações
+docs/           arquitetura, critérios de aceite e apresentação
 ```
 
-## Limitações e privacidade
+## Entrega, limites e licenças
 
-Reviews podem conter dados pessoais; a limpeza mascara emails e telefones por padrões, mas não garante anonimização completa. Não há nomes de clientes nos joins usados. Avalie as evidências antes de enviá-las a um provedor externo. Os CSVs e índices não são publicados neste repositório. Validação de citações verifica existência e consistência das referências; não prova que toda afirmação é sustentada. A barreira de escopo cobre exemplos comuns e pode falhar em perguntas ambíguas. Revisão humana e um conjunto de avaliação anotado são os próximos passos.
+O [vídeo](docs/apresentacao.mp4) apresenta resultados executados com narração sintética identificada; [detalhes e duração](docs/video.md). O [mapa de critérios](docs/criterios-aceite.md) cobre o enunciado. A submissão no ambiente acadêmico e a comprovação opcional da trilha Databricks cabem ao aluno.
 
-## Entrega acadêmica
+A base histórica não descreve a operação atual. O filtro de escopo é limitado e perguntas ambíguas podem recuperar comentários inadequados. Literalidade reduz invenção, mas não comprova relevância, veracidade do consumidor ou a qualidade de toda interpretação. Antes de enviar evidências a um provedor externo, considere dados pessoais residuais e as condições de uso. Recomendam-se avaliação humana independente e conjuntos maiores para uso operacional.
 
-O código e a documentação estão preparados para execução e apresentação. Uma apresentação com narração sintética identificada e resultados reais está em [docs/apresentacao.mp4](docs/apresentacao.mp4). Confira a duração e os detalhes em [docs/video.md](docs/video.md). O [roteiro](docs/roteiro-video.md) também permite gravar uma versão pessoal. O checklist em [docs/entrega.md](docs/entrega.md) informa os itens entregues e os que dependem do responsável pela submissão. O bônus opcional Databricks depende de conclusão real da trilha pelo aluno e não é presumido.
+Código sob [MIT](LICENSE). Dados Olist sujeitos a **CC BY-NC-SA 4.0**, conforme a página da base; não são relicenciados pelo código. Pesos e serviços têm suas próprias licenças.
 
-## Referências
-
-- [Olist / Kaggle: base oficial](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce/data).
-- [Sentence Transformers: API e normalização de embeddings](https://www.sbert.net/docs/package_reference/sentence_transformer/model.html).
-- [Modelo multilíngue e suas limitações](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
-- [Qwen2.5 1,5B: modelo de geração local](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct).
-- [Ollama: compatibilidade da API](https://docs.ollama.com/api/openai-compatibility).
-- [Streamlit: documentação](https://docs.streamlit.io/).
-
-O código é distribuído sob MIT. Os dados e modelos permanecem sujeitos às respectivas licenças; a licença do código não concede direitos sobre eles.
+Referências: [Olist/Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), [Sentence Transformers](https://www.sbert.net/), [MiniLM multilíngue](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2), [Qwen2.5 0,5B](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct), [Ollama](https://docs.ollama.com/api/openai-compatibility), [Streamlit](https://docs.streamlit.io/).

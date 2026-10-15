@@ -1,0 +1,2725 @@
+{
+  "created_utc": "2026-10-15T00:07:39.917947+00:00",
+  "k": 6,
+  "split": "holdout",
+  "questions_file": "retrieval-holdout-questions.json",
+  "questions_sha256": "ccf1f227c9914623502659975c59034bf6c1df5ae70990fbcd3f3333500c2757",
+  "index_manifest": {
+    "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "quantized": true,
+    "chunks": 42687,
+    "dimension": 384,
+    "stats": {
+      "rows_read": 99224,
+      "empty_text": 56537,
+      "documents": 42687,
+      "score_distribution": {
+        "5": 21776,
+        "4": 6274,
+        "2": 2165,
+        "1": 8829,
+        "3": 3643
+      },
+      "unique_textual_reviews": 42370,
+      "reviews_with_multiple_orders": 307,
+      "delivery_status_distribution_documents": {
+        "on_time": 36937,
+        "late": 3848,
+        "not_delivered": 824,
+        "unknown": 1078
+      },
+      "metadata_schema": 2
+    },
+    "schema": 2,
+    "integrity": {
+      "documents.json": "bd95db8f9dbdae4d945c1407750f9669eb34d424ab9541f7d8841289ae418531",
+      "vectors.npy": "91753d99e1eebbcb6ef27c103fad6c17c0c2f3f3eec89f47583565b3203f5cfc",
+      "corpus.json": "0ecad7a7901cee29c13e4e2b70e9424b6f5a5973ce73d678342bf2e212ee8f1f"
+    }
+  },
+  "index_file_sha256": {
+    "documents.json": "bd95db8f9dbdae4d945c1407750f9669eb34d424ab9541f7d8841289ae418531",
+    "vectors.npy": "91753d99e1eebbcb6ef27c103fad6c17c0c2f3f3eec89f47583565b3203f5cfc",
+    "corpus.json": "0ecad7a7901cee29c13e4e2b70e9424b6f5a5973ce73d678342bf2e212ee8f1f"
+  },
+  "configuration": {
+    "min_similarity": 0.3,
+    "mmr_lambda": 0.8,
+    "rrf_k": 60,
+    "legacy_candidate_pool": 48,
+    "new_candidate_pool": 100,
+    "reranker_model": null
+  },
+  "index_documents": 42687,
+  "initialization_ms": 64524.85,
+  "summary": [
+    {
+      "variant": "legacy_dense_mmr",
+      "questions": 8,
+      "precision_at_k": 0.7708,
+      "mrr": 0.9375,
+      "unique_text_fraction": 1.0,
+      "median_latency_ms": 286.81
+    },
+    {
+      "variant": "dense_dedup_mmr",
+      "questions": 8,
+      "precision_at_k": 0.7917,
+      "mrr": 0.9375,
+      "unique_text_fraction": 1.0,
+      "median_latency_ms": 296.3
+    },
+    {
+      "variant": "hybrid_rrf",
+      "questions": 8,
+      "precision_at_k": 0.8125,
+      "mrr": 0.9167,
+      "unique_text_fraction": 1.0,
+      "median_latency_ms": 250.5
+    },
+    {
+      "variant": "hybrid_rrf_mmr",
+      "questions": 8,
+      "precision_at_k": 0.7292,
+      "mrr": 0.9167,
+      "unique_text_fraction": 1.0,
+      "median_latency_ms": 249.86
+    }
+  ],
+  "limitations": [
+    "8 perguntas no conjunto holdout; relevância silver por regex, sem rótulos humanos independentes.",
+    "Regex podem favorecer BM25 e não reconhecem toda paráfrase ou negação: resultado não mede entailment.",
+    "Mesmas perguntas/filtros/vetores nas variantes; baseline legado reproduz ranking anterior com filtros atuais.",
+    "Precisão divide pelo k solicitado inclusive quando retorna menos; MRR usa primeira evidência que casa regex.",
+    "Latência após aquecimento inclui encoder/busca/filtros/MMR, exclui carga inicial; uma passagem, sem intervalo estatístico.",
+    "Nenhuma métrica permite comparar diretamente com B: perguntas, k, corpus, modelos e rótulos diferentes.",
+    "Sem chamadas a LLM e sem auditoria humana nova. Reranker só avaliado se --reranker for fornecido.",
+    "Padrão hybrid_rrf sem MMR escolhido nas 16 perguntas de desenvolvimento e congelado antes das 8 holdout; sem ajuste posterior ao holdout."
+  ],
+  "records": [
+    {
+      "id": "H01",
+      "question": "O que dizem os compradores que esperaram muito para receber?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "legacy_dense_mmr",
+      "silver_regex": "atras|demor|prazo|nao (receb|cheg)",
+      "precision_at_k": 0.8333333333333334,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 267.39,
+      "evidence": [
+        {
+          "id": "b2a0f96a7fac9606aef1",
+          "review_id": "d0fadb47f78b9869c8b8704d19d53ddd",
+          "order_id": "c0902caa9df6e499f3aa6d5acb55f6c5",
+          "text": "Péssimo A loja lannister é referência na entrega de seus produtos sempre comprei e recebo muito antes do prazo, mas esse parceiro, nãorecomendo.",
+          "similarity": 0.68624,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "a90aa2387d26c6c74310",
+          "review_id": "9f17dd2ecd203767ee8396940cbd6ebc",
+          "order_id": "d329bd974553f5e57a2f672cc82dab69",
+          "text": "estou aguardando o estorno desta compra, gostaria de saber porque estar demorando tanto para isso ser feito .",
+          "similarity": 0.67421,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "d5b054e9a7d2f9a2ba31",
+          "review_id": "4418b704aeae0e8b36d385d469fdb86b",
+          "order_id": "64397bf4c493c0fa84f413977e87da93",
+          "text": "muita demora na entrega, produtos comprados com os demais chegaram à muito tempo.",
+          "similarity": 0.65951,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "ae40f6c01abb16d5317e",
+          "review_id": "c9035725ab33e5ff76de4cb2b28df64f",
+          "order_id": "ee3485f5152cb61d512769574a0a1419",
+          "text": "A gente compra e espera receber o que comprou e quando chega está errado, gera toda um incômodo de efetuar troca. Só espera que a troca seja ita de forma correta.",
+          "similarity": 0.6588,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "3185b523bd1802d80f3c",
+          "review_id": "1c6e23b615b667e798d91396baefc502",
+          "order_id": "6f56d701fdaa7fc3575ddda3bed5fbbb",
+          "text": "O que me incomoda nessa compra é a demora na entrega do produto. Sou cliente lannister a muito tempo e sempre satisfeita com a compra, mas infelizmente, as últimas compras não recebi .",
+          "similarity": 0.68517,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "bc9646008468196491c7",
+          "review_id": "5831e90ecf82c95e8961f51cebc163b4",
+          "order_id": "b3214fd3a99a63b619aa677c9b69017e",
+          "text": "Como estou acostumada a comprar pelo baratheon .. achei a entrega de seu parceiro muito demorada .",
+          "similarity": 0.67288,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H01",
+      "question": "O que dizem os compradores que esperaram muito para receber?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "dense_dedup_mmr",
+      "silver_regex": "atras|demor|prazo|nao (receb|cheg)",
+      "precision_at_k": 0.8333333333333334,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 257.29,
+      "evidence": [
+        {
+          "id": "b2a0f96a7fac9606aef1",
+          "review_id": "d0fadb47f78b9869c8b8704d19d53ddd",
+          "order_id": "c0902caa9df6e499f3aa6d5acb55f6c5",
+          "text": "Péssimo A loja lannister é referência na entrega de seus produtos sempre comprei e recebo muito antes do prazo, mas esse parceiro, nãorecomendo.",
+          "similarity": 0.68624,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "a90aa2387d26c6c74310",
+          "review_id": "9f17dd2ecd203767ee8396940cbd6ebc",
+          "order_id": "d329bd974553f5e57a2f672cc82dab69",
+          "text": "estou aguardando o estorno desta compra, gostaria de saber porque estar demorando tanto para isso ser feito .",
+          "similarity": 0.67421,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "d5b054e9a7d2f9a2ba31",
+          "review_id": "4418b704aeae0e8b36d385d469fdb86b",
+          "order_id": "64397bf4c493c0fa84f413977e87da93",
+          "text": "muita demora na entrega, produtos comprados com os demais chegaram à muito tempo.",
+          "similarity": 0.65951,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0149254,
+          "reranker_score": null
+        },
+        {
+          "id": "ae40f6c01abb16d5317e",
+          "review_id": "c9035725ab33e5ff76de4cb2b28df64f",
+          "order_id": "ee3485f5152cb61d512769574a0a1419",
+          "text": "A gente compra e espera receber o que comprou e quando chega está errado, gera toda um incômodo de efetuar troca. Só espera que a troca seja ita de forma correta.",
+          "similarity": 0.6588,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0147059,
+          "reranker_score": null
+        },
+        {
+          "id": "3185b523bd1802d80f3c",
+          "review_id": "1c6e23b615b667e798d91396baefc502",
+          "order_id": "6f56d701fdaa7fc3575ddda3bed5fbbb",
+          "text": "O que me incomoda nessa compra é a demora na entrega do produto. Sou cliente lannister a muito tempo e sempre satisfeita com a compra, mas infelizmente, as últimas compras não recebi .",
+          "similarity": 0.68517,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "bc9646008468196491c7",
+          "review_id": "5831e90ecf82c95e8961f51cebc163b4",
+          "order_id": "b3214fd3a99a63b619aa677c9b69017e",
+          "text": "Como estou acostumada a comprar pelo baratheon .. achei a entrega de seu parceiro muito demorada .",
+          "similarity": 0.67288,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015625,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H01",
+      "question": "O que dizem os compradores que esperaram muito para receber?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf",
+      "silver_regex": "atras|demor|prazo|nao (receb|cheg)",
+      "precision_at_k": 0.6666666666666666,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 280.06,
+      "evidence": [
+        {
+          "id": "b2a0f96a7fac9606aef1",
+          "review_id": "d0fadb47f78b9869c8b8704d19d53ddd",
+          "order_id": "c0902caa9df6e499f3aa6d5acb55f6c5",
+          "text": "Péssimo A loja lannister é referência na entrega de seus produtos sempre comprei e recebo muito antes do prazo, mas esse parceiro, nãorecomendo.",
+          "similarity": 0.68624,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "01f80f564b045695967e",
+          "review_id": "5fc6deb67d0e36f9b808633caf9a9886",
+          "order_id": "dc32acbe8d41196887e5d7ac6c2972bd",
+          "text": "Não recomendaria a targaryen a outros compradores.",
+          "similarity": 0.30104,
+          "silver_relevant": false,
+          "bm25_score": 11.022,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "3185b523bd1802d80f3c",
+          "review_id": "1c6e23b615b667e798d91396baefc502",
+          "order_id": "6f56d701fdaa7fc3575ddda3bed5fbbb",
+          "text": "O que me incomoda nessa compra é a demora na entrega do produto. Sou cliente lannister a muito tempo e sempre satisfeita com a compra, mas infelizmente, as últimas compras não recebi .",
+          "similarity": 0.68517,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "6dfc8665061c483993b5",
+          "review_id": "86eee167f338dacb42415f355ccae8a4",
+          "order_id": "a7f514dbfdce429795a816a86b0cfcfd",
+          "text": "Preciso receber meu produto. O que esta acontecendo? Quando irei receber?",
+          "similarity": 0.34502,
+          "silver_relevant": false,
+          "bm25_score": 6.71222,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "a90aa2387d26c6c74310",
+          "review_id": "9f17dd2ecd203767ee8396940cbd6ebc",
+          "order_id": "d329bd974553f5e57a2f672cc82dab69",
+          "text": "estou aguardando o estorno desta compra, gostaria de saber porque estar demorando tanto para isso ser feito .",
+          "similarity": 0.67421,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "bc9646008468196491c7",
+          "review_id": "5831e90ecf82c95e8961f51cebc163b4",
+          "order_id": "b3214fd3a99a63b619aa677c9b69017e",
+          "text": "Como estou acostumada a comprar pelo baratheon .. achei a entrega de seu parceiro muito demorada .",
+          "similarity": 0.67288,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015625,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H01",
+      "question": "O que dizem os compradores que esperaram muito para receber?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf_mmr",
+      "silver_regex": "atras|demor|prazo|nao (receb|cheg)",
+      "precision_at_k": 0.5,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 243.92,
+      "evidence": [
+        {
+          "id": "b2a0f96a7fac9606aef1",
+          "review_id": "d0fadb47f78b9869c8b8704d19d53ddd",
+          "order_id": "c0902caa9df6e499f3aa6d5acb55f6c5",
+          "text": "Péssimo A loja lannister é referência na entrega de seus produtos sempre comprei e recebo muito antes do prazo, mas esse parceiro, nãorecomendo.",
+          "similarity": 0.68624,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "01f80f564b045695967e",
+          "review_id": "5fc6deb67d0e36f9b808633caf9a9886",
+          "order_id": "dc32acbe8d41196887e5d7ac6c2972bd",
+          "text": "Não recomendaria a targaryen a outros compradores.",
+          "similarity": 0.30104,
+          "silver_relevant": false,
+          "bm25_score": 11.022,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "50fc385dd98285b80892",
+          "review_id": "e6c0401a20d50555fb4d9d18eafc1df8",
+          "order_id": "de1f63780a06d4800d094e9875c89ac5",
+          "text": "Quero receber o que eu comprei, gostaria de um retorno de quando irei receber",
+          "similarity": 0.42416,
+          "silver_relevant": false,
+          "bm25_score": 6.44279,
+          "rrf_score": 0.015625,
+          "reranker_score": null
+        },
+        {
+          "id": "6dfc8665061c483993b5",
+          "review_id": "86eee167f338dacb42415f355ccae8a4",
+          "order_id": "a7f514dbfdce429795a816a86b0cfcfd",
+          "text": "Preciso receber meu produto. O que esta acontecendo? Quando irei receber?",
+          "similarity": 0.34502,
+          "silver_relevant": false,
+          "bm25_score": 6.71222,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "a90aa2387d26c6c74310",
+          "review_id": "9f17dd2ecd203767ee8396940cbd6ebc",
+          "order_id": "d329bd974553f5e57a2f672cc82dab69",
+          "text": "estou aguardando o estorno desta compra, gostaria de saber porque estar demorando tanto para isso ser feito .",
+          "similarity": 0.67421,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "54adc3b2f3a6f666c3ef",
+          "review_id": "1e6dcf3e365bc12afe596b9666a5b711",
+          "order_id": "82a914d5f7af95901a18ef83b388bd4f",
+          "text": "Paguei e demorour para receber",
+          "similarity": 0.41462,
+          "silver_relevant": true,
+          "bm25_score": 6.27394,
+          "rrf_score": 0.0144928,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H02",
+      "question": "Há reclamações de equipamentos que pararam de funcionar?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "legacy_dense_mmr",
+      "silver_regex": "defeit|nao funciona|parou|quebrad|danific|avari|estragad",
+      "precision_at_k": 0.5,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 292.55,
+      "evidence": [
+        {
+          "id": "ad7989edf9f78963bf6c",
+          "review_id": "a28a06c28497c38c8670c1a95e58f3bd",
+          "order_id": "11978d520d85578c9f024b99ac1a87ef",
+          "text": "o produto falha muito, cai direto e as vezes nao funciona e nao reseta!",
+          "similarity": 0.62027,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "42ce0e60e8fba2b70873",
+          "review_id": "7243848cb2a87b3ba582eac4e1ff70b8",
+          "order_id": "37b2bceb2db60f10b24b1699aa3ad7c1",
+          "text": "O produto veio faltando controle. Só foi entregue o console e os cabos. Não estou satisteito. Não sem com quem reclamo sobre isso.",
+          "similarity": 0.61663,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "42ae54bcf9b1197f995e",
+          "review_id": "4cb637a03888dbb8d1491d5e51758895",
+          "order_id": "a156911dd7e008e373ba70af8ddf3ce9",
+          "text": "falta de cabo embalagem veio aberta produto encardida faltando cabo de força",
+          "similarity": 0.61688,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "a67bf00c806497abc564",
+          "review_id": "7bb1a163a16b7476ebc81fc986e6a479",
+          "order_id": "38cea9cee434d8caeca46e5b63002eb7",
+          "text": "Produto com defeito! 2 dos 4 sensores não funciona. Ja foram feito todos os testes e produto não esta funcionando.",
+          "similarity": 0.59365,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "cfc1fc43550177f7298d",
+          "review_id": "1bbe11a3e0d55332a77847b8d717b62b",
+          "order_id": "090342fe317c0444e8220e4d902579cf",
+          "text": "Pruto muito frágil. A solda de uma das hastes metálicas se desfez enquanto eu desembalava o produto. Estou aguardando orientação para devolução.",
+          "similarity": 0.58708,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "e76e3a4e27e28300accf",
+          "review_id": "975c4fe6321502f8f2b655ac8a35425f",
+          "order_id": "4d5edcd8dc3dd4c5a02b9a0d0773b621",
+          "text": "Dois técnicos tentaram instalar o produto mas, segundo eles, o aparelho não conecta: \"provavelmente trata-se de um defeito\". Sendo assim, solicito a solução desse problema. Aguardo resposta!",
+          "similarity": 0.59844,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H02",
+      "question": "Há reclamações de equipamentos que pararam de funcionar?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "dense_dedup_mmr",
+      "silver_regex": "defeit|nao funciona|parou|quebrad|danific|avari|estragad",
+      "precision_at_k": 0.5,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 240.91,
+      "evidence": [
+        {
+          "id": "ad7989edf9f78963bf6c",
+          "review_id": "a28a06c28497c38c8670c1a95e58f3bd",
+          "order_id": "11978d520d85578c9f024b99ac1a87ef",
+          "text": "o produto falha muito, cai direto e as vezes nao funciona e nao reseta!",
+          "similarity": 0.62027,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "42ce0e60e8fba2b70873",
+          "review_id": "7243848cb2a87b3ba582eac4e1ff70b8",
+          "order_id": "37b2bceb2db60f10b24b1699aa3ad7c1",
+          "text": "O produto veio faltando controle. Só foi entregue o console e os cabos. Não estou satisteito. Não sem com quem reclamo sobre isso.",
+          "similarity": 0.61663,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "42ae54bcf9b1197f995e",
+          "review_id": "4cb637a03888dbb8d1491d5e51758895",
+          "order_id": "a156911dd7e008e373ba70af8ddf3ce9",
+          "text": "falta de cabo embalagem veio aberta produto encardida faltando cabo de força",
+          "similarity": 0.61688,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "a67bf00c806497abc564",
+          "review_id": "7bb1a163a16b7476ebc81fc986e6a479",
+          "order_id": "38cea9cee434d8caeca46e5b63002eb7",
+          "text": "Produto com defeito! 2 dos 4 sensores não funciona. Ja foram feito todos os testes e produto não esta funcionando.",
+          "similarity": 0.59365,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0149254,
+          "reranker_score": null
+        },
+        {
+          "id": "cfc1fc43550177f7298d",
+          "review_id": "1bbe11a3e0d55332a77847b8d717b62b",
+          "order_id": "090342fe317c0444e8220e4d902579cf",
+          "text": "Pruto muito frágil. A solda de uma das hastes metálicas se desfez enquanto eu desembalava o produto. Estou aguardando orientação para devolução.",
+          "similarity": 0.58708,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0144928,
+          "reranker_score": null
+        },
+        {
+          "id": "e76e3a4e27e28300accf",
+          "review_id": "975c4fe6321502f8f2b655ac8a35425f",
+          "order_id": "4d5edcd8dc3dd4c5a02b9a0d0773b621",
+          "text": "Dois técnicos tentaram instalar o produto mas, segundo eles, o aparelho não conecta: \"provavelmente trata-se de um defeito\". Sendo assim, solicito a solução desse problema. Aguardo resposta!",
+          "similarity": 0.59844,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0153846,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H02",
+      "question": "Há reclamações de equipamentos que pararam de funcionar?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf",
+      "silver_regex": "defeit|nao funciona|parou|quebrad|danific|avari|estragad",
+      "precision_at_k": 0.5,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 221.21,
+      "evidence": [
+        {
+          "id": "d6a575ce01e636ea3275",
+          "review_id": "3b6d3f0e034fcff7497e3574a5d917f7",
+          "order_id": "9c1ef8552f9a1af4860b014689f6be79",
+          "text": "Até agora não recebi a comunicação da reclamação que eu fiz sobre o não funcionamento do aparelho que está com defeito.",
+          "similarity": 0.58431,
+          "silver_relevant": true,
+          "bm25_score": 4.58181,
+          "rrf_score": 0.0224158,
+          "reranker_score": null
+        },
+        {
+          "id": "b34a0b4f5fd1a9439f59",
+          "review_id": "601269563463601b0b1b1f09bea7d013",
+          "order_id": "ed35f59756edecbfcefb866146f00905",
+          "text": "Comprei 02 computadores, e um deles veio com defeito. Mesmo abrindo 02 reclamações, nem a baratheon e nem a targaryen sequer responderam as minhas reclamações",
+          "similarity": 0.54268,
+          "silver_relevant": true,
+          "bm25_score": 5.45721,
+          "rrf_score": 0.0223214,
+          "reranker_score": null
+        },
+        {
+          "id": "caa6be43ec97ddb9ae61",
+          "review_id": "06f44964e1e024d7772ae766434e88fa",
+          "order_id": "82b8501b11a46fc08df6bb260ac4e40b",
+          "text": "O aparelho funcionou bem umas duas ou três vezes e depois começou apresentar irregularidade até deixar de funcionar por completo. Portanto, não recomendo a ninguém a aquisição de semelhante disposit",
+          "similarity": 0.55213,
+          "silver_relevant": false,
+          "bm25_score": 4.1516,
+          "rrf_score": 0.0189082,
+          "reranker_score": null
+        },
+        {
+          "id": "d7c40ae130f0184072d9",
+          "review_id": "33af462fed492da991a1176229242946",
+          "order_id": "1c7348dbdae957a76d7886476cbc97e1",
+          "text": "Dúvidas... Não funcionou, o equipamento não consegue fazer contato com o celular, preciso fazer mais teste para ter certeza, mas aparentemente não funcionou.",
+          "similarity": 0.52668,
+          "silver_relevant": false,
+          "bm25_score": 4.89494,
+          "rrf_score": 0.0184649,
+          "reranker_score": null
+        },
+        {
+          "id": "5a6c92d53ac442ae8b1e",
+          "review_id": "b370661a9286b652f0ee547c13cb03d1",
+          "order_id": "97aeae7e7b1d8a32cf3f26c3946eab1d",
+          "text": "Produto com defeito O produto chegou com os botões sem funcionar. Desde então venho tentando me comunicar com as lannister para trocar o produto, mas sem sucesso.",
+          "similarity": 0.53804,
+          "silver_relevant": true,
+          "bm25_score": 4.43999,
+          "rrf_score": 0.0176198,
+          "reranker_score": null
+        },
+        {
+          "id": "736fa2c4bb10a3e98b49",
+          "review_id": "d8f16d6be82701856c357b0f0fa543fb",
+          "order_id": "c5a2bd922645770b148755d89a577853",
+          "text": "Nao entregue Minha compra ainda está presa nos correios. Sei que não é culpa da loja, mas algo deve ser feito! Preciso do equipamento para trabalhar e ele não chegou!",
+          "similarity": 0.52035,
+          "silver_relevant": false,
+          "bm25_score": 4.72493,
+          "rrf_score": 0.0167084,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H02",
+      "question": "Há reclamações de equipamentos que pararam de funcionar?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf_mmr",
+      "silver_regex": "defeit|nao funciona|parou|quebrad|danific|avari|estragad",
+      "precision_at_k": 0.3333333333333333,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 184.7,
+      "evidence": [
+        {
+          "id": "d6a575ce01e636ea3275",
+          "review_id": "3b6d3f0e034fcff7497e3574a5d917f7",
+          "order_id": "9c1ef8552f9a1af4860b014689f6be79",
+          "text": "Até agora não recebi a comunicação da reclamação que eu fiz sobre o não funcionamento do aparelho que está com defeito.",
+          "similarity": 0.58431,
+          "silver_relevant": true,
+          "bm25_score": 4.58181,
+          "rrf_score": 0.0224158,
+          "reranker_score": null
+        },
+        {
+          "id": "b34a0b4f5fd1a9439f59",
+          "review_id": "601269563463601b0b1b1f09bea7d013",
+          "order_id": "ed35f59756edecbfcefb866146f00905",
+          "text": "Comprei 02 computadores, e um deles veio com defeito. Mesmo abrindo 02 reclamações, nem a baratheon e nem a targaryen sequer responderam as minhas reclamações",
+          "similarity": 0.54268,
+          "silver_relevant": true,
+          "bm25_score": 5.45721,
+          "rrf_score": 0.0223214,
+          "reranker_score": null
+        },
+        {
+          "id": "caa6be43ec97ddb9ae61",
+          "review_id": "06f44964e1e024d7772ae766434e88fa",
+          "order_id": "82b8501b11a46fc08df6bb260ac4e40b",
+          "text": "O aparelho funcionou bem umas duas ou três vezes e depois começou apresentar irregularidade até deixar de funcionar por completo. Portanto, não recomendo a ninguém a aquisição de semelhante disposit",
+          "similarity": 0.55213,
+          "silver_relevant": false,
+          "bm25_score": 4.1516,
+          "rrf_score": 0.0189082,
+          "reranker_score": null
+        },
+        {
+          "id": "d7c40ae130f0184072d9",
+          "review_id": "33af462fed492da991a1176229242946",
+          "order_id": "1c7348dbdae957a76d7886476cbc97e1",
+          "text": "Dúvidas... Não funcionou, o equipamento não consegue fazer contato com o celular, preciso fazer mais teste para ter certeza, mas aparentemente não funcionou.",
+          "similarity": 0.52668,
+          "silver_relevant": false,
+          "bm25_score": 4.89494,
+          "rrf_score": 0.0184649,
+          "reranker_score": null
+        },
+        {
+          "id": "736fa2c4bb10a3e98b49",
+          "review_id": "d8f16d6be82701856c357b0f0fa543fb",
+          "order_id": "c5a2bd922645770b148755d89a577853",
+          "text": "Nao entregue Minha compra ainda está presa nos correios. Sei que não é culpa da loja, mas algo deve ser feito! Preciso do equipamento para trabalhar e ele não chegou!",
+          "similarity": 0.52035,
+          "silver_relevant": false,
+          "bm25_score": 4.72493,
+          "rrf_score": 0.0167084,
+          "reranker_score": null
+        },
+        {
+          "id": "f123fd340f5eb4fc05e5",
+          "review_id": "f735225ee3fe196ab804bf330e5fc364",
+          "order_id": "7a40bb8803549af172ca4403ff436229",
+          "text": "NÃO RECOMENDO Recebi o relógio a tarde, mais precisamente às 18:05 do mesmo dia os ponteiros do análogico pararam de funcionar. Não estou usando preciso de uma solução para o problema.",
+          "similarity": 0.40339,
+          "silver_relevant": false,
+          "bm25_score": 10.41996,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H03",
+      "question": "Os consumidores gostaram de receber antes da data combinada?",
+      "filters": {
+        "score_min": 4
+      },
+      "variant": "legacy_dense_mmr",
+      "silver_regex": "antes|rapid|adiant|prazo|veloz",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 281.06,
+      "evidence": [
+        {
+          "id": "9fe6280998f04f453353",
+          "review_id": "463894d233d6273a902dff42fff1da5b",
+          "order_id": "80c3106baaf516ab1dc5e9ee851c5d93",
+          "text": "Satisfeita com a agilidade ao emitir a nota fiscal, já que é a efetivação da compra. Assim como, o envio ocorreu antes do prazo estabelecido. E o produto enviado foi exatamente igual ao escolhido.",
+          "similarity": 0.71575,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "4ef541de858762ef3fbb",
+          "review_id": "fb30d86cbb5f509a8859fc8e718c4617",
+          "order_id": "f184a2ee6e9849621df6792b9221bbab",
+          "text": "Gostei muito do produto Chegou antes do prazo estimado. Agora é só usufruir dos benefícios do adquirido.",
+          "similarity": 0.7028,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "89684750ccc4e1090061",
+          "review_id": "0ec638d4fa47f321fd70dd6dd6e7c568",
+          "order_id": "a1226839947001dfb15c46e812c68325",
+          "text": "Bom atendimento ao cliente,mercadorias entregues antes do prazo",
+          "similarity": 0.67164,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "545a7df82ee5baa12cb0",
+          "review_id": "683ef27d2a68024d03e0242b48280d64",
+          "order_id": "e74c8d6962373b0c0e984e97fe2fa674",
+          "text": "Serviço prestado de forma elogiável. Rogo que permaneçam sempre assim, pois o produto foi entregue bem antes do tempo.",
+          "similarity": 0.6959,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "a1d4d36d52358d354115",
+          "review_id": "6e8c4c2e3f24bcbbfaa95c3319f9138b",
+          "order_id": "274b74ab9a2f1b057969351bc8e6b9e9",
+          "text": "Parabenizo pelo respeito ao consumidor, cumprimento de prazo na entrega do produto.",
+          "similarity": 0.68483,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "9efeb19b7d8a1941df18",
+          "review_id": "88e897db30d88fbe341064612dcfa323",
+          "order_id": "fae3bd74427278464a08777366ab3f66",
+          "text": "Muito bom Recomendo, comprometido com o cliente a entrega foi antes do prazo.",
+          "similarity": 0.68309,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H03",
+      "question": "Os consumidores gostaram de receber antes da data combinada?",
+      "filters": {
+        "score_min": 4
+      },
+      "variant": "dense_dedup_mmr",
+      "silver_regex": "antes|rapid|adiant|prazo|veloz",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 294.52,
+      "evidence": [
+        {
+          "id": "9fe6280998f04f453353",
+          "review_id": "463894d233d6273a902dff42fff1da5b",
+          "order_id": "80c3106baaf516ab1dc5e9ee851c5d93",
+          "text": "Satisfeita com a agilidade ao emitir a nota fiscal, já que é a efetivação da compra. Assim como, o envio ocorreu antes do prazo estabelecido. E o produto enviado foi exatamente igual ao escolhido.",
+          "similarity": 0.71575,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "4ef541de858762ef3fbb",
+          "review_id": "fb30d86cbb5f509a8859fc8e718c4617",
+          "order_id": "f184a2ee6e9849621df6792b9221bbab",
+          "text": "Gostei muito do produto Chegou antes do prazo estimado. Agora é só usufruir dos benefícios do adquirido.",
+          "similarity": 0.7028,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "89684750ccc4e1090061",
+          "review_id": "0ec638d4fa47f321fd70dd6dd6e7c568",
+          "order_id": "a1226839947001dfb15c46e812c68325",
+          "text": "Bom atendimento ao cliente,mercadorias entregues antes do prazo",
+          "similarity": 0.67164,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0142857,
+          "reranker_score": null
+        },
+        {
+          "id": "545a7df82ee5baa12cb0",
+          "review_id": "683ef27d2a68024d03e0242b48280d64",
+          "order_id": "e74c8d6962373b0c0e984e97fe2fa674",
+          "text": "Serviço prestado de forma elogiável. Rogo que permaneçam sempre assim, pois o produto foi entregue bem antes do tempo.",
+          "similarity": 0.6959,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "a1d4d36d52358d354115",
+          "review_id": "6e8c4c2e3f24bcbbfaa95c3319f9138b",
+          "order_id": "274b74ab9a2f1b057969351bc8e6b9e9",
+          "text": "Parabenizo pelo respeito ao consumidor, cumprimento de prazo na entrega do produto.",
+          "similarity": 0.68483,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015625,
+          "reranker_score": null
+        },
+        {
+          "id": "9efeb19b7d8a1941df18",
+          "review_id": "88e897db30d88fbe341064612dcfa323",
+          "order_id": "fae3bd74427278464a08777366ab3f66",
+          "text": "Muito bom Recomendo, comprometido com o cliente a entrega foi antes do prazo.",
+          "similarity": 0.68309,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0153846,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H03",
+      "question": "Os consumidores gostaram de receber antes da data combinada?",
+      "filters": {
+        "score_min": 4
+      },
+      "variant": "hybrid_rrf",
+      "silver_regex": "antes|rapid|adiant|prazo|veloz",
+      "precision_at_k": 0.8333333333333334,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 363.9,
+      "evidence": [
+        {
+          "id": "fe671321dc0f5d62e512",
+          "review_id": "b130a8c70e5dd19b084e44768855bfde",
+          "order_id": "0d8e4bdd8a9f84b606ea672b4e722f8f",
+          "text": "Produto recebido bem antes da data.",
+          "similarity": 0.64372,
+          "silver_relevant": true,
+          "bm25_score": 7.30381,
+          "rrf_score": 0.0185215,
+          "reranker_score": null
+        },
+        {
+          "id": "dfe664dec79241c5f7b7",
+          "review_id": "7281e843e9855e3ff12934d372d3bdc7",
+          "order_id": "3142418821f77f94d87514580a5d4bad",
+          "text": "gostei da compra chegou antes do combinado ..recomendo...",
+          "similarity": 0.62712,
+          "silver_relevant": true,
+          "bm25_score": 7.69837,
+          "rrf_score": 0.0167411,
+          "reranker_score": null
+        },
+        {
+          "id": "9fe6280998f04f453353",
+          "review_id": "463894d233d6273a902dff42fff1da5b",
+          "order_id": "80c3106baaf516ab1dc5e9ee851c5d93",
+          "text": "Satisfeita com a agilidade ao emitir a nota fiscal, já que é a efetivação da compra. Assim como, o envio ocorreu antes do prazo estabelecido. E o produto enviado foi exatamente igual ao escolhido.",
+          "similarity": 0.71575,
+          "silver_relevant": true,
+          "bm25_score": 1.25117,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "239c1046189d9a1777b8",
+          "review_id": "ff55fd814d383dc42cb2a49a479014e9",
+          "order_id": "ff42eee9423ebc7d468a3709e1cbefb7",
+          "text": "Recebi antes dá data combinada.",
+          "similarity": 0.56245,
+          "silver_relevant": true,
+          "bm25_score": 14.03619,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "4ef541de858762ef3fbb",
+          "review_id": "fb30d86cbb5f509a8859fc8e718c4617",
+          "order_id": "f184a2ee6e9849621df6792b9221bbab",
+          "text": "Gostei muito do produto Chegou antes do prazo estimado. Agora é só usufruir dos benefícios do adquirido.",
+          "similarity": 0.7028,
+          "silver_relevant": true,
+          "bm25_score": 1.73258,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "3704b601555ad45b706f",
+          "review_id": "122e7902a99e4a64071f4bccde1c33fe",
+          "order_id": "16486a722e7ef2992f499bb582a9f6a6",
+          "text": "produto entregue na data combinada.",
+          "similarity": 0.54541,
+          "silver_relevant": false,
+          "bm25_score": 11.42425,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H03",
+      "question": "Os consumidores gostaram de receber antes da data combinada?",
+      "filters": {
+        "score_min": 4
+      },
+      "variant": "hybrid_rrf_mmr",
+      "silver_regex": "antes|rapid|adiant|prazo|veloz",
+      "precision_at_k": 0.6666666666666666,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 344.69,
+      "evidence": [
+        {
+          "id": "fe671321dc0f5d62e512",
+          "review_id": "b130a8c70e5dd19b084e44768855bfde",
+          "order_id": "0d8e4bdd8a9f84b606ea672b4e722f8f",
+          "text": "Produto recebido bem antes da data.",
+          "similarity": 0.64372,
+          "silver_relevant": true,
+          "bm25_score": 7.30381,
+          "rrf_score": 0.0185215,
+          "reranker_score": null
+        },
+        {
+          "id": "c615491ffab244cf1b91",
+          "review_id": "c7ff211aa10535c754187bb57187fa44",
+          "order_id": "74be6f225276a31288092c4fe6664b42",
+          "text": "E que se preocupa com todos os consumidores, Loja boa, eu Recomendo a todos.",
+          "similarity": 0.4843,
+          "silver_relevant": false,
+          "bm25_score": 9.70922,
+          "rrf_score": 0.0147059,
+          "reranker_score": null
+        },
+        {
+          "id": "60a19dc54237fb0333d3",
+          "review_id": "fc9024c4baf1af87364b6a608ebf7e60",
+          "order_id": "d2dd52f27ff69c333cfe7c6dbd4a6a08",
+          "text": "Chegou na data combinada nota 10 recomendo",
+          "similarity": 0.41339,
+          "silver_relevant": false,
+          "bm25_score": 9.97739,
+          "rrf_score": 0.0151515,
+          "reranker_score": null
+        },
+        {
+          "id": "dfe664dec79241c5f7b7",
+          "review_id": "7281e843e9855e3ff12934d372d3bdc7",
+          "order_id": "3142418821f77f94d87514580a5d4bad",
+          "text": "gostei da compra chegou antes do combinado ..recomendo...",
+          "similarity": 0.62712,
+          "silver_relevant": true,
+          "bm25_score": 7.69837,
+          "rrf_score": 0.0167411,
+          "reranker_score": null
+        },
+        {
+          "id": "239c1046189d9a1777b8",
+          "review_id": "ff55fd814d383dc42cb2a49a479014e9",
+          "order_id": "ff42eee9423ebc7d468a3709e1cbefb7",
+          "text": "Recebi antes dá data combinada.",
+          "similarity": 0.56245,
+          "silver_relevant": true,
+          "bm25_score": 14.03619,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "9fe6280998f04f453353",
+          "review_id": "463894d233d6273a902dff42fff1da5b",
+          "order_id": "80c3106baaf516ab1dc5e9ee851c5d93",
+          "text": "Satisfeita com a agilidade ao emitir a nota fiscal, já que é a efetivação da compra. Assim como, o envio ocorreu antes do prazo estabelecido. E o produto enviado foi exatamente igual ao escolhido.",
+          "similarity": 0.71575,
+          "silver_relevant": true,
+          "bm25_score": 1.25117,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H04",
+      "question": "Como foram as experiências com a cor ou o tamanho errado?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "legacy_dense_mmr",
+      "silver_regex": "cor|tamanho|errad|diferent|trocad",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 279.91,
+      "evidence": [
+        {
+          "id": "45a43f9acb34786dc174",
+          "review_id": "26b442a154f6a8930db0f47dffe43b73",
+          "order_id": "20f93cb03af912a0ffbac65b7e96fed1",
+          "text": "A cor é diferente",
+          "similarity": 0.67945,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "88089bca212cdc340977",
+          "review_id": "0ef03d58e2f75c024fdcaf768418a366",
+          "order_id": "9ee391a01004a9f330f16ebf9f7f0966",
+          "text": "O produto e a ótima qualidade, porém veio na cor errada.",
+          "similarity": 0.63886,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "2cf04ab329bfce505e91",
+          "review_id": "ea45c41592967c2aa03ca9826b790873",
+          "order_id": "6d58638e32674bebee793a47ac4cbadc",
+          "text": "Comprei a base dermacol cor 207, pela cor mostrada nas imagens dá para ver um bege claro porém a cor que chegou é outra. Ou o site esta mostrando as cores erradas, ou é defeito de fabrica.",
+          "similarity": 0.64596,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "c89acf2af6070f998980",
+          "review_id": "f82ff4f3622691257912a26457305f7c",
+          "order_id": "5140caed9ffab688aa2e67074d65befd",
+          "text": "veio a cor errada",
+          "similarity": 0.66322,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "88cd1cd4aa5be85bc83c",
+          "review_id": "836ce0716522eb7ef452806e28597884",
+          "order_id": "3e8258e4c2c32ceee7edf19e88a5e013",
+          "text": "Produto veio com a cor errada.",
+          "similarity": 0.63875,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "fb42aff3fcd6a6b9785a",
+          "review_id": "a7b4067ed7462202a0e0d2cc71b6d1ab",
+          "order_id": "5bfd0cddafa5fbbaa95429ed5577be6c",
+          "text": "Produto de pessima qualidade e ainda por cima a cor da foto nao é exatamente a cor da colcha.",
+          "similarity": 0.62329,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H04",
+      "question": "Como foram as experiências com a cor ou o tamanho errado?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "dense_dedup_mmr",
+      "silver_regex": "cor|tamanho|errad|diferent|trocad",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 298.08,
+      "evidence": [
+        {
+          "id": "45a43f9acb34786dc174",
+          "review_id": "26b442a154f6a8930db0f47dffe43b73",
+          "order_id": "20f93cb03af912a0ffbac65b7e96fed1",
+          "text": "A cor é diferente",
+          "similarity": 0.67945,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "88089bca212cdc340977",
+          "review_id": "0ef03d58e2f75c024fdcaf768418a366",
+          "order_id": "9ee391a01004a9f330f16ebf9f7f0966",
+          "text": "O produto e a ótima qualidade, porém veio na cor errada.",
+          "similarity": 0.63886,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015625,
+          "reranker_score": null
+        },
+        {
+          "id": "2cf04ab329bfce505e91",
+          "review_id": "ea45c41592967c2aa03ca9826b790873",
+          "order_id": "6d58638e32674bebee793a47ac4cbadc",
+          "text": "Comprei a base dermacol cor 207, pela cor mostrada nas imagens dá para ver um bege claro porém a cor que chegou é outra. Ou o site esta mostrando as cores erradas, ou é defeito de fabrica.",
+          "similarity": 0.64596,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "c89acf2af6070f998980",
+          "review_id": "f82ff4f3622691257912a26457305f7c",
+          "order_id": "5140caed9ffab688aa2e67074d65befd",
+          "text": "veio a cor errada",
+          "similarity": 0.66322,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "88cd1cd4aa5be85bc83c",
+          "review_id": "836ce0716522eb7ef452806e28597884",
+          "order_id": "3e8258e4c2c32ceee7edf19e88a5e013",
+          "text": "Produto veio com a cor errada.",
+          "similarity": 0.63875,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0153846,
+          "reranker_score": null
+        },
+        {
+          "id": "fb42aff3fcd6a6b9785a",
+          "review_id": "a7b4067ed7462202a0e0d2cc71b6d1ab",
+          "order_id": "5bfd0cddafa5fbbaa95429ed5577be6c",
+          "text": "Produto de pessima qualidade e ainda por cima a cor da foto nao é exatamente a cor da colcha.",
+          "similarity": 0.62329,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0151515,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H04",
+      "question": "Como foram as experiências com a cor ou o tamanho errado?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf",
+      "silver_regex": "cor|tamanho|errad|diferent|trocad",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 205.98,
+      "evidence": [
+        {
+          "id": "e8b34c088d35fcbb2d20",
+          "review_id": "dc2faf0586833fc2ba199a2af71dfa60",
+          "order_id": "1429d024a5b24651ee03fd7216d95247",
+          "text": "cor errada veio na cor errado, pedi uma cor e veio outro",
+          "similarity": 0.60584,
+          "silver_relevant": true,
+          "bm25_score": 11.70644,
+          "rrf_score": 0.0307984,
+          "reranker_score": null
+        },
+        {
+          "id": "a7708e60097d8e50c703",
+          "review_id": "378f0d32fe38ad2db1888d6cf4ef6b80",
+          "order_id": "dacd9ea86285f197d0b7495e8af14781",
+          "text": "Produto errado Pedi o produto na cor cinza e recebi na cor bege, pela burocracia para troca, tive que ficar com esse mesmo, Pessimima experiência, erro primario.",
+          "similarity": 0.5862,
+          "silver_relevant": true,
+          "bm25_score": 11.83607,
+          "rrf_score": 0.029116,
+          "reranker_score": null
+        },
+        {
+          "id": "45a43f9acb34786dc174",
+          "review_id": "26b442a154f6a8930db0f47dffe43b73",
+          "order_id": "20f93cb03af912a0ffbac65b7e96fed1",
+          "text": "A cor é diferente",
+          "similarity": 0.67945,
+          "silver_relevant": true,
+          "bm25_score": 6.92271,
+          "rrf_score": 0.0282982,
+          "reranker_score": null
+        },
+        {
+          "id": "c89acf2af6070f998980",
+          "review_id": "f82ff4f3622691257912a26457305f7c",
+          "order_id": "5140caed9ffab688aa2e67074d65befd",
+          "text": "veio a cor errada",
+          "similarity": 0.66322,
+          "silver_relevant": true,
+          "bm25_score": 6.38153,
+          "rrf_score": 0.02623,
+          "reranker_score": null
+        },
+        {
+          "id": "e995a352db8982cd7a60",
+          "review_id": "476570e20534ae42e72540f1880ada31",
+          "order_id": "f8dd8cacd0d33fb0f421b3d5afd46dad",
+          "text": "Pedi da cor rosa e chegou da cor roxa escuro e não gostei da cor",
+          "similarity": 0.57994,
+          "silver_relevant": true,
+          "bm25_score": 7.19547,
+          "rrf_score": 0.025641,
+          "reranker_score": null
+        },
+        {
+          "id": "7fcdcbc180300be1a43e",
+          "review_id": "1ef52114791c63cb2c5b6de3ad5e70b9",
+          "order_id": "513f43ba9ea592cb81880aeeb11f08d4",
+          "text": "No pedido, a cor era preto, mas recebi na cor branca.",
+          "similarity": 0.60353,
+          "silver_relevant": true,
+          "bm25_score": 6.55327,
+          "rrf_score": 0.024924,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H04",
+      "question": "Como foram as experiências com a cor ou o tamanho errado?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf_mmr",
+      "silver_regex": "cor|tamanho|errad|diferent|trocad",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 249.28,
+      "evidence": [
+        {
+          "id": "e8b34c088d35fcbb2d20",
+          "review_id": "dc2faf0586833fc2ba199a2af71dfa60",
+          "order_id": "1429d024a5b24651ee03fd7216d95247",
+          "text": "cor errada veio na cor errado, pedi uma cor e veio outro",
+          "similarity": 0.60584,
+          "silver_relevant": true,
+          "bm25_score": 11.70644,
+          "rrf_score": 0.0307984,
+          "reranker_score": null
+        },
+        {
+          "id": "a7708e60097d8e50c703",
+          "review_id": "378f0d32fe38ad2db1888d6cf4ef6b80",
+          "order_id": "dacd9ea86285f197d0b7495e8af14781",
+          "text": "Produto errado Pedi o produto na cor cinza e recebi na cor bege, pela burocracia para troca, tive que ficar com esse mesmo, Pessimima experiência, erro primario.",
+          "similarity": 0.5862,
+          "silver_relevant": true,
+          "bm25_score": 11.83607,
+          "rrf_score": 0.029116,
+          "reranker_score": null
+        },
+        {
+          "id": "45a43f9acb34786dc174",
+          "review_id": "26b442a154f6a8930db0f47dffe43b73",
+          "order_id": "20f93cb03af912a0ffbac65b7e96fed1",
+          "text": "A cor é diferente",
+          "similarity": 0.67945,
+          "silver_relevant": true,
+          "bm25_score": 6.92271,
+          "rrf_score": 0.0282982,
+          "reranker_score": null
+        },
+        {
+          "id": "e995a352db8982cd7a60",
+          "review_id": "476570e20534ae42e72540f1880ada31",
+          "order_id": "f8dd8cacd0d33fb0f421b3d5afd46dad",
+          "text": "Pedi da cor rosa e chegou da cor roxa escuro e não gostei da cor",
+          "similarity": 0.57994,
+          "silver_relevant": true,
+          "bm25_score": 7.19547,
+          "rrf_score": 0.025641,
+          "reranker_score": null
+        },
+        {
+          "id": "c89acf2af6070f998980",
+          "review_id": "f82ff4f3622691257912a26457305f7c",
+          "order_id": "5140caed9ffab688aa2e67074d65befd",
+          "text": "veio a cor errada",
+          "similarity": 0.66322,
+          "silver_relevant": true,
+          "bm25_score": 6.38153,
+          "rrf_score": 0.02623,
+          "reranker_score": null
+        },
+        {
+          "id": "7fcdcbc180300be1a43e",
+          "review_id": "1ef52114791c63cb2c5b6de3ad5e70b9",
+          "order_id": "513f43ba9ea592cb81880aeeb11f08d4",
+          "text": "No pedido, a cor era preto, mas recebi na cor branca.",
+          "similarity": 0.60353,
+          "silver_relevant": true,
+          "bm25_score": 6.55327,
+          "rrf_score": 0.024924,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H05",
+      "question": "Quais relatos descrevem caixas amassadas ou produtos mal protegidos?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "legacy_dense_mmr",
+      "silver_regex": "caixa|amass|embala|avari|danific|quebrad",
+      "precision_at_k": 0.5,
+      "mrr": 0.5,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 351.57,
+      "evidence": [
+        {
+          "id": "17a9e0e9831ae7882671",
+          "review_id": "949eca021ed60d00a2d2bda3cc686d4d",
+          "order_id": "d5d78aa1e1666a81b03bd8791c865fd3",
+          "text": "muitos desencontros nas entregas de produtos",
+          "similarity": 0.69582,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "6a29396e481bd8213653",
+          "review_id": "24d46a7a87b49cc958edeb55bf7f4970",
+          "order_id": "9052b9e9831316aa74d32b45bbcee6c8",
+          "text": "2 A caixa veio totalmente deformada/estragada. Alguns produtos desencaixados. Melhorar a embalagem dos produtos. Achei o produto/material fraco",
+          "similarity": 0.67241,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "1d60009a6052aa57d581",
+          "review_id": "b8b53cab61ee2034116266d00f0df382",
+          "order_id": "2cce0ab2d6614c249034fa8db2148498",
+          "text": "Lençol de baixa qualidade, transparente, produto descartável",
+          "similarity": 0.62228,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "5408cf7dc99acd9d8147",
+          "review_id": "e7553c10d142bd2b3abd16f5e7dcb2b6",
+          "order_id": "b7dccfff8a209f34ea09e32b844a0c4e",
+          "text": "produto com lacre violado Um dos produtos veio com o lacre violado, vazado, as embalagens muito toda suja. Não recomendo...",
+          "similarity": 0.61828,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "6e1126d405901b5bd085",
+          "review_id": "eb1cb58ea4c18551d25ef718bc10f755",
+          "order_id": "bf43f434abcaa2f045548a0592ee5e3c",
+          "text": "Produto solto dentro de uma caixa de papelão sem nenhum tipo de enchimento amortecedor ou protetor. Felizmente não sofreu danos, mas deixou a desejar no aspecto embalagem.",
+          "similarity": 0.62181,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "fa386457591f7629be88",
+          "review_id": "a6a88f35f2bd9a9e7157f821589794f3",
+          "order_id": "a37c3175caa4465852b788987ca46d1a",
+          "text": "Anúncio e venda de produtos indisponíveis",
+          "similarity": 0.63862,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H05",
+      "question": "Quais relatos descrevem caixas amassadas ou produtos mal protegidos?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "dense_dedup_mmr",
+      "silver_regex": "caixa|amass|embala|avari|danific|quebrad",
+      "precision_at_k": 0.6666666666666666,
+      "mrr": 0.5,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 241.81,
+      "evidence": [
+        {
+          "id": "17a9e0e9831ae7882671",
+          "review_id": "949eca021ed60d00a2d2bda3cc686d4d",
+          "order_id": "d5d78aa1e1666a81b03bd8791c865fd3",
+          "text": "muitos desencontros nas entregas de produtos",
+          "similarity": 0.69582,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "6a29396e481bd8213653",
+          "review_id": "24d46a7a87b49cc958edeb55bf7f4970",
+          "order_id": "9052b9e9831316aa74d32b45bbcee6c8",
+          "text": "2 A caixa veio totalmente deformada/estragada. Alguns produtos desencaixados. Melhorar a embalagem dos produtos. Achei o produto/material fraco",
+          "similarity": 0.67241,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "1d60009a6052aa57d581",
+          "review_id": "b8b53cab61ee2034116266d00f0df382",
+          "order_id": "2cce0ab2d6614c249034fa8db2148498",
+          "text": "Lençol de baixa qualidade, transparente, produto descartável",
+          "similarity": 0.62228,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0153846,
+          "reranker_score": null
+        },
+        {
+          "id": "5408cf7dc99acd9d8147",
+          "review_id": "e7553c10d142bd2b3abd16f5e7dcb2b6",
+          "order_id": "b7dccfff8a209f34ea09e32b844a0c4e",
+          "text": "produto com lacre violado Um dos produtos veio com o lacre violado, vazado, as embalagens muito toda suja. Não recomendo...",
+          "similarity": 0.61828,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0149254,
+          "reranker_score": null
+        },
+        {
+          "id": "212d5ae9776ebc2e2b68",
+          "review_id": "81b4c0150f0f3b099b23e2362123f97e",
+          "order_id": "bc1e260c14566150f353c716e61215e4",
+          "text": "Comprei dois lençóis e recebi uma caixa com apenas um, sem explicação ou comunicado. Para piorar o stark não disponibiliza canais de comunicação p resolver esses casos. Só avaliação ou e-mail. :(",
+          "similarity": 0.55802,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0084034,
+          "reranker_score": null
+        },
+        {
+          "id": "6e1126d405901b5bd085",
+          "review_id": "eb1cb58ea4c18551d25ef718bc10f755",
+          "order_id": "bf43f434abcaa2f045548a0592ee5e3c",
+          "text": "Produto solto dentro de uma caixa de papelão sem nenhum tipo de enchimento amortecedor ou protetor. Felizmente não sofreu danos, mas deixou a desejar no aspecto embalagem.",
+          "similarity": 0.62181,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0151515,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H05",
+      "question": "Quais relatos descrevem caixas amassadas ou produtos mal protegidos?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf",
+      "silver_regex": "caixa|amass|embala|avari|danific|quebrad",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 240.79,
+      "evidence": [
+        {
+          "id": "e86febb97dd31154760e",
+          "review_id": "2abb25fde5aafe9bc85d031dffb2f4ac",
+          "order_id": "7f39ba4c9052be115350065d07583cac",
+          "text": "Produto preto, reembalado na caixa de um branco. Muito amassado no fundo em um modo que qlr um perceberia, não estabiliza. Caixa em perfeito estado, foi amassado antes de ser entregue aos correios.",
+          "similarity": 0.58233,
+          "silver_relevant": true,
+          "bm25_score": 10.65002,
+          "rrf_score": 0.0278846,
+          "reranker_score": null
+        },
+        {
+          "id": "d0c6c05f4445138d0f2d",
+          "review_id": "2e4bd919c76bcd73e742995054200e4c",
+          "order_id": "d8477e03a0b0c97723a5221b2044f68e",
+          "text": "Ruim O produto chegou com a caixa amassada",
+          "similarity": 0.56772,
+          "silver_relevant": true,
+          "bm25_score": 13.30823,
+          "rrf_score": 0.0267027,
+          "reranker_score": null
+        },
+        {
+          "id": "008b0ba6919b1555f350",
+          "review_id": "b190c1c98294a0aa6beca27daff6886c",
+          "order_id": "312bfb221da51864b9fc4b361542ee5b",
+          "text": "Produto mal embalado Produto chegou com risco e manchado.",
+          "similarity": 0.58522,
+          "silver_relevant": true,
+          "bm25_score": 7.36287,
+          "rrf_score": 0.024223,
+          "reranker_score": null
+        },
+        {
+          "id": "bf55226f58ec2a5e1b9c",
+          "review_id": "c1de68f1a9bc4ff16dff11a37740657e",
+          "order_id": "97a7c1a54e3b84c6e2a2208198f48393",
+          "text": "Recebi o produto todo amassado com marcas de uso já começando a enferrujar, não recomendo, muito mal embalado, caixa veio rasgada e amassada prejudicando o produto.",
+          "similarity": 0.55428,
+          "silver_relevant": true,
+          "bm25_score": 12.79711,
+          "rrf_score": 0.024003,
+          "reranker_score": null
+        },
+        {
+          "id": "2ab31d5abaf0134b721a",
+          "review_id": "824aef8fd64a074a7aa8221bec79d71c",
+          "order_id": "f97a4a857b9a91dd1e7989becaed02ea",
+          "text": "Pessima entrega Produto com caixa violada e amassada. O frete mais caro que o produto. Precisa melhorar bastante. Pior que nao foi a primeira vez.😠",
+          "similarity": 0.57386,
+          "silver_relevant": true,
+          "bm25_score": 7.96053,
+          "rrf_score": 0.0238399,
+          "reranker_score": null
+        },
+        {
+          "id": "7fccc54661ffe8dd70ec",
+          "review_id": "c0beae1b6eb28a8f3f7d72771b68b97f",
+          "order_id": "e61fcab8b96de0335adf7fd562ebb869",
+          "text": "Produto mal embalado O produto chegou em 2 entregas, só que bem mal embalado, sem aviso de frágil, num papel pardo. Entregaram 2 pacotes em um dia e um pacote no outro. Pacote amassado nas pontas, peças quebradas. Absurdo",
+          "similarity": 0.57166,
+          "silver_relevant": true,
+          "bm25_score": 8.05488,
+          "rrf_score": 0.0237693,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H05",
+      "question": "Quais relatos descrevem caixas amassadas ou produtos mal protegidos?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf_mmr",
+      "silver_regex": "caixa|amass|embala|avari|danific|quebrad",
+      "precision_at_k": 0.8333333333333334,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 250.44,
+      "evidence": [
+        {
+          "id": "e86febb97dd31154760e",
+          "review_id": "2abb25fde5aafe9bc85d031dffb2f4ac",
+          "order_id": "7f39ba4c9052be115350065d07583cac",
+          "text": "Produto preto, reembalado na caixa de um branco. Muito amassado no fundo em um modo que qlr um perceberia, não estabiliza. Caixa em perfeito estado, foi amassado antes de ser entregue aos correios.",
+          "similarity": 0.58233,
+          "silver_relevant": true,
+          "bm25_score": 10.65002,
+          "rrf_score": 0.0278846,
+          "reranker_score": null
+        },
+        {
+          "id": "008b0ba6919b1555f350",
+          "review_id": "b190c1c98294a0aa6beca27daff6886c",
+          "order_id": "312bfb221da51864b9fc4b361542ee5b",
+          "text": "Produto mal embalado Produto chegou com risco e manchado.",
+          "similarity": 0.58522,
+          "silver_relevant": true,
+          "bm25_score": 7.36287,
+          "rrf_score": 0.024223,
+          "reranker_score": null
+        },
+        {
+          "id": "d0c6c05f4445138d0f2d",
+          "review_id": "2e4bd919c76bcd73e742995054200e4c",
+          "order_id": "d8477e03a0b0c97723a5221b2044f68e",
+          "text": "Ruim O produto chegou com a caixa amassada",
+          "similarity": 0.56772,
+          "silver_relevant": true,
+          "bm25_score": 13.30823,
+          "rrf_score": 0.0267027,
+          "reranker_score": null
+        },
+        {
+          "id": "1a36a47f4c47dbbe9a9f",
+          "review_id": "2bf0c7591c749c88eb1947577e438e6c",
+          "order_id": "6b3138748728fe92cf423b0abf199c8b",
+          "text": "Veio produto errado Loja mal organizada",
+          "similarity": 0.5769,
+          "silver_relevant": false,
+          "bm25_score": 7.44703,
+          "rrf_score": 0.0235424,
+          "reranker_score": null
+        },
+        {
+          "id": "2ab31d5abaf0134b721a",
+          "review_id": "824aef8fd64a074a7aa8221bec79d71c",
+          "order_id": "f97a4a857b9a91dd1e7989becaed02ea",
+          "text": "Pessima entrega Produto com caixa violada e amassada. O frete mais caro que o produto. Precisa melhorar bastante. Pior que nao foi a primeira vez.😠",
+          "similarity": 0.57386,
+          "silver_relevant": true,
+          "bm25_score": 7.96053,
+          "rrf_score": 0.0238399,
+          "reranker_score": null
+        },
+        {
+          "id": "bf55226f58ec2a5e1b9c",
+          "review_id": "c1de68f1a9bc4ff16dff11a37740657e",
+          "order_id": "97a7c1a54e3b84c6e2a2208198f48393",
+          "text": "Recebi o produto todo amassado com marcas de uso já começando a enferrujar, não recomendo, muito mal embalado, caixa veio rasgada e amassada prejudicando o produto.",
+          "similarity": 0.55428,
+          "silver_relevant": true,
+          "bm25_score": 12.79711,
+          "rrf_score": 0.024003,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H06",
+      "question": "Clientes conseguiram contato e retorno da loja?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "legacy_dense_mmr",
+      "silver_regex": "atend|contato|respost|responde|telefone|email|e-mail|retorno",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 260.77,
+      "evidence": [
+        {
+          "id": "9459d52572a211d215f7",
+          "review_id": "f5073b007d91b31d2153ae7f6452b651",
+          "order_id": "e117f2d33b09b76b46edadbd2ca908a7",
+          "text": "Um verdadeiro descaso com o cliente. Mandei e-mail duas vezes para a loja e até agora não recebi nenhuma resposta. Nem telefone para contato é fornecido! Não recomendo nada que vem dessa loja.",
+          "similarity": 0.77139,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "cb2399cc41357270376a",
+          "review_id": "15898b543726a832d4137fbef5d1d00e",
+          "order_id": "e6ce16cb79ec1d90b1da9085a6118aeb",
+          "text": "Aguardando retorno da loja",
+          "similarity": 0.74156,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "fe8c4b803820f0ca23db",
+          "review_id": "19de8a2ae12fc1763c7eea95c3289d95",
+          "order_id": "b22fb8549ff34d8632d2f6ecbc626af5",
+          "text": "Estou aguardando uma resposta das lojas lannister sobre a compra que fiz e não recebi",
+          "similarity": 0.74166,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "89e82230578efb0340b6",
+          "review_id": "ef6954f2a294c27ef2b7009aa90cb03e",
+          "order_id": "e247c295703844ab1b844311e25046a5",
+          "text": "Produto se encontra com vários dias de atraso já tentei entrar varias vezes em contato com a loja e não consigo. Gostaria de saber o que aconteceu com minha compra?uma posição de vocês fico no aguardo",
+          "similarity": 0.73531,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "42c6918c99729e09a43b",
+          "review_id": "f1e7a7193d6bf6c82fb05e7965d6f8eb",
+          "order_id": "47e6a0c0327dc37d68fe995d4d254885",
+          "text": "Não consegui entrar em contato com a loja, infelizmente consta no cadastro que a mercadoria foi entregue, foi entregue para quem? Não houve atendimento pôs venda!",
+          "similarity": 0.72268,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "45c901840ae6d54df49d",
+          "review_id": "2cea14e4b82602663d67f4746774cab7",
+          "order_id": "1ea11b975aea60ca92fa0559184d3d34",
+          "text": "Produto de ótima custo benefício! Porem a loja vendeu sem ter em ostoque e demorou mais de 30 dias para entrar em contato para fazer a troca por um produto disponível",
+          "similarity": 0.7116,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H06",
+      "question": "Clientes conseguiram contato e retorno da loja?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "dense_dedup_mmr",
+      "silver_regex": "atend|contato|respost|responde|telefone|email|e-mail|retorno",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 331.76,
+      "evidence": [
+        {
+          "id": "9459d52572a211d215f7",
+          "review_id": "f5073b007d91b31d2153ae7f6452b651",
+          "order_id": "e117f2d33b09b76b46edadbd2ca908a7",
+          "text": "Um verdadeiro descaso com o cliente. Mandei e-mail duas vezes para a loja e até agora não recebi nenhuma resposta. Nem telefone para contato é fornecido! Não recomendo nada que vem dessa loja.",
+          "similarity": 0.77139,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "cb2399cc41357270376a",
+          "review_id": "15898b543726a832d4137fbef5d1d00e",
+          "order_id": "e6ce16cb79ec1d90b1da9085a6118aeb",
+          "text": "Aguardando retorno da loja",
+          "similarity": 0.74156,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "fe8c4b803820f0ca23db",
+          "review_id": "19de8a2ae12fc1763c7eea95c3289d95",
+          "order_id": "b22fb8549ff34d8632d2f6ecbc626af5",
+          "text": "Estou aguardando uma resposta das lojas lannister sobre a compra que fiz e não recebi",
+          "similarity": 0.74166,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "89e82230578efb0340b6",
+          "review_id": "ef6954f2a294c27ef2b7009aa90cb03e",
+          "order_id": "e247c295703844ab1b844311e25046a5",
+          "text": "Produto se encontra com vários dias de atraso já tentei entrar varias vezes em contato com a loja e não consigo. Gostaria de saber o que aconteceu com minha compra?uma posição de vocês fico no aguardo",
+          "similarity": 0.73531,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015625,
+          "reranker_score": null
+        },
+        {
+          "id": "42c6918c99729e09a43b",
+          "review_id": "f1e7a7193d6bf6c82fb05e7965d6f8eb",
+          "order_id": "47e6a0c0327dc37d68fe995d4d254885",
+          "text": "Não consegui entrar em contato com a loja, infelizmente consta no cadastro que a mercadoria foi entregue, foi entregue para quem? Não houve atendimento pôs venda!",
+          "similarity": 0.72268,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0153846,
+          "reranker_score": null
+        },
+        {
+          "id": "45c901840ae6d54df49d",
+          "review_id": "2cea14e4b82602663d67f4746774cab7",
+          "order_id": "1ea11b975aea60ca92fa0559184d3d34",
+          "text": "Produto de ótima custo benefício! Porem a loja vendeu sem ter em ostoque e demorou mais de 30 dias para entrar em contato para fazer a troca por um produto disponível",
+          "similarity": 0.7116,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0144928,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H06",
+      "question": "Clientes conseguiram contato e retorno da loja?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf",
+      "silver_regex": "atend|contato|respost|responde|telefone|email|e-mail|retorno",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 260.22,
+      "evidence": [
+        {
+          "id": "cb2399cc41357270376a",
+          "review_id": "15898b543726a832d4137fbef5d1d00e",
+          "order_id": "e6ce16cb79ec1d90b1da9085a6118aeb",
+          "text": "Aguardando retorno da loja",
+          "similarity": 0.74156,
+          "silver_relevant": true,
+          "bm25_score": 10.47714,
+          "rrf_score": 0.0322665,
+          "reranker_score": null
+        },
+        {
+          "id": "ff89b4444df1be6600a7",
+          "review_id": "0b5d60a15db1aefb367627451ee685d8",
+          "order_id": "3b090f7fe6e2cf01b468a154dc9c546a",
+          "text": "Até agora nenhum retorno da loja. Enviei e mail mas não responderam.",
+          "similarity": 0.72112,
+          "silver_relevant": true,
+          "bm25_score": 6.77157,
+          "rrf_score": 0.0273466,
+          "reranker_score": null
+        },
+        {
+          "id": "8284f439bb0087c842a7",
+          "review_id": "2fb3b29dfeb69d80249fcefb5af0b278",
+          "order_id": "e531f04ac27aac6bf0cba03986415776",
+          "text": "Produto quebrado!! Comprei um Troninho Musical, p/ a minha surpresa veio quebrado. Estou aguardando o retorno da loja para efetuar a troca. Infelizmente, existe muita dificuldade para entrar em contato com as lojas.",
+          "similarity": 0.68567,
+          "silver_relevant": true,
+          "bm25_score": 7.83951,
+          "rrf_score": 0.0259893,
+          "reranker_score": null
+        },
+        {
+          "id": "f92b0c8b5666df0d067b",
+          "review_id": "2416537c8261985b1927caa5a927c64b",
+          "order_id": "7a725159d3784d99725573981fcdf93e",
+          "text": "Ainda não tive retorno da loja sobre a entrega do produto",
+          "similarity": 0.67986,
+          "silver_relevant": true,
+          "bm25_score": 7.98136,
+          "rrf_score": 0.0258564,
+          "reranker_score": null
+        },
+        {
+          "id": "265f37e7282e6036cfb3",
+          "review_id": "5a6791926719f3077673c0a901c91bd4",
+          "order_id": "b6777988359768bf8f2390aa6d072be4",
+          "text": "o produto chegou quebrado. estou aguardando contato da loja.",
+          "similarity": 0.68436,
+          "silver_relevant": true,
+          "bm25_score": 7.48211,
+          "rrf_score": 0.0253265,
+          "reranker_score": null
+        },
+        {
+          "id": "e2cb9074bf574d902595",
+          "review_id": "f1f8696d256889c0fe9962a5d32746e0",
+          "order_id": "392ed9afd714e3c74767d0c4d3e3f477",
+          "text": "o produto foi entregue errado eu estou esperado contatos da loja para resolver a situação",
+          "similarity": 0.68237,
+          "silver_relevant": true,
+          "bm25_score": 6.68579,
+          "rrf_score": 0.0235424,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H06",
+      "question": "Clientes conseguiram contato e retorno da loja?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf_mmr",
+      "silver_regex": "atend|contato|respost|responde|telefone|email|e-mail|retorno",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 255.3,
+      "evidence": [
+        {
+          "id": "cb2399cc41357270376a",
+          "review_id": "15898b543726a832d4137fbef5d1d00e",
+          "order_id": "e6ce16cb79ec1d90b1da9085a6118aeb",
+          "text": "Aguardando retorno da loja",
+          "similarity": 0.74156,
+          "silver_relevant": true,
+          "bm25_score": 10.47714,
+          "rrf_score": 0.0322665,
+          "reranker_score": null
+        },
+        {
+          "id": "ff89b4444df1be6600a7",
+          "review_id": "0b5d60a15db1aefb367627451ee685d8",
+          "order_id": "3b090f7fe6e2cf01b468a154dc9c546a",
+          "text": "Até agora nenhum retorno da loja. Enviei e mail mas não responderam.",
+          "similarity": 0.72112,
+          "silver_relevant": true,
+          "bm25_score": 6.77157,
+          "rrf_score": 0.0273466,
+          "reranker_score": null
+        },
+        {
+          "id": "8284f439bb0087c842a7",
+          "review_id": "2fb3b29dfeb69d80249fcefb5af0b278",
+          "order_id": "e531f04ac27aac6bf0cba03986415776",
+          "text": "Produto quebrado!! Comprei um Troninho Musical, p/ a minha surpresa veio quebrado. Estou aguardando o retorno da loja para efetuar a troca. Infelizmente, existe muita dificuldade para entrar em contato com as lojas.",
+          "similarity": 0.68567,
+          "silver_relevant": true,
+          "bm25_score": 7.83951,
+          "rrf_score": 0.0259893,
+          "reranker_score": null
+        },
+        {
+          "id": "265f37e7282e6036cfb3",
+          "review_id": "5a6791926719f3077673c0a901c91bd4",
+          "order_id": "b6777988359768bf8f2390aa6d072be4",
+          "text": "o produto chegou quebrado. estou aguardando contato da loja.",
+          "similarity": 0.68436,
+          "silver_relevant": true,
+          "bm25_score": 7.48211,
+          "rrf_score": 0.0253265,
+          "reranker_score": null
+        },
+        {
+          "id": "f92b0c8b5666df0d067b",
+          "review_id": "2416537c8261985b1927caa5a927c64b",
+          "order_id": "7a725159d3784d99725573981fcdf93e",
+          "text": "Ainda não tive retorno da loja sobre a entrega do produto",
+          "similarity": 0.67986,
+          "silver_relevant": true,
+          "bm25_score": 7.98136,
+          "rrf_score": 0.0258564,
+          "reranker_score": null
+        },
+        {
+          "id": "e2cb9074bf574d902595",
+          "review_id": "f1f8696d256889c0fe9962a5d32746e0",
+          "order_id": "392ed9afd714e3c74767d0c4d3e3f477",
+          "text": "o produto foi entregue errado eu estou esperado contatos da loja para resolver a situação",
+          "similarity": 0.68237,
+          "silver_relevant": true,
+          "bm25_score": 6.68579,
+          "rrf_score": 0.0235424,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H07",
+      "question": "O que contam sobre solicitar o estorno depois de devolver a compra?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "legacy_dense_mmr",
+      "silver_regex": "estorn|devol|reembols|dinheiro|cancel|ressarc",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 304.9,
+      "evidence": [
+        {
+          "id": "89417976bb25cd1646e4",
+          "review_id": "671026223a554a2e17f2bdd7f6df9fb1",
+          "order_id": "f001d39de25ce801a4b275f5ad3e1c2e",
+          "text": "Solicito informações sobre a compra e o estorno da compra? Se o valor for devolvido, recomendaria a loja sim",
+          "similarity": 0.76918,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "1905d3b950798515471b",
+          "review_id": "f92451d138b0833ce4424c6b6cf9759b",
+          "order_id": "eb79d602c28b8782807ca17e4ba806cc",
+          "text": "Não recebi o produto. stark disse que acabou em estoque. ME deram um vale compra, mas quero o dinheiro de volta (estorno). E até agora não sei como solicita o estorno. Como faço? Grato",
+          "similarity": 0.76036,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "54637f749241765d22bd",
+          "review_id": "510a233ac023b9da1525205f25fc00b9",
+          "order_id": "443038d9ed6b74bc4f7bfa679ce81bf1",
+          "text": "O produto não chegou à unidade dos correios. Invés de tomar a responsabilidade para si e estonar o valor, a loja disse que só faria o estorno após receber de volta o objeto. Sou cliente não entregador",
+          "similarity": 0.71529,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "aa27a52edfc4d048ff84",
+          "review_id": "a9761241fbd237f5b8cf0dda8c93658e",
+          "order_id": "4ef546f6f1165d23cd5134e9c5ab83d7",
+          "text": "Estou esperando meu estorno, a compra foi cancelada e não obtive nenhuma resposta é não recebi o estorno",
+          "similarity": 0.72352,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "09b6bcba20e1f2acf891",
+          "review_id": "3f6941f00f7eaa354aa4f2fe20036b16",
+          "order_id": "4f1743c0fc4465b3df1209280e727fa6",
+          "text": "Não recebi o produto e já solicitei o reembolso, estorno integral do valor gasto depositado em minha conta corrente. Só aceito esta forma de reembolso. Caso contrário buscarei as medidas legais.",
+          "similarity": 0.72195,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "f44a7593ac49856739df",
+          "review_id": "d50314c9bb245c517884983bbb1d667a",
+          "order_id": "c31af7b37cf89bd6d945fcc664937338",
+          "text": "Devolvi o cartucho, pois comprei um produto e recebi outro. A empresa já recebeu o produto. Peço a lannister.com informar quando será realizado o estorno no meu cartão de crédito.",
+          "similarity": 0.69583,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H07",
+      "question": "O que contam sobre solicitar o estorno depois de devolver a compra?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "dense_dedup_mmr",
+      "silver_regex": "estorn|devol|reembols|dinheiro|cancel|ressarc",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 323.45,
+      "evidence": [
+        {
+          "id": "89417976bb25cd1646e4",
+          "review_id": "671026223a554a2e17f2bdd7f6df9fb1",
+          "order_id": "f001d39de25ce801a4b275f5ad3e1c2e",
+          "text": "Solicito informações sobre a compra e o estorno da compra? Se o valor for devolvido, recomendaria a loja sim",
+          "similarity": 0.76918,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "1905d3b950798515471b",
+          "review_id": "f92451d138b0833ce4424c6b6cf9759b",
+          "order_id": "eb79d602c28b8782807ca17e4ba806cc",
+          "text": "Não recebi o produto. stark disse que acabou em estoque. ME deram um vale compra, mas quero o dinheiro de volta (estorno). E até agora não sei como solicita o estorno. Como faço? Grato",
+          "similarity": 0.76036,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "54637f749241765d22bd",
+          "review_id": "510a233ac023b9da1525205f25fc00b9",
+          "order_id": "443038d9ed6b74bc4f7bfa679ce81bf1",
+          "text": "O produto não chegou à unidade dos correios. Invés de tomar a responsabilidade para si e estonar o valor, a loja disse que só faria o estorno após receber de volta o objeto. Sou cliente não entregador",
+          "similarity": 0.71529,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0153846,
+          "reranker_score": null
+        },
+        {
+          "id": "aa27a52edfc4d048ff84",
+          "review_id": "a9761241fbd237f5b8cf0dda8c93658e",
+          "order_id": "4ef546f6f1165d23cd5134e9c5ab83d7",
+          "text": "Estou esperando meu estorno, a compra foi cancelada e não obtive nenhuma resposta é não recebi o estorno",
+          "similarity": 0.72352,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015873,
+          "reranker_score": null
+        },
+        {
+          "id": "09b6bcba20e1f2acf891",
+          "review_id": "3f6941f00f7eaa354aa4f2fe20036b16",
+          "order_id": "4f1743c0fc4465b3df1209280e727fa6",
+          "text": "Não recebi o produto e já solicitei o reembolso, estorno integral do valor gasto depositado em minha conta corrente. Só aceito esta forma de reembolso. Caso contrário buscarei as medidas legais.",
+          "similarity": 0.72195,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015625,
+          "reranker_score": null
+        },
+        {
+          "id": "f44a7593ac49856739df",
+          "review_id": "d50314c9bb245c517884983bbb1d667a",
+          "order_id": "c31af7b37cf89bd6d945fcc664937338",
+          "text": "Devolvi o cartucho, pois comprei um produto e recebi outro. A empresa já recebeu o produto. Peço a lannister.com informar quando será realizado o estorno no meu cartão de crédito.",
+          "similarity": 0.69583,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0138889,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H07",
+      "question": "O que contam sobre solicitar o estorno depois de devolver a compra?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf",
+      "silver_regex": "estorn|devol|reembols|dinheiro|cancel|ressarc",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 208.31,
+      "evidence": [
+        {
+          "id": "aa27a52edfc4d048ff84",
+          "review_id": "a9761241fbd237f5b8cf0dda8c93658e",
+          "order_id": "4ef546f6f1165d23cd5134e9c5ab83d7",
+          "text": "Estou esperando meu estorno, a compra foi cancelada e não obtive nenhuma resposta é não recebi o estorno",
+          "similarity": 0.72352,
+          "silver_relevant": true,
+          "bm25_score": 9.77121,
+          "rrf_score": 0.031498,
+          "reranker_score": null
+        },
+        {
+          "id": "e7f7bf0bf8393f2157fc",
+          "review_id": "3989d5f65e165d4cd513ef6fcb5db6fc",
+          "order_id": "e996a03662988d5ddce1d6bc5cfcde64",
+          "text": "Pedi o estorno da compra e até agora nada de estorno e zero resposta",
+          "similarity": 0.70758,
+          "silver_relevant": true,
+          "bm25_score": 11.00416,
+          "rrf_score": 0.0313188,
+          "reranker_score": null
+        },
+        {
+          "id": "89417976bb25cd1646e4",
+          "review_id": "671026223a554a2e17f2bdd7f6df9fb1",
+          "order_id": "f001d39de25ce801a4b275f5ad3e1c2e",
+          "text": "Solicito informações sobre a compra e o estorno da compra? Se o valor for devolvido, recomendaria a loja sim",
+          "similarity": 0.76918,
+          "silver_relevant": true,
+          "bm25_score": 8.8022,
+          "rrf_score": 0.0302823,
+          "reranker_score": null
+        },
+        {
+          "id": "65f4fe85b86a2017e976",
+          "review_id": "13d42b4e282c863da04b3d256e85fbea",
+          "order_id": "83cbab9daaf549182de4705ab0ca54ed",
+          "text": "Recebi o produto errado, fiz o estorno e depois de um mês ainda não recei meu dinheiro de volta.",
+          "similarity": 0.69832,
+          "silver_relevant": true,
+          "bm25_score": 8.8534,
+          "rrf_score": 0.0285773,
+          "reranker_score": null
+        },
+        {
+          "id": "966e1d350c7ac991b437",
+          "review_id": "eda19eef0167fcf6223eba2c1e592203",
+          "order_id": "0c2bc0e5935dcca29a9e0cc2e5236a13",
+          "text": "Nao Recomento, vendem produtos indisponivel no estoque. Depois temos que esperar a boa vontade do estorno.",
+          "similarity": 0.67495,
+          "silver_relevant": true,
+          "bm25_score": 8.8534,
+          "rrf_score": 0.0272424,
+          "reranker_score": null
+        },
+        {
+          "id": "1905d3b950798515471b",
+          "review_id": "f92451d138b0833ce4424c6b6cf9759b",
+          "order_id": "eb79d602c28b8782807ca17e4ba806cc",
+          "text": "Não recebi o produto. stark disse que acabou em estoque. ME deram um vale compra, mas quero o dinheiro de volta (estorno). E até agora não sei como solicita o estorno. Como faço? Grato",
+          "similarity": 0.76036,
+          "silver_relevant": true,
+          "bm25_score": 6.76194,
+          "rrf_score": 0.0256528,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H07",
+      "question": "O que contam sobre solicitar o estorno depois de devolver a compra?",
+      "filters": {
+        "score_max": 2
+      },
+      "variant": "hybrid_rrf_mmr",
+      "silver_regex": "estorn|devol|reembols|dinheiro|cancel|ressarc",
+      "precision_at_k": 1.0,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 203.85,
+      "evidence": [
+        {
+          "id": "aa27a52edfc4d048ff84",
+          "review_id": "a9761241fbd237f5b8cf0dda8c93658e",
+          "order_id": "4ef546f6f1165d23cd5134e9c5ab83d7",
+          "text": "Estou esperando meu estorno, a compra foi cancelada e não obtive nenhuma resposta é não recebi o estorno",
+          "similarity": 0.72352,
+          "silver_relevant": true,
+          "bm25_score": 9.77121,
+          "rrf_score": 0.031498,
+          "reranker_score": null
+        },
+        {
+          "id": "89417976bb25cd1646e4",
+          "review_id": "671026223a554a2e17f2bdd7f6df9fb1",
+          "order_id": "f001d39de25ce801a4b275f5ad3e1c2e",
+          "text": "Solicito informações sobre a compra e o estorno da compra? Se o valor for devolvido, recomendaria a loja sim",
+          "similarity": 0.76918,
+          "silver_relevant": true,
+          "bm25_score": 8.8022,
+          "rrf_score": 0.0302823,
+          "reranker_score": null
+        },
+        {
+          "id": "e7f7bf0bf8393f2157fc",
+          "review_id": "3989d5f65e165d4cd513ef6fcb5db6fc",
+          "order_id": "e996a03662988d5ddce1d6bc5cfcde64",
+          "text": "Pedi o estorno da compra e até agora nada de estorno e zero resposta",
+          "similarity": 0.70758,
+          "silver_relevant": true,
+          "bm25_score": 11.00416,
+          "rrf_score": 0.0313188,
+          "reranker_score": null
+        },
+        {
+          "id": "65f4fe85b86a2017e976",
+          "review_id": "13d42b4e282c863da04b3d256e85fbea",
+          "order_id": "83cbab9daaf549182de4705ab0ca54ed",
+          "text": "Recebi o produto errado, fiz o estorno e depois de um mês ainda não recei meu dinheiro de volta.",
+          "similarity": 0.69832,
+          "silver_relevant": true,
+          "bm25_score": 8.8534,
+          "rrf_score": 0.0285773,
+          "reranker_score": null
+        },
+        {
+          "id": "966e1d350c7ac991b437",
+          "review_id": "eda19eef0167fcf6223eba2c1e592203",
+          "order_id": "0c2bc0e5935dcca29a9e0cc2e5236a13",
+          "text": "Nao Recomento, vendem produtos indisponivel no estoque. Depois temos que esperar a boa vontade do estorno.",
+          "similarity": 0.67495,
+          "silver_relevant": true,
+          "bm25_score": 8.8534,
+          "rrf_score": 0.0272424,
+          "reranker_score": null
+        },
+        {
+          "id": "1905d3b950798515471b",
+          "review_id": "f92451d138b0833ce4424c6b6cf9759b",
+          "order_id": "eb79d602c28b8782807ca17e4ba806cc",
+          "text": "Não recebi o produto. stark disse que acabou em estoque. ME deram um vale compra, mas quero o dinheiro de volta (estorno). E até agora não sei como solicita o estorno. Como faço? Grato",
+          "similarity": 0.76036,
+          "silver_relevant": true,
+          "bm25_score": 6.76194,
+          "rrf_score": 0.0256528,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H08",
+      "question": "O que dizem sobre montar o móvel sem instruções?",
+      "filters": {
+        "category": "moveis_decoracao"
+      },
+      "variant": "legacy_dense_mmr",
+      "silver_regex": "mont|manual|instruc|peca",
+      "precision_at_k": 0.3333333333333333,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 595.93,
+      "evidence": [
+        {
+          "id": "2b9fac1ab78f1e8de3c5",
+          "review_id": "67a4563ca78d50a9de6edb6481c91774",
+          "order_id": "c427f6cd09c9ae0f09153ab8e8f55a53",
+          "text": "Problemas na comunicação Bom dia. Não veio manual de instrução, estou com dúvidas de como usar. Já enviei email, whatsapp e telefonemas e ninguém responde. Como podemos resolver isso?",
+          "similarity": 0.49425,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "50e017f7f0f26a4cbe00",
+          "review_id": "7d3225a861626266061ccf271a55c403",
+          "order_id": "1b0bc119ea5ac37e73e2275afc7904ee",
+          "text": "Não recebi os puff´s. Comprei 2 puffs e um chromebook. A entrega foi incompleta. Os puffs nao foram entregues. Tento telefonar para reclamar e nenhum dos telefones consigo falar com um atendente. Lastimável.",
+          "similarity": 0.49304,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "d6b610825dfe2fbf70b3",
+          "review_id": "4d1f4f9d94192daf60b3af34a93e88eb",
+          "order_id": "b58cbfb87064005d62cb9fccbc720966",
+          "text": "Chato e pagar o frete",
+          "similarity": 0.41942,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "cbed602d47c2bed19b64",
+          "review_id": "3ef663065067ee014f228711f6208c9f",
+          "order_id": "9c70e1f41efa94eecfbeeb5f13217760",
+          "text": "Produto sem montagem O produto seria mais interessante caso viesse com as instalações elétricas das lâmpadas adjacentes conectadas ao centro do pendente. Como vieram todas desconectadas, terei que pagar p/ alguém instalar",
+          "similarity": 0.36745,
+          "silver_relevant": true,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "fb88c340accfcae3aab7",
+          "review_id": "847131cb751790c08709eee5ad9a6b56",
+          "order_id": "4d9d469ff1df648081f3e7648d24e82f",
+          "text": "falta produto ENTREGARAM A TÁBUA E Ñ FOI ENTREGUE O QUADRO, LOGO QUERO UMA RESPOSTA TENDO EM VISTA QUE VIA EMAIL DISSERAM QUE FOI ENTREGUE JUNTO.",
+          "similarity": 0.41682,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        },
+        {
+          "id": "01a6168ac5d38de2f05d",
+          "review_id": "65e5e0396daf89b147152d2e1b23b958",
+          "order_id": "7a125641d07db9def010cf07e54913fe",
+          "text": "Apesar do produto ter chegado no prazo, as medidas não se adequaram ao que foi informado no site em \"Dados Técnicos\". O que era para decorar, simplesmente deixou o móvel ridículo. Vou devolver!",
+          "similarity": 0.42248,
+          "silver_relevant": false,
+          "bm25_score": null,
+          "rrf_score": null,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H08",
+      "question": "O que dizem sobre montar o móvel sem instruções?",
+      "filters": {
+        "category": "moveis_decoracao"
+      },
+      "variant": "dense_dedup_mmr",
+      "silver_regex": "mont|manual|instruc|peca",
+      "precision_at_k": 0.3333333333333333,
+      "mrr": 1.0,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 567.15,
+      "evidence": [
+        {
+          "id": "2b9fac1ab78f1e8de3c5",
+          "review_id": "67a4563ca78d50a9de6edb6481c91774",
+          "order_id": "c427f6cd09c9ae0f09153ab8e8f55a53",
+          "text": "Problemas na comunicação Bom dia. Não veio manual de instrução, estou com dúvidas de como usar. Já enviei email, whatsapp e telefonemas e ninguém responde. Como podemos resolver isso?",
+          "similarity": 0.49425,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0163934,
+          "reranker_score": null
+        },
+        {
+          "id": "50e017f7f0f26a4cbe00",
+          "review_id": "7d3225a861626266061ccf271a55c403",
+          "order_id": "1b0bc119ea5ac37e73e2275afc7904ee",
+          "text": "Não recebi os puff´s. Comprei 2 puffs e um chromebook. A entrega foi incompleta. Os puffs nao foram entregues. Tento telefonar para reclamar e nenhum dos telefones consigo falar com um atendente. Lastimável.",
+          "similarity": 0.49304,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129,
+          "reranker_score": null
+        },
+        {
+          "id": "d6b610825dfe2fbf70b3",
+          "review_id": "4d1f4f9d94192daf60b3af34a93e88eb",
+          "order_id": "b58cbfb87064005d62cb9fccbc720966",
+          "text": "Chato e pagar o frete",
+          "similarity": 0.41942,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0153846,
+          "reranker_score": null
+        },
+        {
+          "id": "cbed602d47c2bed19b64",
+          "review_id": "3ef663065067ee014f228711f6208c9f",
+          "order_id": "9c70e1f41efa94eecfbeeb5f13217760",
+          "text": "Produto sem montagem O produto seria mais interessante caso viesse com as instalações elétricas das lâmpadas adjacentes conectadas ao centro do pendente. Como vieram todas desconectadas, terei que pagar p/ alguém instalar",
+          "similarity": 0.36745,
+          "silver_relevant": true,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0128205,
+          "reranker_score": null
+        },
+        {
+          "id": "fb88c340accfcae3aab7",
+          "review_id": "847131cb751790c08709eee5ad9a6b56",
+          "order_id": "4d9d469ff1df648081f3e7648d24e82f",
+          "text": "falta produto ENTREGARAM A TÁBUA E Ñ FOI ENTREGUE O QUADRO, LOGO QUERO UMA RESPOSTA TENDO EM VISTA QUE VIA EMAIL DISSERAM QUE FOI ENTREGUE JUNTO.",
+          "similarity": 0.41682,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.0151515,
+          "reranker_score": null
+        },
+        {
+          "id": "01a6168ac5d38de2f05d",
+          "review_id": "65e5e0396daf89b147152d2e1b23b958",
+          "order_id": "7a125641d07db9def010cf07e54913fe",
+          "text": "Apesar do produto ter chegado no prazo, as medidas não se adequaram ao que foi informado no site em \"Dados Técnicos\". O que era para decorar, simplesmente deixou o móvel ridículo. Vou devolver!",
+          "similarity": 0.42248,
+          "silver_relevant": false,
+          "bm25_score": 0.0,
+          "rrf_score": 0.015625,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H08",
+      "question": "O que dizem sobre montar o móvel sem instruções?",
+      "filters": {
+        "category": "moveis_decoracao"
+      },
+      "variant": "hybrid_rrf",
+      "silver_regex": "mont|manual|instruc|peca",
+      "precision_at_k": 0.5,
+      "mrr": 0.3333333333333333,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 502.21,
+      "evidence": [
+        {
+          "id": "01a6168ac5d38de2f05d",
+          "review_id": "65e5e0396daf89b147152d2e1b23b958",
+          "order_id": "7a125641d07db9def010cf07e54913fe",
+          "text": "Apesar do produto ter chegado no prazo, as medidas não se adequaram ao que foi informado no site em \"Dados Técnicos\". O que era para decorar, simplesmente deixou o móvel ridículo. Vou devolver!",
+          "similarity": 0.42248,
+          "silver_relevant": false,
+          "bm25_score": 5.02596,
+          "rrf_score": 0.0287829,
+          "reranker_score": null
+        },
+        {
+          "id": "e2c5b503f99a15535a3b",
+          "review_id": "8a31a86117e1a536375864c5594256bb",
+          "order_id": "4974c65072c3a0265ef2be771aae8251",
+          "text": "Pedido entregue sem restrições e sem atraso.",
+          "similarity": 0.39497,
+          "silver_relevant": false,
+          "bm25_score": 5.65118,
+          "rrf_score": 0.0281914,
+          "reranker_score": null
+        },
+        {
+          "id": "2b9fac1ab78f1e8de3c5",
+          "review_id": "67a4563ca78d50a9de6edb6481c91774",
+          "order_id": "c427f6cd09c9ae0f09153ab8e8f55a53",
+          "text": "Problemas na comunicação Bom dia. Não veio manual de instrução, estou com dúvidas de como usar. Já enviei email, whatsapp e telefonemas e ninguém responde. Como podemos resolver isso?",
+          "similarity": 0.49425,
+          "silver_relevant": true,
+          "bm25_score": 3.88135,
+          "rrf_score": 0.0275046,
+          "reranker_score": null
+        },
+        {
+          "id": "ad1ece2627b2dcdeb620",
+          "review_id": "f0aa26c4809a94256f91077120121311",
+          "order_id": "a1cbe609c42dfd019719610eab787873",
+          "text": "Produto sem previsao de entrega.",
+          "similarity": 0.39873,
+          "silver_relevant": false,
+          "bm25_score": 4.69431,
+          "rrf_score": 0.0272727,
+          "reranker_score": null
+        },
+        {
+          "id": "12c8f6d4744310ce779e",
+          "review_id": "ecfdd183dbb3ffac790f098d6d740302",
+          "order_id": "4b47ca7c3201379f99ee4c1f4d0c80b0",
+          "text": "produto adequado às minhas necessidades e fácil de montar.",
+          "similarity": 0.32541,
+          "silver_relevant": true,
+          "bm25_score": 7.12995,
+          "rrf_score": 0.0258291,
+          "reranker_score": null
+        },
+        {
+          "id": "42669447e6670bab471f",
+          "review_id": "552686851011ffb3f477595122baa876",
+          "order_id": "3aa5f858c83b87da83eadc344e12b006",
+          "text": "O produto veio incompleto, sem condições de montagem e uso",
+          "similarity": 0.31598,
+          "silver_relevant": true,
+          "bm25_score": 3.85563,
+          "rrf_score": 0.0197856,
+          "reranker_score": null
+        }
+      ]
+    },
+    {
+      "id": "H08",
+      "question": "O que dizem sobre montar o móvel sem instruções?",
+      "filters": {
+        "category": "moveis_decoracao"
+      },
+      "variant": "hybrid_rrf_mmr",
+      "silver_regex": "mont|manual|instruc|peca",
+      "precision_at_k": 0.5,
+      "mrr": 0.3333333333333333,
+      "returned": 6,
+      "unique_text_fraction": 1.0,
+      "latency_ms": 461.42,
+      "evidence": [
+        {
+          "id": "01a6168ac5d38de2f05d",
+          "review_id": "65e5e0396daf89b147152d2e1b23b958",
+          "order_id": "7a125641d07db9def010cf07e54913fe",
+          "text": "Apesar do produto ter chegado no prazo, as medidas não se adequaram ao que foi informado no site em \"Dados Técnicos\". O que era para decorar, simplesmente deixou o móvel ridículo. Vou devolver!",
+          "similarity": 0.42248,
+          "silver_relevant": false,
+          "bm25_score": 5.02596,
+          "rrf_score": 0.0287829,
+          "reranker_score": null
+        },
+        {
+          "id": "e2c5b503f99a15535a3b",
+          "review_id": "8a31a86117e1a536375864c5594256bb",
+          "order_id": "4974c65072c3a0265ef2be771aae8251",
+          "text": "Pedido entregue sem restrições e sem atraso.",
+          "similarity": 0.39497,
+          "silver_relevant": false,
+          "bm25_score": 5.65118,
+          "rrf_score": 0.0281914,
+          "reranker_score": null
+        },
+        {
+          "id": "2b9fac1ab78f1e8de3c5",
+          "review_id": "67a4563ca78d50a9de6edb6481c91774",
+          "order_id": "c427f6cd09c9ae0f09153ab8e8f55a53",
+          "text": "Problemas na comunicação Bom dia. Não veio manual de instrução, estou com dúvidas de como usar. Já enviei email, whatsapp e telefonemas e ninguém responde. Como podemos resolver isso?",
+          "similarity": 0.49425,
+          "silver_relevant": true,
+          "bm25_score": 3.88135,
+          "rrf_score": 0.0275046,
+          "reranker_score": null
+        },
+        {
+          "id": "12c8f6d4744310ce779e",
+          "review_id": "ecfdd183dbb3ffac790f098d6d740302",
+          "order_id": "4b47ca7c3201379f99ee4c1f4d0c80b0",
+          "text": "produto adequado às minhas necessidades e fácil de montar.",
+          "similarity": 0.32541,
+          "silver_relevant": true,
+          "bm25_score": 7.12995,
+          "rrf_score": 0.0258291,
+          "reranker_score": null
+        },
+        {
+          "id": "ad1ece2627b2dcdeb620",
+          "review_id": "f0aa26c4809a94256f91077120121311",
+          "order_id": "a1cbe609c42dfd019719610eab787873",
+          "text": "Produto sem previsao de entrega.",
+          "similarity": 0.39873,
+          "silver_relevant": false,
+          "bm25_score": 4.69431,
+          "rrf_score": 0.0272727,
+          "reranker_score": null
+        },
+        {
+          "id": "cbed602d47c2bed19b64",
+          "review_id": "3ef663065067ee014f228711f6208c9f",
+          "order_id": "9c70e1f41efa94eecfbeeb5f13217760",
+          "text": "Produto sem montagem O produto seria mais interessante caso viesse com as instalações elétricas das lâmpadas adjacentes conectadas ao centro do pendente. Como vieram todas desconectadas, terei que pagar p/ alguém instalar",
+          "similarity": 0.36745,
+          "silver_relevant": true,
+          "bm25_score": 2.03647,
+          "rrf_score": 0.0196698,
+          "reranker_score": null
+        }
+      ]
+    }
+  ]
+}

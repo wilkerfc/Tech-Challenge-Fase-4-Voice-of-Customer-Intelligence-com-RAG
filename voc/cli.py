@@ -19,6 +19,16 @@ def main():
     ask.add_argument("--index", default="data/index")
     ask.add_argument("--mode", choices=["extractive", "llm"], default="extractive")
     ask.add_argument("--max-score", type=int, default=5)
+    ask.add_argument("--min-score", type=int, default=1)
+    ask.add_argument("--category")
+    ask.add_argument("--state")
+    ask.add_argument("--date-from")
+    ask.add_argument("--date-to")
+    ask.add_argument("--delivery-status", choices=["late", "on_time", "not_delivered", "unknown"])
+    ask.add_argument("--algorithm", choices=["hybrid", "dense"], default="hybrid")
+    ask.add_argument("--route", choices=["auto", "rag", "analytics"], default="auto")
+    ask.add_argument("--reranker", help="Modelo cross-encoder opcional; baixa pesos na primeira execução")
+    ask.add_argument("--output", help="Salvar resultado JSON neste arquivo")
     args = parser.parse_args()
     if args.command == "ingest":
         docs, stats = prepare(args.raw)
@@ -30,7 +40,21 @@ def main():
         build_index(docs, args.index, Encoder(quantized=args.quantize), stats=stats)
         print(json.dumps(stats, ensure_ascii=False, indent=2))
     else:
-        print(json.dumps(answer_question(Retriever(args.index), args.question, mode=args.mode, score_max=args.max_score), ensure_ascii=False, indent=2))
+        filters = {"algorithm": args.algorithm}
+        if args.max_score != 5:
+            filters["score_max"] = args.max_score
+        if args.min_score != 1:
+            filters["score_min"] = args.min_score
+        for key in ["category", "state", "date_from", "date_to", "delivery_status", "reranker"]:
+            value = getattr(args, key)
+            if value is not None:
+                filters[key] = value
+        result = answer_question(Retriever(args.index), args.question, mode=args.mode, route=args.route, **filters)
+        content = json.dumps(result, ensure_ascii=False, indent=2)
+        if args.output:
+            Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+            Path(args.output).write_text(content, encoding="utf-8")
+        print(content)
 
 
 if __name__ == "__main__":

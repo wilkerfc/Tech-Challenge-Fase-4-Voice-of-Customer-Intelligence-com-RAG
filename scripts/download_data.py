@@ -8,7 +8,7 @@ import zipfile
 from pathlib import Path
 
 URL = "https://www.kaggle.com/api/v1/datasets/download/olistbr/brazilian-ecommerce"
-FILES = ["olist_order_reviews_dataset.csv", "olist_orders_dataset.csv", "olist_order_items_dataset.csv", "olist_products_dataset.csv"]
+FILES = ["olist_order_reviews_dataset.csv", "olist_orders_dataset.csv", "olist_order_items_dataset.csv", "olist_products_dataset.csv", "olist_customers_dataset.csv"]
 
 
 def main():

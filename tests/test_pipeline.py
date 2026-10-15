@@ -70,7 +70,7 @@ def test_llm_contract(retriever, monkeypatch):
         def raise_for_status(self):
             pass
         def json(self):
-            return {"choices": [{"message": {"content": json.dumps({"answer": "Relatos de atraso [E1] [E2].", "citations": ["E1", "E2"], "insufficient": False})}}]}
+            return {"choices": [{"message": {"content": json.dumps({"findings": [{"theme": "atraso", "citation": "E1", "quote": "Entrega atrasada e sem aviso"}, {"theme": "atraso", "citation": "E2", "quote": "Entrega com atraso"}], "insufficient": False})}}]}
     monkeypatch.setattr("voc.pipeline.requests.post", lambda *a, **k: Response())
     result = answer_question(retriever, "entrega", mode="llm")
     assert not result["insufficient"] and result["citations"] == ["E1", "E2"]
@@ -110,7 +110,7 @@ def test_context_obeys_budget(retriever):
     assert len(json.loads(context)) == len(retained)
 
 
-@pytest.mark.parametrize("response,expected_failure", [("Há relatos de atraso [E1] [E2].", False), ("Há atrasos [E9].", True), ("Há atrasos sem citações.", True)])
+@pytest.mark.parametrize("response,expected_failure", [("atraso | E1 | Entrega atrasada e sem aviso", False), ("atraso | E9 | Entrega com atraso", True), ("Há atrasos sem citações.", True)])
 def test_local_generation_references(retriever, monkeypatch, response, expected_failure):
     monkeypatch.setenv("LLM_BASE_URL", "local")
     monkeypatch.setattr("voc.pipeline.generate_local", lambda *a, **k: response)
